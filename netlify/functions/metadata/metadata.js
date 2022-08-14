@@ -1,41 +1,37 @@
-const { chromium } = require('playwright-core');
-const bundledChromium = require('chrome-aws-lambda');
+const playwright = require('playwright-aws-lambda');
 
 exports.handler = async function (event, context) {
 
-    let title = null;
+  // const params = JSON.parse(event.body);
+  // const pageToScrape = params.pageToScrape;
 
-    async function main() {
-      const path = process.env.CHROME_EXECUTABLE_PATH || await bundledChromium.executablePath;
+  let title = null;
+  let browser = null;
+  try {
+    browser = await playwright.launchChromium();
+    const context = await browser.newContext();
 
-      const browser = await Promise.resolve(path).then(
-        (executablePath) => {
-          if (!executablePath) {
-            // local execution
-            return chromium.launch({});
-          }
-          return chromium.launch({ executablePath });
-        }
-      );
-      
-      const page = await browser.newPage();
-      await page.goto('https://www.example.com');
+    const page = await context.newPage();
+    await page.goto('https://www.example.com');
 
-      title = await page.$eval('body', b => {
-        return b.querySelector('h1').innerText;
-      });
+    title = await page.$eval('body', b => {
+      return b.querySelector('h1').innerText;
+    });
+  
 
-      await page.waitForTimeout(5000); // wait for 5 seconds
+  } catch (error) {
+    throw error;
+  } finally {
+    if (browser !== null) {
       await browser.close();
+    }
   }
-
-  await main();
 
   return {
     statusCode: 200,
     body: JSON.stringify({
       title: title
     })
-  }
+  };
 
 };
