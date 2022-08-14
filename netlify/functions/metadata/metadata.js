@@ -1,55 +1,31 @@
-const { PlaywrightCrawler } = require('crawlee');
+const playwright = require('playwright');
 
 exports.handler = async function (event, context) {
-  let data = null;
-  // Create an instance of the PlaywrightCrawler class - a crawler
-  // that automatically loads the URLs in headless Chrome / Playwright.
-  const crawler = new PlaywrightCrawler({
-      launchContext: {
-          // Here you can set options that are passed to the playwright .launch() function.
-          launchOptions: {
-              headless: true,
-          },
-      },
-  
-      // Stop crawling after several pages
-      maxRequestsPerCrawl: 50,
-  
-      async requestHandler({ request, page, enqueueLinks, log }) {
-          log.info(`Processing ${request.url}...`);
-  
-          // A function to be evaluated by Playwright within the browser context.
-          data = await page.$$eval('body', ($body) => {
 
-              const scrapedData = [];
+    let title = null;
 
-              $body.forEach(($b) => {
-                  scrapedData.push({
-                      title: $b.querySelector('h1').innerText
-                  });
-              });
-  
-              return scrapedData;
-          });
-      },
-  
-      // This function is called if the page processing failed more than maxRequestRetries+1 times.
-      failedRequestHandler({ request, log }) {
-          log.info(`Request ${request.url} failed too many times.`);
-      },
-  });
-  
-  await crawler.addRequests(['http://www.example.com']);
-  
-  // Run the crawler and wait for it to finish.
-  await crawler.run();
-  
-  console.log('Crawler finished.');
+    async function main() {
+      const browser = await playwright.chromium.launch({
+          headless: true // setting this to true will not run the UI
+      });
+      
+      const page = await browser.newPage();
+      await page.goto('https://www.example.com');
+
+      title = await page.$eval('body', b => {
+        return b.querySelector('h1').innerText;
+      });
+
+      await page.waitForTimeout(5000); // wait for 5 seconds
+      await browser.close();
+  }
+
+  await main();
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      body: data
+      title: title
     })
   }
 
