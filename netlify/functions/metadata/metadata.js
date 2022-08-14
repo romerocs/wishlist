@@ -1,13 +1,22 @@
-const playwright = require('playwright');
+const { chromium } = require('playwright-core');
+const bundledChromium = require('chrome-aws-lambda');
 
 exports.handler = async function (event, context) {
 
     let title = null;
 
     async function main() {
-      const browser = await playwright.chromium.launch({
-          headless: true // setting this to true will not run the UI
-      });
+      const path = process.env.CHROME_EXECUTABLE_PATH || await bundledChromium.executablePath;
+
+      const browser = await Promise.resolve(path).then(
+        (executablePath) => {
+          if (!executablePath) {
+            // local execution
+            return chromium.launch({});
+          }
+          return chromium.launch({ executablePath });
+        }
+      );
       
       const page = await browser.newPage();
       await page.goto('https://www.example.com');
