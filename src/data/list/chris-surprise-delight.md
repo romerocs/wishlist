@@ -12,7 +12,7 @@ list-item:
     url: https://www.ebay.com
     notes: dlc version please
     priority: high
-    needs: 2
+    needs: 1
     has: 0
 slug: chris-surprise-delight
 ---
