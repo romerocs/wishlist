@@ -1,9 +1,6 @@
 const playwright = require('playwright-aws-lambda');
 
 exports.handler = async function (event, context) {
-
-  // const params = JSON.parse(event.body);
-  // const pageToScrape = params.pageToScrape;
   let url = event.queryStringParameters.url;
 
   let title = null;
@@ -35,5 +32,4 @@ exports.handler = async function (event, context) {
       title: title
     })
   };
-
 };
