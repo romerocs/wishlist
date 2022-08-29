@@ -1,0 +1,5 @@
+@function getVW($font-size-max, $font-size-max-viewport: 90) {
+  $percentage: ($font-size-max / $font-size-max-viewport) * 100;
+
+  @return #{$percentage}vw;
+}

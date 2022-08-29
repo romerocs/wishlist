@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import SidebarContainer from "../components/SidebarContainer.astro";
+import ListView from "../components/ListView.astro";
+---
+
+<Layout title="Wishlist">
+  <main class="app">
+    <SidebarContainer>
+      <Sidebar />
+      
+      <div>Homepage Content</div>
+    </SidebarContainer>
+  </main>
+</Layout>
+
+<style>
+  .app > * {
+    gap: 0;
+  }
+</style>

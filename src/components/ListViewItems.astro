@@ -1,0 +1,69 @@
+---
+import Button from "./Button.astro";
+---
+
+<div class="list-view__items">
+  <div class="list-view__item l-sidebar" style="--sb-align: center;">
+    <div class="item-image is-sidebar">
+      <img
+        width="160"
+        src="https://images.unsplash.com/photo-1658595825637-4f560adbad58?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjExMDcyMzc&ixlib=rb-1.2.1&q=80"
+        alt=""
+      />
+    </div>
+    <div class="l-cluster" style="--cl-justify: space-between;">
+      <div>
+        <h3>Starting @ 10 | gift card to Dermstore</h3>
+        <div class="item-notes">
+          <i>Color: Gray, Size: Medium</i>
+        </div>
+        <div><small>Priority: Lowest | Needs: 1</small></div>
+      </div>
+
+      <Button />
+    </div>
+  </div>
+
+  <div class="list-view__item l-sidebar" style="--sb-align: center;">
+    <div class="item-image is-sidebar">
+      <img
+        width="160"
+        src="https://images.unsplash.com/photo-1658595825637-4f560adbad58?crop=entropy&cs=tinysrgb&fm=jpg&ixid=MnwzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE2NjExMDcyMzc&ixlib=rb-1.2.1&q=80"
+        alt=""
+      />
+    </div>
+    <div class="l-cluster" style="--cl-justify: space-between;">
+      <div>
+        <h3>Starting @ 10 | gift card to Dermstore</h3>
+        <div class="item-notes">
+          <i>Color: Gray, Size: Medium</i>
+        </div>
+        <div><small>Priority: Lowest | Needs: 1</small></div>
+      </div>
+
+      <Button />
+    </div>
+  </div>
+</div>
+
+<style>
+  .list-view__items {
+    border-width: 1px 0 1px 0;
+    border-color: var(--light-gray);
+  }
+
+  .list-view__item .item-image {
+    aspect-ratio: 16 / 9;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius-2x);
+  }
+
+  .list-view__item {
+    padding: var(--s3) 0;
+  }
+
+  .list-view__item:not(:first-child) {
+    border-top: 1px solid var(--light-gray);
+  }
+</style>

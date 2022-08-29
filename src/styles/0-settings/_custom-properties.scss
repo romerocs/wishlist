@@ -1,0 +1,34 @@
+@use './breakpoints' as *;
+@use './border-radius' as *;
+@use './colors' as *;
+@use './scale' as *;
+
+:root {
+  @each $color, $hex in $colors {
+    --#{$color}: #{$hex};
+  }
+}
+
+:root {
+  @each $key, $value in $breakpoints {
+    --bp-#{$key}: #{$value}rem;
+  }
+}
+
+:root {
+  @each $scale, $value in $sizes {
+    --#{$scale}: #{$value}rem;
+  }
+}
+
+:root {
+  @each $name, $value in $globals {
+    --#{$name}: #{$value};
+  }
+}
+
+:root {
+  @each $name, $value in $border-radius {
+    --border-radius-#{$name}: #{$value};
+  }
+}

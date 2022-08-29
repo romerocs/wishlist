@@ -1,0 +1,24 @@
+/* ELEMENT STYLES */
+html {
+  font-family: sans-serif;
+}
+main {
+  display: flex;
+  min-height: 100vh;
+}
+
+button {
+  color: inherit;
+  text-align: inherit;
+  display: block;
+}
+
+select {
+  background-color: var(--light-gray);
+  border-radius: var(--border-radius-1x);
+  padding: 6px 8px;
+}
+
+small {
+  font-size: var(--s-2);
+}

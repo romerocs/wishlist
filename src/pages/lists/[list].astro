@@ -1,0 +1,35 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import SidebarContainer from "../../components/SidebarContainer.astro";
+import ListView from "../../components/ListView.astro";
+
+export async function getStaticPaths() {
+  const lists = await Astro.glob('../../data/list/*.md');
+
+  
+  return lists.map(list => {
+    return {
+      params: { list: list.frontmatter.slug },
+      props: { title: list.frontmatter.title, listItems: list.frontmatter['list-item'] }
+    }
+  });
+}
+
+const { title, listItems } = Astro.props;
+---
+
+<Layout title="Wishlist">
+  <main class="app">
+    <SidebarContainer>
+      <Sidebar />
+      <ListView title={title} listItems={listItems} />
+    </SidebarContainer>
+  </main>
+</Layout>
+
+<style>
+  .app > * {
+    gap: 0;
+  }
+</style>

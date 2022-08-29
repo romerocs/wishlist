@@ -1,0 +1,15 @@
+/* 
+ Basic color class authoring guidelines
+ .u-color-[color],
+ .u-color-[color] > * {
+   color: var(--color-name) !important;
+}
+
+When you want to add color to a specific property other than color
+
+.u-color-[color]-[property],
+ .u-color-[color]-[property] > * {
+   [property]: var(--color-name) !important;
+}
+ 
+*/

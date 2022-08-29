@@ -1,0 +1,23 @@
+---
+import ListNavigation from "./ListNavigation.astro";
+---
+
+<div class="app-sidebar is-sidebar">
+  <button class="app-sidebar__button">WishList</button>
+  <ListNavigation />
+</div>
+
+<style>
+  .app-sidebar {
+    height: 100%;
+    color: var(--white);
+    background-color: green;
+  }
+
+  .app-sidebar__button {
+    font-size: var(--s6);
+    text-align: center;
+    padding: var(--s0) 0;
+    width: 100%;
+  }
+</style>

@@ -1,0 +1,33 @@
+// These values are unit agnostic, so they can be used as ems or rems.
+
+/* prettier-ignore */
+$breakpoints: (
+  20: 20, //320px
+  30: 30, //480px
+  40: 40, //640px
+  48: 48, //768px
+  64: 64, //1024px
+  75: 75, //1200px
+  80: 80, //1280px
+  90: 90 //1440px
+);
+
+@function screen-width($width) {
+  @if map-has-key($breakpoints, $width) {
+    @return map-get($breakpoints, $width);
+  } @else {
+    @return null;
+  }
+}
+
+@mixin mq($width, $direction: "min") {
+  @if screen-width($width) != null {
+    @media only screen and (#{$direction}-width: #{screen-width($width)}em) {
+      @content;
+    }
+  } @else {
+    @media only screen and (#{$direction}-width: #{$width}) {
+      @content;
+    }
+  }
+}
