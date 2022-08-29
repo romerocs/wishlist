@@ -1,4 +1,5 @@
 const playwright = require('playwright-aws-lambda');
+const fs = require('fs');
 
 exports.handler = async function (event, context) {
   let url = event.queryStringParameters.url;
@@ -16,8 +17,8 @@ exports.handler = async function (event, context) {
     title = await page.$eval('head', b => {
       return b.querySelector('title').innerText;
     });
-  
 
+   
   } catch (error) {
     throw error;
   } finally {
