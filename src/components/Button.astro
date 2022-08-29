@@ -1,4 +1,8 @@
-<a href="/" class="button">Item Link</a>
+---
+const {url} = Astro.props;
+---
+
+<a href={url} class="button">Item Link</a>
 
 <style>
   .button {

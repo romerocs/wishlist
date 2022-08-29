@@ -1,6 +1,6 @@
 ---
 import ListViewFilterSort from "./ListViewFilterSort.astro";
-import ListViewItems from "./ListViewItems.astro";
+import ListViewItem from "./ListViewItem.astro";
 
 const { title, listItems } = Astro.props;
 ---
@@ -15,7 +15,10 @@ const { title, listItems } = Astro.props;
         <h1>{title}</h1>
 
         <ListViewFilterSort />
-        <ListViewItems />
+
+        <div class="list-view__items">
+          {listItems.map(li => <ListViewItem data={li}/>)}
+        </div>
       </div>
     </div>
   </div>
@@ -24,5 +27,10 @@ const { title, listItems } = Astro.props;
 <style>
   .list-view {
     margin-top: var(--s12);
+  }
+
+  .list-view__items {
+    border-width: 1px 0 1px 0;
+    border-color: var(--light-gray);
   }
 </style>
