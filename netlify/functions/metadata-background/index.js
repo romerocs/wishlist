@@ -13,8 +13,8 @@ exports.handler = async function (event, context) {
     const page = await context.newPage();
     await page.goto(url);
 
-    title = await page.$eval('body', b => {
-      return b.querySelector('h1').innerText;
+    title = await page.$eval('head', b => {
+      return b.querySelector('title').innerText;
     });
   
 
