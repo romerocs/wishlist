@@ -4,7 +4,7 @@ date: 2022-08-28T20:44:04.320Z
 list-item:
   - title: Cool T-shirt
     url: https://www.amazon.com
-    notes: "Color: Gray, Size: Medium"
+    notes: "Color: Gray, Size: Mediums"
     priority: medium
     needs: 2
     has: 0
