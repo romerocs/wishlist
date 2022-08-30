@@ -47,3 +47,7 @@ collections:
             value_type: "int"
             min: 0
             max: 100
+          - label: "Image"
+            name: image
+            widget: "hidden"
+            default: ""
