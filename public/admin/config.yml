@@ -50,4 +50,4 @@ collections:
           - label: "Image"
             name: image
             widget: "hidden"
-            default: ""
+            default: "testing"
