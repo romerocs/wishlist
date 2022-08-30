@@ -9,7 +9,7 @@ list-item:
     needs: 2
     has: 0
   - title: Red wine
-    url: ttps://drinkavaline.com/products/red
+    url: https://drinkavaline.com/products/red
     notes: 1 bottle please
     priority: high
     needs: 1
