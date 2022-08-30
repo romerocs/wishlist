@@ -27,7 +27,7 @@
               const url = li.get("url");
 
               fetchMetadata(url).then((response) => response.json()).then(data => {
-                console.log(data);
+                li.get('data').set('image', data.image)
               });
             });
 
