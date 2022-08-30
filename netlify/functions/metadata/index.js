@@ -4,7 +4,7 @@ const fs = require('fs');
 exports.handler = async function (event, context) {
   let url = event.queryStringParameters.url;
 
-  let title = null;
+  let image = null;
   let browser = null;
   
   try {
@@ -14,8 +14,8 @@ exports.handler = async function (event, context) {
     const page = await context.newPage();
     await page.goto(url);
 
-    title = await page.$eval('head', b => {
-      return b.querySelector('title').innerText;
+    image = await page.$eval('head', b => {
+      return b.querySelector('meta[property="og:image"]').getAttribute('content');
     });
 
    
@@ -30,7 +30,7 @@ exports.handler = async function (event, context) {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      title: title
+      image: image
     })
   };
 };
