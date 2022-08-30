@@ -26,8 +26,8 @@
             listItems.map((li) => {
               const url = li.get("url");
 
-              fetchMetadata(url).then(response => {
-                console.log(response);
+              fetchMetadata(url).then((response) => response.json()).then(data => {
+                console.log(data);
               });
             });
 
