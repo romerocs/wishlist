@@ -6,7 +6,8 @@ list-item:
     has: 0
     image: testing
     title: dfasdf
-    url: asdfasdf
+    url: https://rothys.com/products/the-wristlet-midnight-navy
     notes: asdfasdf
     priority: medium
+slug: testing
 ---
