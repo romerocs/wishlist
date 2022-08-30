@@ -1,5 +1,5 @@
 ---
-title: Chris - Surprise & Delight
+title: Chris - Surprise & Delights
 date: 2022-08-30T02:04:57.415Z
 list-item:
   - title: agua fresca
@@ -14,5 +14,5 @@ list-item:
     priority: high
     needs: 1
     has: 0
-slug: chris-surprise-delight
+slug: chris-surprise-delight-1
 ---
