@@ -9,7 +9,7 @@ export class NetlifyIdentity extends LitElement {
       window.netlifyIdentity.on("init", (user) => {
         if (!user) {
           window.netlifyIdentity.on("login", () => {
-            document.location.href = "/";
+            document.location.href = "/admin/";
           });
         }
       });
