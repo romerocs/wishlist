@@ -4,7 +4,7 @@ export interface Props {
 }
 
 import "../styles/index.css";
-import NetlifyIdentity from '../components/NetlifyIdentity.astro';
+import {NetlifyIdentity} from '../components/NetlifyIdentity.js';
 
 const { title } = Astro.props.frontmatter || Astro.props;
 ---
