@@ -13,19 +13,6 @@ import ListView from "../components/ListView.astro";
       <div>Homepage Content</div>
     </SidebarContainer>
   </main>
-
-  <script>
-    // @ts-nocheck
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", (user) => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
 </Layout>
 
 <style>
