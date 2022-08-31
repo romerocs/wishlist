@@ -7,7 +7,6 @@ import ListView from "../../components/ListView.astro";
 export async function getStaticPaths() {
   const lists = await Astro.glob('../../data/list/*.md');
 
-  
   return lists.map(list => {
     return {
       params: { list: list.frontmatter.slug },

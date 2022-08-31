@@ -12,7 +12,6 @@
     <script>
       async function fetchMetadata(url) {
         const response = await fetch(`https://charming-croissant-c2e47d.netlify.app/.netlify/functions/metadata?url=${url}`);
-        // waits until the request completes...
         
         return response;
       }
@@ -21,16 +20,6 @@
         name: "preSave",
         handler: ({ entry }) => {
           if (entry.get("slug")) {
-            const listItems = entry.get("data").get("list-item");
-
-            listItems.map((li) => {
-              const url = li.get("url");
-
-              fetchMetadata(url).then((response) => response.json()).then(data => {
-                li.set('image', data.image);
-              });
-            });
-
             return entry.get("data").set("slug", entry.get("slug"));
           }
         },
