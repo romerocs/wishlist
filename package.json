@@ -4,9 +4,12 @@
   "private": true,
   "scripts": {
     "sass:dev": "./node_modules/.bin/sass ./src/styles/index.scss ./src/styles/index.css --watch",
+    "sass:prod": "./node_modules/.bin/sass ./src/styles/index.scss ./src/styles/index.css",
+    "sass:global:dev": "./node_modules/.bin/sass ./src/styles/global.scss ./src/styles/global.css --watch",
+    "sass:global:prod": "./node_modules/.bin/sass ./src/styles/global.scss ./src/styles/global.css",
     "dev": "astro dev",
-    "start": "npm run sass:dev & astro dev",
-    "build": "astro build",
+    "start": "npm run sass:dev & npm run sass:global:dev & astro dev",
+    "build": "npm run sass:prod && npm run sass:global:prod && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "markdown": "node ./tasks/add-image-to-markdown.js"

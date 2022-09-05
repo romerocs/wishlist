@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import { map } from "lit/directives/map.js";
 import { repeat } from "lit/directives/repeat.js";
+import globalCSS from "../styles/global.css";
 
 import "./ListViewFilterSort.js";
 import "./ListItem.js";
@@ -34,6 +35,14 @@ export class ListView extends LitElement {
 
   constructor() {
     super();
+  }
+
+  createRenderRoot() {
+    const styletag = document.createElement("style");
+    styletag.innerHTML = globalCSS;
+    this.shadowRoot.prepend(styletag);
+
+    return this;
   }
   
   render() {

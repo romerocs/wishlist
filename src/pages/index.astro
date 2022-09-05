@@ -2,16 +2,22 @@
 import Layout from "../layouts/Layout.astro";
 import Sidebar from "../components/Sidebar.astro";
 import SidebarContainer from "../components/SidebarContainer.astro";
+import "../components/AppSidebar.js";
 import ListView from "../components/ListView.astro";
+import ListNavigation from "../components/ListNavigation.astro";
 ---
 
 <Layout title="Wishlist">
   <main class="app u-width-100%">
-    <SidebarContainer>
-      <Sidebar />
+    <app-sidebar classes={{'app-sidebar' : true}}>
+      <div slot="sidebar">
+        <ListNavigation />
+      </div>
       
-      <div>Homepage Content</div>
-    </SidebarContainer>
+      <div slot="notsidebar">
+        <div>Homepage Content</div>
+      </div>
+    </app-sidebar>
   </main>
 </Layout>
 

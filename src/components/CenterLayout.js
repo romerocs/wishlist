@@ -19,7 +19,7 @@ export class CenterLayout extends LitElement {
   }
 
   static styles = css`
-    .l-center {
+    :host {
       --cr-max-width: var(--bp-64);
     
       box-sizing: content-box;

@@ -26,7 +26,7 @@ const { title, listItems } = Astro.props;
       <Sidebar />
 
       <div>
-        <CenterLayout>
+        <CenterLayout max-width="var(--bp-48)" padding="var(--global-padding)">
           <ListView title={title} data={JSON.stringify(listItems)} client:load></ListView>
         </CenterLayout>
       </div>
