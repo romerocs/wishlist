@@ -18,6 +18,11 @@ exports.handler = async function (event, context) {
       return b.querySelector('meta[property="og:image"]').getAttribute('content');
     });
 
+    if(!image) {
+      image = await page.$eval('body', b => {
+        return b.querySelector('main img').getAttribute('src');
+      });
+    }
    
   } catch (error) {
     throw error;
