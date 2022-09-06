@@ -1,8 +1,9 @@
-import { LitElement, html, css } from 'lit';
+import { html, css } from 'lit';
+import { RootElement } from './RootElement.js';
 
-const tagName = 'center-layout';
+const tagName = 'layout-center';
 
-export class CenterLayout extends LitElement {
+export class LayoutCenter extends RootElement {
   static properties = {
     maxWidth: { 
       type: String, 
@@ -12,10 +13,6 @@ export class CenterLayout extends LitElement {
     padding: { 
       type: String 
     }
-  }
-
-  constructor() {
-    super();
   }
 
   static styles = css`
@@ -35,7 +32,7 @@ export class CenterLayout extends LitElement {
 
   render() {
     this.maxWidth = this.maxWidth ? `--cr-max-width: ${this.maxWidth};` : ``;
-    this.padding = this.padding ? `--padding: ${this.padding}` : ``;
+    this.padding = this.padding ? `--padding: ${this.padding};` : ``;
 
     return html`
     <div class="l-center" style="${this.maxWidth} ${this.padding}">
@@ -45,4 +42,4 @@ export class CenterLayout extends LitElement {
   }
 }
 
-customElements.define(tagName, CenterLayout);
+customElements.define(tagName, LayoutCenter);

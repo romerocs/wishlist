@@ -40,11 +40,10 @@ html:focus-within {
 }
 
 /* Set core body defaults */
-body, :host {
+body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
-  text-align: left;
 }
 
 button svg,
@@ -93,30 +92,5 @@ button {
     scroll-behavior: auto !important;
   }
 }
-/* ELEMENT STYLES */
-html, :host {
-  font-family: sans-serif;
-}
 
-main {
-  display: flex;
-  min-height: 100vh;
-}
-
-button {
-  color: inherit;
-  text-align: inherit;
-  display: block;
-}
-
-select {
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius-1x);
-  padding: 6px 8px;
-}
-
-small {
-  font-size: var(--s-2);
-}
-
-/*# sourceMappingURL=global.css.map */
+/*# sourceMappingURL=normalize.css.map */

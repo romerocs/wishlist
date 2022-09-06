@@ -103,10 +103,11 @@ html:focus-within {
 }
 
 /* Set core body defaults */
-body {
+body, :host {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  text-align: left;
 }
 
 button svg,
@@ -156,7 +157,7 @@ button {
   }
 }
 /* ELEMENT STYLES */
-html {
+html, :host {
   font-family: sans-serif;
 }
 
@@ -206,6 +207,7 @@ small {
  * so there's no need for this component to specify width (by default). 
  */
 .l-sidebar {
+  background: green;
   display: flex;
   flex-wrap: wrap;
   gap: var(--sb-gap, var(--s0));
@@ -225,6 +227,10 @@ small {
   flex-direction: column;
   justify-content: flex-start;
   gap: var(--st-gap, var(--s0));
+}
+
+.u-margin-block-start-s12 {
+  margin-block-start: var(--s12) !important;
 }
 
 .u-width-100\% {

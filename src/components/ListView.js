@@ -1,14 +1,12 @@
-import { LitElement, html, css } from 'lit';
-import { map } from "lit/directives/map.js";
-import { repeat } from "lit/directives/repeat.js";
-import globalCSS from "../styles/global.css";
+import { html, css } from 'lit';
+import { RootElement } from './RootElement.js';
 
 import "./ListViewFilterSort.js";
 import "./ListItem.js";
 
 export const tagName = "list-view";
 
-export class ListView extends LitElement {
+export class ListView extends RootElement {
 
   static get properties() {
     return {
@@ -22,28 +20,14 @@ export class ListView extends LitElement {
     };
   }
 
-  static styles = css`
-    .list-view {
-      margin-top: var(--s12);
-    }
-
+  static styles = [
+    RootElement.styles,
+    css`
     .list-view__items {
       border-width: 1px 0 1px 0;
       border-color: var(--light-gray);
     }
-  `;
-
-  constructor() {
-    super();
-  }
-
-  createRenderRoot() {
-    const styletag = document.createElement("style");
-    styletag.innerHTML = globalCSS;
-    this.shadowRoot.prepend(styletag);
-
-    return this;
-  }
+  `];
   
   render() {
     return html`
@@ -54,8 +38,8 @@ export class ListView extends LitElement {
           <list-view-filter-sort></list-view-filter-sort>
   
           <div class="list-view__items">
-            ${JSON.parse(this.data).map((data) => html`
-            <list-item title=${data.title} notes=${data.notes} priority=${data.priority} needs=${data.needs} url=${data.url} image=${data.image}></list-item>
+            ${JSON.parse(this.data).map((data, index) => html`
+            <list-item index=${index} title=${data.title} notes=${data.notes} priority=${data.priority} needs=${data.needs} url=${data.url} image=${data.image}></list-item>
           `)}
           </div>
         </div>

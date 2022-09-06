@@ -1,17 +1,17 @@
-import { LitElement, html, css } from 'lit';
-import { SidebarLayout } from './SidebarLayout';
+import { css } from 'lit';
+import { LayoutSidebar } from './LayoutSidebar';
 
 const tagName = 'app-sidebar';
 
-export class AppSidebar extends SidebarLayout {
-
-  constructor() {
-    super();
-  }
+export class AppSidebar extends LayoutSidebar {
 
   static styles = [
-    SidebarLayout.styles,
+    LayoutSidebar.styles,
     css`
+      :host {
+        width: 100%;
+      }
+      
       .app-sidebar {
         height: 100%;
       }

@@ -4,6 +4,9 @@ export interface Props {
 }
 
 import "../styles/index.css";
+import { LayoutCenter } from "../components/LayoutCenter.js";
+import AppSidebarContent from "../components/AppSidebarContent.astro";
+import "../components/AppSidebar.js";
 import {NetlifyIdentity} from '../components/NetlifyIdentity.js';
 
 const { title } = Astro.props.frontmatter || Astro.props;
@@ -20,7 +23,21 @@ const { title } = Astro.props.frontmatter || Astro.props;
     <title>{title}</title>
   </head>
   <body>
-    <slot />
+    <main class="app u-width-100%">
+      <app-sidebar classes={{'app-sidebar' : true}}>
+          <div slot="sidebar">
+            <AppSidebarContent />
+          </div>
+        
+        <div slot="notsidebar">
+          <div class="u-margin-block-start-s12">
+            <LayoutCenter max-width="var(--bp-48)" padding="var(--global-padding)">
+              <slot />
+            </LayoutCenter>
+          </div>
+        </div>
+      </app-sidebar>
+    </main>
 
     <NetlifyIdentity client:load />
   </body>

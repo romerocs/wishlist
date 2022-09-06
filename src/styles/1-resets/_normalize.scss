@@ -40,10 +40,11 @@ html:focus-within {
 }
 
 /* Set core body defaults */
-body {
+body, :host {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+  text-align: left;
 }
 
 //svg's nested inside buttons and links should not inherit pointer events

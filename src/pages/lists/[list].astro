@@ -1,8 +1,5 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import Sidebar from "../../components/Sidebar.astro";
-import SidebarContainer from "../../components/SidebarContainer.astro";
-import { CenterLayout } from "../../components/CenterLayout.js";
 import {ListView} from "../../components/ListView.js";
 
 export async function getStaticPaths() {
@@ -19,23 +16,6 @@ export async function getStaticPaths() {
 const { title, listItems } = Astro.props;
 ---
 
-<Layout title="Wishlist">
-
-  <main class="app">
-    <SidebarContainer>
-      <Sidebar />
-
-      <div>
-        <CenterLayout max-width="var(--bp-48)" padding="var(--global-padding)">
-          <ListView title={title} data={JSON.stringify(listItems)} client:load></ListView>
-        </CenterLayout>
-      </div>
-    </SidebarContainer>
-  </main>
+<Layout title={title}>
+  <ListView title={title} data={JSON.stringify(listItems)} client:load></ListView>
 </Layout>
-
-<style>
-  .app > * {
-    gap: 0;
-  }
-</style>
