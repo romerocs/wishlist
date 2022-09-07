@@ -21,9 +21,10 @@ fs.readdir(dir, (err, files) => {
       const { url } = li;
 
       fetchMetadata(url).then((response) => response.json()).then(data => {
-        li.image = data.image;
-        fs.writeFile(path, matter.stringify(parsedFile), function(err) {
-        });
+        //li.image = data.image;
+        console.log(data);
+        // fs.writeFile(path, matter.stringify(parsedFile), function(err) {
+        // });
       });
     });
  

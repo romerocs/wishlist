@@ -2,6 +2,7 @@ import { html, css } from 'lit';
 import { RootElement } from './RootElement.js';
 import './LayoutCluster';
 import './LayoutSidebar';
+import './ButtonLink';
 
 const tagName = 'list-item';
 
@@ -22,11 +23,11 @@ class ListItem extends RootElement {
       RootElement.styles,
       css`
         .item-image {
-          aspect-ratio: 2 / 1.5;
+          aspect-ratio: 16 / 9;
           position: relative;
           overflow: hidden;
           border-radius: var(--border-radius-2x);
-          max-width: 9.373rem;
+          max-width: calc((160 / 16) * 1rem);
         }
 
         .item-image img {
@@ -36,9 +37,6 @@ class ListItem extends RootElement {
         }
       `,
     ]
-  }
-  connectedCallback() {
-    super.connectedCallback();
   }
 
   render() {
@@ -63,7 +61,7 @@ class ListItem extends RootElement {
               <div><small>Priority: ${this.priority} | Needs: ${this.needs}</small></div>
             </div>
 
-            <a href=${this.url}>Shop</a>
+            <button-link href=${this.url}>Shop</button-link>
           </layout-cluster>
       </div>
     </layout-sidebar>

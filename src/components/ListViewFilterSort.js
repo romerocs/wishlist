@@ -8,7 +8,7 @@ export class ListViewFilterSort extends RootElement {
   static styles = [
     RootElement.styles,
     css`
-      .list-view__filter-sort label {
+      label {
         padding-right: var(--s-4);
       }
     `

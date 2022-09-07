@@ -30,6 +30,10 @@ export class AppSidebar extends LayoutSidebar {
       }
     `,
   ];
+
+  createRenderRoot() {
+    return this;
+  }
 }
 
 customElements.define(tagName, AppSidebar);

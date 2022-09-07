@@ -3,6 +3,10 @@ import { LitElement, html } from 'lit';
 const tagName = 'netlify-identity';
 
 export class NetlifyIdentity extends LitElement {
+  createRenderRoot() {
+    return this;
+  }
+  
   render() {
     return html`<script>
     if (window.netlifyIdentity) {

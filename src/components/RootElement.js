@@ -8,4 +8,8 @@ export class RootElement extends LitElement {
       css`${unsafeCSS(globalCSS)}`
     ];
   }
+
+  createRenderRoot() {
+    return this;
+  }
 }

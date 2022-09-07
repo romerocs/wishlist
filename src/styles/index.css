@@ -103,10 +103,13 @@ html:focus-within {
 }
 
 /* Set core body defaults */
-body, :host {
+body {
   min-height: 100vh;
   text-rendering: optimizeSpeed;
   line-height: 1.5;
+}
+
+:host {
   text-align: left;
 }
 

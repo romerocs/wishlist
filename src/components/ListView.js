@@ -3,6 +3,7 @@ import { RootElement } from './RootElement.js';
 
 import "./ListViewFilterSort.js";
 import "./ListItem.js";
+import "./LayoutStack";
 
 export const tagName = "list-view";
 
@@ -32,7 +33,7 @@ export class ListView extends RootElement {
   render() {
     return html`
       <div class="list-view">
-        <div class="l-stack" style="--st-gap: var(--s6)">
+        <layout-stack gap="var(--s6)">
           <h1>${this.title}</h1>
   
           <list-view-filter-sort></list-view-filter-sort>
@@ -42,7 +43,7 @@ export class ListView extends RootElement {
             <list-item index=${index} title=${data.title} notes=${data.notes} priority=${data.priority} needs=${data.needs} url=${data.url} image=${data.image}></list-item>
           `)}
           </div>
-        </div>
+        </layout-stack>
       </div>`;
   }
 }
