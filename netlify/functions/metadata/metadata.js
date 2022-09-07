@@ -20,7 +20,7 @@ exports.handler = async function (event, context) {
     });
 
     main_image = await page.$eval('body', b => {
-      return b.querySelector('main img, [role="main"] img').getAttribute('src');
+      return b.querySelector('img').getAttribute('src');
     });
    
   } catch (error) {
