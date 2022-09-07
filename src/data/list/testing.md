@@ -12,16 +12,16 @@ list-item:
   - needs: 1
     has: 0
     image: testing
-    title: Cool poster
-    url: https://2046printshop.com/shop/prints/screen-print/general-relativity/
-    notes: Unframed please
+    title: Key fob
+    url: https://www.orbitkey.com/collections/key-organiser/products/orbitkey-2-0-leather?variant=32295717641
+    notes: green
     priority: high
   - needs: 4
     has: 0
     image: testing
-    title: Bottle of syrah
-    url: https://www.donkeyandgoat.com/detail/prod_547925367c081c0ecc4a1694
-    notes: 2 bottles please, year 2015
+    title: Apple watch band
+    url: https://www.freestyleusa.com/products/apple-watch-clip-strap-kaleidoscope
+    notes: gimme
     priority: medium
 slug: testing
 ---
