@@ -5,7 +5,7 @@ export class RootElement extends LitElement {
 
   static get styles() {
     return [
-      css`${unsafeCSS(globalCSS)}`
+      css`body { color: green; }`
     ];
   }
 

@@ -22,8 +22,7 @@ export class LayoutSidebar extends RootElement {
     }
   }
 
-  static get styles() {
-    return [
+  static styles = [
       RootElement.styles,
       css`
       .l-sidebar {
@@ -42,8 +41,7 @@ export class LayoutSidebar extends RootElement {
         flex-grow: 999;
         min-width: 50%;
       }
-  `]
-  }
+  `];
 
   render() {
     this.align = this.align ? {'--sb-align' : `${this.align}`} : ``;
