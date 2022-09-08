@@ -1,5 +1,5 @@
 import { LitElement, css, unsafeCSS } from 'lit';
-import globalCSS from "../styles/global.css?raw";
+import globalCSS from "../styles/global.css";
 
 export class RootElement extends LitElement {
 

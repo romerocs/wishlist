@@ -23,7 +23,6 @@ export class LayoutSidebar extends RootElement {
   }
 
   static get styles() {
-
     return [
       RootElement.styles,
       css`
