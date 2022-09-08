@@ -9,7 +9,7 @@
     "sass:global:prod": "./node_modules/.bin/sass ./src/styles/global.scss ./src/styles/global.css",
     "dev": "astro dev",
     "start": "npm run sass:dev & npm run sass:global:dev & astro dev",
-    "build": "npm run markdown && npm run sass:prod && npm run sass:global:prod && astro build",
+    "build": "npm run sass:prod && npm run sass:global:prod && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "markdown": "node ./tasks/add-image-to-markdown.js"
