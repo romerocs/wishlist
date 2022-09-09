@@ -10,14 +10,16 @@ export class LayoutStack extends RootElement {
     }
   }
 
-  static styles = css`
+  static styles = [
+    RootElement.styles,
+    css`
     .l-stack {
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       gap: var(--st-gap, var(--s0));
     }
-  `
+  `]
 
   render() {
     this.gap = this.gap ? `--st-gap: ${this.gap};` : ``;

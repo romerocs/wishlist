@@ -35,8 +35,8 @@ export class RootElement extends LitElement {
         }
 
         /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-        ul[role="list"],
-        ol[role="list"] {
+        ul[role=list],
+        ol[role=list] {
           list-style: none;
         }
 
@@ -56,12 +56,9 @@ export class RootElement extends LitElement {
           text-align: left;
         }
 
-        //svg's nested inside buttons and links should not inherit pointer events
-        button,
-        a {
-          svg {
-            pointer-events: none;
-          }
+        button svg,
+        a svg {
+          pointer-events: none;
         }
 
         /* A elements that don't have a class get default styles */
@@ -95,21 +92,21 @@ export class RootElement extends LitElement {
         @media (prefers-reduced-motion: reduce) {
           html:focus-within {
             scroll-behavior: auto;
-        }
-
-        *,
+          }
+          *,
         *::before,
         *::after {
-          animation-duration: 0.01ms !important;
-          animation-iteration-count: 1 !important;
-          transition-duration: 0.01ms !important;
-          scroll-behavior: auto !important;
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+          }
         }
-
         /* ELEMENT STYLES */
         html, :host {
           font-family: sans-serif;
         }
+
         main {
           display: flex;
           min-height: 100vh;
@@ -129,12 +126,7 @@ export class RootElement extends LitElement {
 
         small {
           font-size: var(--s-2);
-        }
-     }`
-    ];
-  }
-
-  createRenderRoot() {
-    return this;
+        }`
+      ];
   }
 }

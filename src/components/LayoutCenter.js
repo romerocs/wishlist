@@ -15,7 +15,9 @@ export class LayoutCenter extends RootElement {
     }
   }
 
-  static styles = css`
+  static styles = [
+    RootElement.styles,
+    css`
     :host {
       --cr-max-width: var(--bp-64);
     
@@ -28,7 +30,7 @@ export class LayoutCenter extends RootElement {
       padding-right: var(--cr-padding, 0);
       padding-left: var(--cr-padding, 0);
     }
-  `
+  `]
 
   render() {
     this.maxWidth = this.maxWidth ? `--cr-max-width: ${this.maxWidth};` : ``;

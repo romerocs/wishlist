@@ -18,26 +18,24 @@ class ListItem extends RootElement {
   }
 
 
-  static get styles() {
-    return [
-      RootElement.styles,
-      css`
-        .item-image {
-          aspect-ratio: 16 / 9;
-          position: relative;
-          overflow: hidden;
-          border-radius: var(--border-radius-2x);
-          max-width: calc((160 / 16) * 1rem);
-        }
+  static styles = [
+    RootElement.styles,
+    css`
+      .item-image {
+        aspect-ratio: 16 / 9;
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--border-radius-2x);
+        max-width: calc((160 / 16) * 1rem);
+      }
 
-        .item-image img {
-          object-fit: cover;
-          width: 100%;
-          height: 100%;
-        }
-      `,
-    ]
-  }
+      .item-image img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+      }
+    `,
+  ]
 
   render() {
     const border_width = this.index > 0 ? '1px' : '0px';

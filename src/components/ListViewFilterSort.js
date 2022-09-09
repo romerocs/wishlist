@@ -5,6 +5,9 @@ export const tagName = 'list-view-filter-sort';
 
 export class ListViewFilterSort extends RootElement {
 
+  static properties = {
+    sortfunction: { type: Object }
+  }
   static styles = [
     RootElement.styles,
     css`
@@ -13,6 +16,20 @@ export class ListViewFilterSort extends RootElement {
       }
     `
   ];
+
+  _dispatchSortChange(e) {
+    const value = e.target.value;
+
+    if(!!value) {
+      const options = {
+        detail: value,
+        bubbles: true,
+        composed: true
+      };
+      
+      this.dispatchEvent(new CustomEvent('sortchange', options));
+    }
+  }
 
   render() {
     return html`
@@ -29,9 +46,10 @@ export class ListViewFilterSort extends RootElement {
       <div class="list-view__sort">
         <label for="list-sort">Sort:</label>
 
-        <select name="" id="list-sort">
+        <select name="" @change=${this._dispatchSortChange} id="list-sort">
           <option value="">Default</option>
-          <option value="">Priority: High</option>
+          <option value="high">Priority: High to Low</option>
+          <option value="low">Priority: Low to High</option>
         </select>
       </div>
     </layout-cluster>

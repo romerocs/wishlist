@@ -10,7 +10,9 @@ export class ButtonLink extends RootElement {
     }
   }
 
-  static styles = css`
+  static styles = [
+    RootElement.styles,
+    css`
     .button {
       border-radius: var(--border-radius-3x);
       text-decoration: none;
@@ -18,7 +20,7 @@ export class ButtonLink extends RootElement {
       display: inline-block;
       padding: 6px 24px;
     }
-  `
+  `]
 
   render() {
     return html`

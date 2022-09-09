@@ -17,7 +17,9 @@ export class LayoutCluster extends RootElement {
     }
   }
 
-  static styles = css`
+  static styles = [
+    RootElement.styles,
+    css`
     .l-cluster {
       display: flex;
       flex-wrap: wrap;
@@ -25,7 +27,7 @@ export class LayoutCluster extends RootElement {
       align-items: var(--cl-align, center);
       gap: var(--cl-gap, var(--s0));
     }
-  `
+  `]
 
   render() {
     this.justify = this.justify ? `--cl-justify: ${this.justify};` : ``;
