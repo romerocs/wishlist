@@ -51,7 +51,8 @@ collections:
             name: image
             widget: "hidden"
             default: "testing"
-          - label: "ID"
-            name: id
+          - label: "Index"
+            name: index
             widget: "hidden"
+            value_type: "int"
             default: 0

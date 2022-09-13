@@ -18,13 +18,13 @@
             const items = entry.get('data').get('list-item').toJS();
             
             const items_with_index = items.map((item, index) => {
-              item.id = index;
+              item.index = index;
               return item;
             });
 
             entry.get('data').set('list-item', items_with_index);
 
-            console.log( entry.get('data').get('list-item').toJS());
+            console.log(entry.get('data').set('list-item', items_with_index));
         },
       });
     </script>
