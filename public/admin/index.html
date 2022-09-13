@@ -15,15 +15,7 @@
       CMS.registerEventListener({
         name: "preSave",
         handler: ({ entry }) => {
-            const items = entry.get('data').get('list-item');
-            
-            for (let item of entry.get('data').get('list-item').entries()) {
-              const [key, value] = item;
-
-              entry.get('data').get('list-item').get(key).set('title', "testing");
-            }
-
-            return entry;
+          return entry.get('data').set('title', 'new title');
         },
       });
     </script>
