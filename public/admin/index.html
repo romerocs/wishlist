@@ -11,20 +11,17 @@
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-
+//https://stackoverflow.com/questions/62430478/loop-through-an-immutable-map-in-javascript
       CMS.registerEventListener({
         name: "preSave",
         handler: ({ entry }) => {
-            const items = entry.get('data').get('list-item').toJS();
+            const items = entry.get('data').get('list-item');
             
-            const items_with_index = items.map((item, index) => {
-              item.index = index;
-              return item;
-            });
+            for (let item of entry.get('data').get('list-item').entries()) {
+              const [key, value] = item;
 
-            entry.get('data').set('list-item', items_with_index);
-
-            console.log(entry.get('data').set('list-item', items_with_index));
+              entry.get('data').get('list-item').get(key, false).set('title', "testing");
+            }
         },
       });
     </script>
