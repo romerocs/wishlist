@@ -20,7 +20,7 @@
             for (let item of entry.get('data').get('list-item').entries()) {
               const [key, value] = item;
 
-              entry.get('data').get('list-item').get(key, false).set('title', "testing");
+              entry.get('data').get('list-item').get(key).set('title', "testing");
             }
         },
       });
