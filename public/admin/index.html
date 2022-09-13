@@ -20,8 +20,10 @@
             for (let item of entry.get('data').get('list-item').entries()) {
               const [key, value] = item;
 
-              return entry.get('data').get('list-item').get(key).set('title', "testing");
+              entry.get('data').get('list-item').get(key).set('title', "testing");
             }
+
+            return entry;
         },
       });
     </script>
