@@ -10,7 +10,7 @@ list-item:
     priority: 1
     image: https://cdn.shopify.com/s/files/1/0877/4986/files/Q2Core_SocialPreview_1200x628_4a064f41-954f-4621-b599-8858eec126f3.jpg?v=1654728333
   - needs: 1
-    has: 0
+    has: 1
     image: testing
     title: Key fob
     url: https://www.orbitkey.com/collections/key-organiser/products/orbitkey-2-0-leather?variant=32295717641
