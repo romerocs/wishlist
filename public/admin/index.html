@@ -22,9 +22,7 @@
       CMS.registerEventListener({
         name: "preSave",
         handler: ({ entry }) => {
-          if (entry.get("slug")) {
-            return entry.get("data").set("slug", entry.get("slug"));
-          }
+            console.log(entry.get('list-item'));
         },
       });
     </script>
