@@ -17,7 +17,7 @@ list-item:
     notes: green
     priority: 2
   - needs: 4
-    has: 0
+    has: 1
     image: testing
     title: Apple watch band
     url: https://www.freestyleusa.com/products/apple-watch-clip-strap-kaleidoscope
