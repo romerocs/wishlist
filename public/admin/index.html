@@ -16,7 +16,7 @@
       CMS.registerEventListener({
         name: "preSave",
         handler: ({ entry }) => {
-          const entryClone = entry.toJS();
+          const entryClone = entry.get('data').toJS();
 
           return fromJS(entryClone);
         },
