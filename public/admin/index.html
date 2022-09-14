@@ -11,11 +11,14 @@
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
     <script>
-//https://stackoverflow.com/questions/62430478/loop-through-an-immutable-map-in-javascript
+//https://egghead.io/lessons/javascript-updating-nested-values-with-immutablejs
+// look up tutorials on react and immutable.js
       CMS.registerEventListener({
         name: "preSave",
         handler: ({ entry }) => {
-          return entry.get('data').get('list-item').set('title', 0, 'item1').set('title', 1, 'item2');
+          const entryClone = entry.fromJS();
+
+          console.log(entryClone);
         },
       });
     </script>
