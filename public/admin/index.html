@@ -18,6 +18,12 @@
         handler: ({ entry }) => {
           const entryClone = entry.get('data').toJS();
 
+          entryClone['list-item'].map((li, index) => {
+            li.index = index;
+
+            return li;
+          });
+
           return fromJS(entryClone);
         },
       });
