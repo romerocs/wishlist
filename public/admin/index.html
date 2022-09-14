@@ -10,15 +10,15 @@
     <!-- Include the script that builds the page and powers Netlify CMS -->
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
 
-    <script>
-//https://egghead.io/lessons/javascript-updating-nested-values-with-immutablejs
-// look up tutorials on react and immutable.js
+    <script type="module">
+      import { fromJS } from "https://cdn.skypack.dev/immutable@4.1.0";
+
       CMS.registerEventListener({
         name: "preSave",
         handler: ({ entry }) => {
           const entryClone = entry.toJS();
 
-          console.log(entryClone);
+          return fromJS(entryClone);
         },
       });
     </script>
