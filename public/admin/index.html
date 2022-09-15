@@ -19,7 +19,9 @@
           const entryClone = entry.get('data').toJS();
 
           entryClone['list-item'].map((li, index) => {
-            li.index = index;
+            if(!Object.hasOwn(li, 'index')) {
+              li.index = index;
+            }
 
             return li;
           });
