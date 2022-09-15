@@ -16,8 +16,13 @@
       CMS.registerEventListener({
         name: "preSave",
         handler: ({ entry }) => {
+          const slug = entry.get('slug');
           const entryClone = entry.get('data').toJS();
 
+          if(!Object.hasOwn(entryClone, 'slug')) {
+            entryClone.slug = slug;
+          }
+          
           entryClone['list-item'].map((li, index) => {
             if(!Object.hasOwn(li, 'index')) {
               li.index = index;
