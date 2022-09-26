@@ -46,14 +46,52 @@ export class ListView extends RootElement {
   `];
 
   _sortlistener(e) {
-    const reversed = this._items.reverse();
+    const priority = e.detail;
+    let sorted = [];
 
-    this._items = [...reversed];
+    switch(priority) {
+      case "low":
+        sorted = Array.from(this._items).sort((a, b) => {
+          return a.priority - b.priority;
+        });
+      break;
+      case "high":
+      sorted = Array.from(this._items).sort((a, b) => {
+        return a.priority < b.priority ? 1 : -1;
+      });
+      break;
+      case "default":
+      sorted = this.data;
+      break;
+    }
+
+    this._items = sorted;
 
   }
 
+  _filterListener(e) {
+    const filter = e.detail;
+
+    let filtered = [];
+
+    switch(filter) {
+      case "purchased":
+        filtered = this._items.filter(item => {
+
+          return item.has >= item.needs;
+        });
+      break;
+      case "all":
+       filtered = this.data; 
+      break;
+    }
+
+    this._items = filtered;
+  }
+
   _setData() {
-    this._items = JSON.parse(this.data);
+    this.data = JSON.parse(this.data);
+    this._items = this.data;
     this._dataloaded = true;
 
     this.requestUpdate();
@@ -64,12 +102,12 @@ export class ListView extends RootElement {
       this._setData();
     }
 
-    return this._dataloaded ? html`
+    return html`
       <div class="list-view">
         <layout-stack gap="var(--s6)">
           <h1>${this.title}</h1>
   
-          <list-view-filter-sort @sortchange=${this._sortlistener}></list-view-filter-sort>
+          <list-view-filter-sort @sortchange=${this._sortlistener} @filterchange=${this._filterListener}></list-view-filter-sort>
   
           <div class="list-view__items">
           ${this._items.map((data, index) => html`
@@ -77,7 +115,7 @@ export class ListView extends RootElement {
         `)}
           </div>
         </layout-stack>
-      </div>` : html`<div>loading</div>`;
+      </div>`;
   }
 }
 
