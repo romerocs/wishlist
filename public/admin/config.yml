@@ -1,5 +1,5 @@
 backend:
-  name: git-gateway
+  name: github
   repo: romerocs/wishlist
   branch: main # Branch to update (optional; defaults to master)
   # This line should *not* be indented
