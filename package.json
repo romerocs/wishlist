@@ -15,15 +15,13 @@
     "markdown": "node ./tasks/add-image-to-markdown.js"
   },
   "devDependencies": {
-    "@astrojs/lit": "^1.0.0",
     "@astrojs/netlify": "^1.0.1",
-    "@webcomponents/template-shadowroot": "^0.1.0",
     "astro": "^1.0.9",
     "gray-matter": "^4.0.3",
-    "lit": "^2.3.1",
     "sass": "^1.54.5"
   },
   "dependencies": {
-    "playwright-aws-lambda": "^0.9.0"
+    "@astrojs/vue": "^1.2.1",
+    "vue": "^3.2.41"
   }
 }

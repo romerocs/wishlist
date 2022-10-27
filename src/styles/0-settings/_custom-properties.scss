@@ -1,6 +1,7 @@
 @use './breakpoints' as *;
 @use './border-radius' as *;
 @use './colors' as *;
+@use './fonts' as *;
 @use './scale' as *;
 
 :root {
@@ -12,6 +13,12 @@
 :root {
   @each $key, $value in $breakpoints {
     --bp-#{$key}: #{$value}rem;
+  }
+}
+
+:root {
+  @each $style, $family in $fonts {
+    --#{$style}: #{$family};
   }
 }
 

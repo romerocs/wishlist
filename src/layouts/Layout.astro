@@ -4,10 +4,13 @@ export interface Props {
 }
 
 import "../styles/index.css";
-import { LayoutCenter } from "../components/LayoutCenter.js";
+
+import LayoutCenter from "../components/LayoutCenter.vue";
 import AppSidebarContent from "../components/AppSidebarContent.astro";
-import "../components/AppSidebar.js";
-import {NetlifyIdentity} from '../components/NetlifyIdentity.js';
+import LayoutSidebar from "../components/LayoutSidebar.vue";
+import LayoutSidebarIsSidebar from "../components/LayoutSidebarIsSidebar.vue";
+import LayoutSidebarNotSidebar from "../components/LayoutSidebarNotSidebar.vue";
+import NetlifyIdentity from '../components/NetlifyIdentity.astro';
 
 const { title } = Astro.props.frontmatter || Astro.props;
 ---
@@ -18,33 +21,55 @@ const { title } = Astro.props.frontmatter || Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script
+      is:inline
+      src="https://identity.netlify.com/v1/netlify-identity-widget.js"
+    ></script>
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
   <body>
     <main class="app u-width-100%">
-      <app-sidebar classes={{'app-sidebar' : true}}>
-          <div slot="sidebar">
-            <AppSidebarContent />
-          </div>
-        
-        <div slot="notsidebar">
+      <LayoutSidebar custom-class="app-sidebar">
+        <LayoutSidebarIsSidebar>
+          <AppSidebarContent />
+        </LayoutSidebarIsSidebar>
+
+        <LayoutSidebarNotSidebar>
           <div class="u-margin-block-start-s12">
-            <LayoutCenter max-width="var(--bp-48)" padding="var(--global-padding)">
+            <LayoutCenter
+              max-width="var(--bp-48)"
+              padding="var(--global-padding)"
+            >
               <slot />
             </LayoutCenter>
           </div>
-        </div>
-      </app-sidebar>
+        </LayoutSidebarNotSidebar>
+      </LayoutSidebar>
     </main>
 
-    <NetlifyIdentity client:load />
+    <NetlifyIdentity />
+    <style>
+      .app > * {
+        width: 100%;
+        gap: 0;
+      }
+
+      .app-sidebar {
+        min-height: 100vh;
+      }
+      .app-sidebar > *:first-child {
+        height: 100%;
+        color: var(--snow);
+        background-color: var(--violet-dark);
+      }
+
+      .app-sidebar__button {
+        font-size: var(--s6);
+        text-align: center;
+        padding: var(--s0);
+        width: 100%;
+      }
+    </style>
   </body>
 </html>
-
-<style>
-  .app > * {
-    gap: 0;
-  }
-</style>

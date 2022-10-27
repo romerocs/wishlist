@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import {ListView} from "../../components/ListView.js";
+import ListView from "../../components/ListView.vue";
 
 export async function getStaticPaths() {
   const lists = await Astro.glob('../../data/list/*.md');
@@ -17,5 +17,5 @@ const { title, listItems } = Astro.props;
 ---
 
 <Layout title={title}>
-  <ListView title={title} data={JSON.stringify(listItems)} client:load></ListView>
+  <ListView data={listItems} title={title} client:load></ListView>
 </Layout>

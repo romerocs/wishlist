@@ -1,16 +1,6 @@
-@use './paths';
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap');
 
-$_path: paths.$base-font-path;
-
-@mixin font-face($font) {
-  src: url(#{$_path}/#{$font}.eot?#iefix) format('embedded-opentype'),
-    url(#{$_path}/#{$font}.woff2) format('woff2'),
-    url(#{$_path}/#{$font}.woff2) format('woff'),
-    url(#{$_path}/#{$font}.otf) format('opentype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: '';
-  //@include font-face([font]);
-}
+$fonts: (
+  'display' : "'Playfair Display', serif",
+  'body' : "'Roboto', sans-serif"
+)

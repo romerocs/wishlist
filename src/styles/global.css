@@ -96,8 +96,7 @@ button {
     scroll-behavior: auto !important;
   }
 }
-/* ELEMENT STYLES */
-html, :host {
+html {
   font-family: sans-serif;
 }
 
@@ -113,9 +112,12 @@ button {
 }
 
 select {
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius-1x);
-  padding: 6px 8px;
+  appearance: none;
+  color: var(--violet-dark);
+  background-color: transparent;
+  border: 2px solid var(--violet);
+  border-radius: var(--border-radius-2x);
+  padding: 6px 24px 6px 12px;
 }
 
 small {

@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap");
 /* prettier-ignore */ /**
  * Currently using the Major Third scale.
  * Reference: https://type-scale.com
@@ -5,9 +6,17 @@
 /* prettier-ignore */
 :root {
   --white: hsl(20deg, 33%, 98%);
-  --black: hsl(23deg, 29%, 5%);
-  --light-gray: hsl(0deg, 0%, 75%);
-  --desert-sand: hsl(22deg, 31%, 76%);
+  --black: hsl(0deg, 0%, 20%);
+  --snow: hsl(0deg, 100%, 99%);
+  --red: hsl(344deg, 73%, 50%);
+  --violet-darkest: hsl(255deg, 40%, 20%);
+  --violet-dark: hsl(255deg, 40%, 30%);
+  --violet: hsl(255deg, 40%, 50%);
+  --violet-light: hsl(255deg, 32%, 81%);
+  --mint: hsl(165deg, 40%, 62%);
+  --gray: hsl(270deg, 11%, 75%);
+  --gray-light: hsl(270deg, 11%, 92%);
+  --gray-lightest: hsl(270deg, 11%, 96%);
 }
 
 :root {
@@ -19,6 +28,11 @@
   --bp-75: 75rem;
   --bp-80: 80rem;
   --bp-90: 90rem;
+}
+
+:root {
+  --display: 'Playfair Display', serif;
+  --body: 'Roboto', sans-serif;
 }
 
 :root {
@@ -59,6 +73,7 @@
   --border-radius-1x: 4px;
   --border-radius-2x: 8px;
   --border-radius-3x: 16px;
+  --border-radius-4x: 32px;
 }
 
 /* Box sizing rules */
@@ -159,8 +174,7 @@ button {
     scroll-behavior: auto !important;
   }
 }
-/* ELEMENT STYLES */
-html, :host {
+html {
   font-family: sans-serif;
 }
 
@@ -176,60 +190,25 @@ button {
 }
 
 select {
-  background-color: var(--light-gray);
-  border-radius: var(--border-radius-1x);
-  padding: 6px 8px;
+  appearance: none;
+  color: var(--violet-dark);
+  background-color: transparent;
+  border: 2px solid var(--violet);
+  border-radius: var(--border-radius-2x);
+  padding: 6px 24px 6px 12px;
 }
 
 small {
   font-size: var(--s-2);
 }
 
-.l-center {
-  --cr-max-width: var(--bp-64);
-  box-sizing: content-box;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: var(--cr-max-width);
-  display: flex;
-  flex-direction: column;
-  padding-right: var(--cr-padding, 0);
-  padding-left: var(--cr-padding, 0);
-}
-
-.l-cluster {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: var(--cl-justify, flex-start);
-  align-items: var(--cl-align, center);
-  gap: var(--cl-gap, var(--s0));
-}
-
-/**
- * Note, the width of the sidebar will be determined by its content,
- * so there's no need for this component to specify width (by default). 
- */
-.l-sidebar {
-  background: green;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sb-gap, var(--s0));
-  align-items: var(--sb-align, flex-start);
-}
-.l-sidebar > .is-sidebar {
-  flex-grow: 1;
-}
-.l-sidebar > :not(.is-sidebar) {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-width: 50%;
-}
-
-.l-stack {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  gap: var(--st-gap, var(--s0));
+.u-show-for-sr {
+  position: absolute !important;
+  left: -10000px !important;
+  top: auto !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
 }
 
 .u-margin-block-start-s12 {
