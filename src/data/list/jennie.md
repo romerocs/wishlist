@@ -10,4 +10,13 @@ list-item:
     url: https://www.amazon.com
     notes: testing
     priority: 2
+  - needs: 1
+    has: 0
+    image: testing
+    index: 0
+    title: Pot
+    notes: blue
+    url: https://www.amazon.com
+    priority: 2
+slug: jennie
 ---
