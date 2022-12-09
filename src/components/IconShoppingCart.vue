@@ -1,6 +1,6 @@
 <template>
   <svg
-    width="24"
+    width="20"
     viewBox="0 0 24 24"
     fill="none"
     stroke="var(--white)"

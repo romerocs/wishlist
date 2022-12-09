@@ -21,7 +21,11 @@ export default {
   line-height: 1;
   text-decoration: none;
   display: inline-block;
-  padding: 6px 24px;
+  padding: var(--s-3) var(--s2);
   background-color: v-bind(bgColor);
+  color: var(--white);
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: var(--s-1);
 }
 </style>

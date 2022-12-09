@@ -9,12 +9,13 @@ export default {
     notes: String,
     priority: Number,
     needs: Number,
-    url: String
+    url: String,
+    price: String,
   },
   components: {
     LayoutCluster,
     ButtonLink,
-    IconShoppingCart
+    IconShoppingCart,
   },
 };
 </script>
@@ -24,7 +25,8 @@ export default {
     <LayoutCluster justify="space-between">
       <div>
         <h3>{{ title }}</h3>
-        <div class="item-notes">
+        <div class="notes">
+          <div class="price" v-if=price>${{ price }}</div>
           <i>{{ notes }}</i>
         </div>
         <div>
@@ -32,9 +34,16 @@ export default {
         </div>
       </div>
 
-      <ButtonLink v-bind:url="url" url="https://cromero.io" bg-color="var(--black)">
-          <span class='u-show-for-sr'>Shop</span>
+      <ButtonLink
+        v-bind:url="url"
+        v-if="url"
+        url="https://cromero.io"
+        bg-color="var(--violet-dark)"
+      >
+        <LayoutCluster justify="space-between" gap="var(--s-3)">
           <IconShoppingCart />
+          <span>Buy</span>
+        </LayoutCluster>
       </ButtonLink>
     </LayoutCluster>
   </div>
@@ -45,5 +54,12 @@ export default {
   border: 1px solid var(--gray);
   padding: var(--s0);
   border-radius: var(--border-radius-2x);
+}
+
+h3 {
+  font-size: var(--s3);
+}
+.price {
+  font-weight: 600;
 }
 </style>

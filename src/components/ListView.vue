@@ -75,6 +75,7 @@ export default {
             :priority="item.priority"
             :needs="item.needs"
             :url="item.url"
+            :price="item.price"
           />
         </LayoutStack>
       </div>
