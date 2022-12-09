@@ -27,6 +27,9 @@ collections:
           - label: "URL"
             name: url
             required: false
+          - label: "Price"
+            name: price
+            required: false
           - label: "Notes"
             name: notes
             widget: "text"
@@ -48,9 +51,6 @@ collections:
             default: 0
             value_type: "int"
             min: 0
-          - label: "Price"
-            name: price
-            required: false
           - label: "Index"
             name: index
             widget: "hidden"
