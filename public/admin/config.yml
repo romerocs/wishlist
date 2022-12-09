@@ -32,7 +32,7 @@ collections:
             widget: "text"
           - label: "Priority"
             name: priority
-            widget: "select",
+            widget: "select"
             default: { label: "medium", value: 2 }
             options: [{ label: "low", value: 1 }, { label: "medium", value: 2 }, { label: "high", value: 3 }]
           - label: "Needs"
