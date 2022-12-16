@@ -34,6 +34,7 @@ collections:
             required: false
           - label: "Notes"
             name: notes
+            required: false
             widget: "text"
           - label: "Priority"
             name: priority
