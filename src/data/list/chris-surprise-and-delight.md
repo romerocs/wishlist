@@ -41,5 +41,5 @@ list-item:
     url: https://www.freestyleusa.com/products/apple-watch-clip-strap-kaleidoscope
     title: Apple Watch Band
     price: "15"
-slug: jennie
+slug: chris-surprise-and-delight
 ---
