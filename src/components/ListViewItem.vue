@@ -20,7 +20,12 @@ export default {
   mounted() {
     const loggedIn = !!window.netlifyIdentity.currentUser();
 
-    console.log(loggedIn);
+    if(loggedIn) {
+      console.log("logged in");
+    }
+    else {
+      console.log("logged out");
+    }
   }
 };
 </script>
