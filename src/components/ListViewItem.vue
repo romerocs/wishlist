@@ -18,7 +18,13 @@ export default {
     IconShoppingCart,
   },
   mounted() {
-    console.log(window.netlifyIdentity.currentUser());
+    const loggedIn = !!window.netlifyIdentity.currentUser();
+    if(loggedIn) {
+      console.log("logged in");
+    }
+    else {
+      console.log("logged in");
+    }
   }
 };
 </script>
