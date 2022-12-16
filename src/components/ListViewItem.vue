@@ -17,6 +17,9 @@ export default {
     ButtonLink,
     IconShoppingCart,
   },
+  mounted() {
+    console.log(window.netlifyIdentity.currentUser());
+  }
 };
 </script>
 
