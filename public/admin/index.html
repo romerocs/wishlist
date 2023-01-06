@@ -28,6 +28,12 @@
               li.index = index;
             }
 
+            if(li.price) {
+              const filtered = li.price.replace('$', '');
+
+              li.price = filtered;
+            }
+
             return li;
           });
 
