@@ -8,14 +8,14 @@ list-item:
     index: 0
     title: Princess Mononoke on Blueray
     url: https://ghiblicollection.com/product/princess-mononoke-limited-edition-steelbook?product_id=7448
-    price: $26.98
+    price: "26.98"
   - priority: 2
     needs: 1
     has: 0
     index: 0
     title: Spirited Away on Blueray
     url: https://ghiblicollection.com/product/spirited-away-limited-edition-steelbook?product_id=7485
-    price: $26.98
+    price: "26.98"
   - priority: 1
     needs: 1
     has: 0
