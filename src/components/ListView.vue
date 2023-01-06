@@ -28,6 +28,11 @@ export default {
             return item.has >= item.needs;
           });
           break;
+        case "link":
+          this.items = this.data.filter((item) => {
+            return item.hasOwnProperty('url');
+          });
+          break;
         case "all":
           this.items = this.data;
           break;

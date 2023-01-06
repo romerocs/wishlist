@@ -22,6 +22,7 @@ export default {
           <select name="list-filter" id="list-filter" @change="filter">
             <option value="all">All Items</option>
             <option value="purchased">Purchased</option>
+            <option value="link">Items with link</option>
           </select>
         </div>
       </LayoutCluster>
