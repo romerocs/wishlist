@@ -26,6 +26,7 @@ list-item:
     has: 0
     index: 0
     title: T-shirt from Trickster
-    url: https://trickstercompany.com/collections/tops
+    url: ""
+    price: "14.99"
 slug: chris-surprise-and-delight
 ---
