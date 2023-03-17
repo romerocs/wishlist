@@ -23,10 +23,12 @@ exports.handler = async event => {
   // // Did it work?
   // console.log(data, error);
 
-let { data, error } = await supabase;
+let { data, error } = await supabase
+.from('list')
+.select('*');
 
 console.log(data);
 
 return data;
-  
+
 }
