@@ -28,6 +28,6 @@ let { data: list, error } = await supabase
 .from('list')
 .select('*');
 
-console.log(supabase);
+console.log(data);
   
 }
