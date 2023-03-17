@@ -27,8 +27,8 @@ let { data: list, error } = await supabase
 .from('list')
 .select('id');
 
-console.log(data);
+console.log(list);
 
-return data;
+return list;
 
 }
