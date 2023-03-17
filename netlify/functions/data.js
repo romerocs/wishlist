@@ -25,7 +25,7 @@ exports.handler = async event => {
 
 let { data, error } = await supabase
 .from('list')
-.select('*');
+.select('id');
 
 console.log(data);
 
