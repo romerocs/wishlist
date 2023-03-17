@@ -19,10 +19,10 @@ exports.handler = async (event) => {
   // // Did it work?
   // console.log(data, error);
 
-  let { data, error } = await supabase.from("test").select("id");
+  let { data: test, error } = await supabase.from("test").select("id");
 
   return {
 		statusCode: 200,
-		body: JSON.stringify(data)
+		body: JSON.stringify(test)
   }
 }
