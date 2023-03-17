@@ -29,6 +29,6 @@ let { data, error } = await supabase
 
 console.log(data);
 
-return list;
+return data;
 
 }
