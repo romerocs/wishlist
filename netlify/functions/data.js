@@ -23,11 +23,10 @@ exports.handler = async event => {
   // // Did it work?
   // console.log(data, error);
 
-  // Get everything from the notes table
-let { data: list, error } = await supabase
+let { data, error } = await supabase
 .from('list')
 .select('*');
 
-console.log(list);
+console.log(data);
   
 }
