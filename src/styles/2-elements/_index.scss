@@ -1,5 +1,5 @@
 html {
-  font-family: sans-serif;
+  font-family: var(--body);
 }
 
 main {
@@ -14,12 +14,29 @@ button {
 }
 
 select {
+  // A reset of styles, including removing the default dropdown arrow
   appearance: none;
-  color: var(--violet-dark);
   background-color: transparent;
-  border: 2px solid var(--violet);
-  border-radius: var(--border-radius-2x);
-  padding: 6px 24px 6px 12px;
+  border: none;
+  padding: 12px 20px;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+
+  // Stack above custom arrow
+  z-index: 1;
+
+  // Remove dropdown arrow in IE10 & IE11
+  // @link https://www.filamentgroup.com/lab/select-css.html
+  &::-ms-expand {
+    display: none;
+  }
+
+  // Remove focus outline, will add on alternate element
+  outline: none;
 }
 
 small {

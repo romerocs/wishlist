@@ -4,7 +4,7 @@ import LayoutCluster from "./LayoutCluster.vue";
 export default {
   props: {
     filter: Function,
-    sort: Function
+    sort: Function,
   },
   components: {
     LayoutCluster,
@@ -20,7 +20,7 @@ export default {
 
         <div class="select">
           <select name="list-filter" id="list-filter" @change="filter">
-            <option value="all">All Items</option>
+            <option value="all">View All</option>
             <option value="purchased">Purchased</option>
             <option value="link">Items with link</option>
           </select>
@@ -44,20 +44,46 @@ export default {
   </LayoutCluster>
 </template>
 
-<style>
+<style lang="scss">
 .select {
   position: relative;
-}
+  --select-arrow: url("/images/chevron.svg");
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
+  position: relative;
+  box-shadow: var(--shadow-elevation-low);
 
-.select::after {
-  content: "";
-  position: absolute;
-  background-image: url("/images/chevron.svg");
-  background-size: cover;
-  top: 50%;
-  right: 12px;
-  width: 12px;
-  height: 13.71px;
-  transform: translateY(-50%);
+  select,
+  &::after {
+    grid-area: select;
+  }
+
+  min-width: 15ch;
+  max-width: 30ch;
+
+  border-radius: 0.25em;
+
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1.1;
+
+  background-color: #fff;
+  background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+
+  &::after {
+    content: "";
+    background-image: var(--select-arrow);
+    top: 0;
+    right: 12px;
+    z-index: 2;
+    display: block;
+    position: absolute;
+    width: 16px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+  }
 }
 </style>

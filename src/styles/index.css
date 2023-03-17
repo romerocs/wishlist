@@ -1,22 +1,32 @@
-@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Roboto:ital,wght@0,400;0,700;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,700;0,800;0,900;0,1000;1,400&display=swap");
 /* prettier-ignore */ /**
  * Currently using the Major Third scale.
  * Reference: https://type-scale.com
 */
 /* prettier-ignore */
 :root {
-  --white: hsl(20deg, 33%, 98%);
-  --black: hsl(0deg, 0%, 20%);
-  --snow: hsl(0deg, 100%, 99%);
-  --red: hsl(344deg, 73%, 50%);
-  --violet-darkest: hsl(255deg, 40%, 20%);
-  --violet-dark: hsl(255deg, 40%, 30%);
-  --violet: hsl(255deg, 40%, 50%);
-  --violet-light: hsl(255deg, 32%, 81%);
-  --mint: hsl(165deg, 40%, 62%);
-  --gray: hsl(270deg, 11%, 75%);
-  --gray-light: hsl(270deg, 11%, 92%);
-  --gray-lightest: hsl(270deg, 11%, 96%);
+  --green-1: hsl(148deg, 100%, 15%);
+  --green-2: hsl(120deg, 100%, 20%);
+  --green-3: hsl(120deg, 100%, 22%);
+  --green-4: hsl(120deg, 100%, 25%);
+  --green-5: hsl(101deg, 100%, 35%);
+  --green-6: hsl(90deg, 100%, 44%);
+  --green-7: hsl(83deg, 88%, 52%);
+  --green-8: hsl(75deg, 100%, 60%);
+  --green-9: hsl(74deg, 71%, 92%);
+  --gray-1: hsl(210deg, 11%, 15%);
+  --gray-2: hsl(210deg, 10%, 23%);
+  --gray-3: hsl(210deg, 9%, 31%);
+  --gray-4: hsl(208deg, 7%, 46%);
+  --gray-5: hsl(210deg, 11%, 71%);
+  --gray-6: hsl(210deg, 14%, 83%);
+  --gray-7: hsl(210deg, 14%, 89%);
+  --gray-8: hsl(210deg, 16%, 93%);
+  --gray-9: hsl(210deg, 17%, 98%);
+  --hotpink-1: hsl(333deg, 93%, 70%);
+  --priority-high: hsl(90deg, 100%, 44%);
+  --priority-medium: hsl(90deg, 83%, 80%);
+  --priority-low: hsl(90deg, 70%, 95%);
 }
 
 :root {
@@ -32,7 +42,7 @@
 
 :root {
   --display: 'Playfair Display', serif;
-  --body: 'Roboto', sans-serif;
+  --body: 'Nunito', sans-serif;
 }
 
 :root {
@@ -74,6 +84,13 @@
   --border-radius-2x: 8px;
   --border-radius-3x: 16px;
   --border-radius-4x: 32px;
+}
+
+:root {
+  --shadow-color: 75deg 26% 57%;
+  --shadow-elevation-low: 0.3px 0.5px 0.7px hsl(var(--shadow-color)/0.34), 0.4px 0.8px 1px -1.2px hsl(var(--shadow-color)/0.34), 1px 2px 2.5px -2.5px hsl(var(--shadow-color)/0.34);
+  --shadow-elevation-medium: 0.3px 0.5px 0.7px hsl(var(--shadow-color)/0.36), 0.8px 1.6px 2px -0.8px hsl(var(--shadow-color)/0.36), 2.1px 4.1px 5.2px -1.7px hsl(var(--shadow-color)/0.36), 5px 10px 12.6px -2.5px hsl(var(--shadow-color)/0.36);
+  --shadow-elevation-high: 0.3px 0.5px 0.7px hsl(var(--shadow-color)/0.34), 1.5px 2.9px 3.7px -0.4px hsl(var(--shadow-color)/0.34), 2.7px 5.4px 6.8px -0.7px hsl(var(--shadow-color)/0.34), 4.5px 8.9px 11.2px -1.1px hsl(var(--shadow-color)/0.34), 7.1px 14.3px 18px -1.4px hsl(var(--shadow-color)/0.34), 11.2px 22.3px 28.1px -1.8px hsl(var(--shadow-color)/0.34), 17px 33.9px 42.7px -2.1px hsl(var(--shadow-color)/0.34), 25px 50px 62.9px -2.5px hsl(var(--shadow-color)/0.34);
 }
 
 /* Box sizing rules */
@@ -175,7 +192,7 @@ button {
   }
 }
 html {
-  font-family: sans-serif;
+  font-family: var(--body);
 }
 
 main {
@@ -191,11 +208,20 @@ button {
 
 select {
   appearance: none;
-  color: var(--violet-dark);
   background-color: transparent;
-  border: 2px solid var(--violet);
-  border-radius: var(--border-radius-2x);
-  padding: 6px 24px 6px 12px;
+  border: none;
+  padding: 12px 20px;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  z-index: 1;
+  outline: none;
+}
+select::-ms-expand {
+  display: none;
 }
 
 small {

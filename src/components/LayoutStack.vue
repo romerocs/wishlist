@@ -1,7 +1,7 @@
 <script>
 export default {
   props: {
-    gap: String,
+    gap: String
   },
   data() {
     const styles = {};

@@ -1,21 +1,24 @@
 ---
-const lists = await Astro.glob('../data/list/*.md');
+const lists = await Astro.glob("../data/list/*.md");
 ---
 
 <nav class="list-navigation">
   <ul role="list">
-    {lists.map(list => <li><a href={`/lists/${list.frontmatter.slug}`}>{list.frontmatter.title}</a></li>)}
+    {
+      lists.map((list) => (
+        <li>
+          <a href={`/lists/${list.frontmatter.slug}`}>
+            {list.frontmatter.title}
+          </a>
+        </li>
+      ))
+    }
   </ul>
 </nav>
 
 <style>
   .list-navigation {
     min-width: 15.625rem;
-  }
-  .list-navigation > * {
-    border: 1px solid hsl(255, 40%, 50%);
-    border-left-width: 0px;
-    border-right-width: 0px;
   }
 
   .list-navigation > *:before,
@@ -24,7 +27,6 @@ const lists = await Astro.glob('../data/list/*.md');
     width: 100%;
     height: 1px;
     display: block;
-    border-top: 1px solid var(--violet-darkest);
   }
 
   .list-navigation > *:before {
@@ -37,15 +39,26 @@ const lists = await Astro.glob('../data/list/*.md');
   }
 
   .list-navigation a {
-    color: inherit;
+    color: var(--gray-1);
+    font-weight: 700;
     text-decoration: none;
     display: block;
     width: 100%;
     padding: var(--s-3) var(--s10) var(--s-3) var(--s0);
-  }
-
-  .list-navigation > * > *:not(:first-child) {
-    border-top: 1px solid var(--violet);
+    background: linear-gradient(
+      90deg,
+      hsl(90deg 100% 44%) 0%,
+      hsl(88deg 100% 44%) 21%,
+      hsl(87deg 100% 44%) 30%,
+      hsl(86deg 100% 44%) 39%,
+      hsl(84deg 100% 44%) 46%,
+      hsl(83deg 100% 44%) 54%,
+      hsl(82deg 100% 44%) 61%,
+      hsl(80deg 100% 44%) 69%,
+      hsl(79deg 100% 44%) 79%,
+      hsl(78deg 100% 44%) 100%
+    );
+    border-radius: var(--border-radius-2x);
   }
 
   .list-navigation > * > *:not(:first-child):before {
@@ -53,7 +66,6 @@ const lists = await Astro.glob('../data/list/*.md');
     width: 100%;
     height: 1px;
     display: block;
-    border-top: 1px solid var(--violet-darkest);
     transform: translateY(-2px);
   }
 </style>

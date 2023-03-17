@@ -71,7 +71,6 @@ export default {
       <ListViewFilterSort v-bind:filter="filter" v-bind:sort="sort" />
 
       <div class="list-view__items">
-        <LayoutStack>
           <ListViewItem
             v-for="item in items"
             :key="item.index"
@@ -82,8 +81,15 @@ export default {
             :url="item.url"
             :price="item.price"
           />
-        </LayoutStack>
       </div>
     </LayoutStack>
   </div>
 </template>
+
+<style>
+.list-view__items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s5);
+}
+</style>

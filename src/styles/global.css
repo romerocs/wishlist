@@ -97,7 +97,7 @@ button {
   }
 }
 html {
-  font-family: sans-serif;
+  font-family: var(--body);
 }
 
 main {
@@ -113,11 +113,20 @@ button {
 
 select {
   appearance: none;
-  color: var(--violet-dark);
   background-color: transparent;
-  border: 2px solid var(--violet);
-  border-radius: var(--border-radius-2x);
-  padding: 6px 24px 6px 12px;
+  border: none;
+  padding: 12px 20px;
+  margin: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  z-index: 1;
+  outline: none;
+}
+select::-ms-expand {
+  display: none;
 }
 
 small {

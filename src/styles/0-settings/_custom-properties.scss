@@ -3,6 +3,7 @@
 @use './colors' as *;
 @use './fonts' as *;
 @use './scale' as *;
+@use './shadows' as *;
 
 :root {
   @each $color, $hex in $colors {
@@ -37,5 +38,11 @@
 :root {
   @each $name, $value in $border-radius {
     --border-radius-#{$name}: #{$value};
+  }
+}
+
+:root {
+  @each $name, $value in $shadows {
+    --#{$name} : #{$value};
   }
 }

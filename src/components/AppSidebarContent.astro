@@ -1,23 +1,32 @@
 ---
 import ListNavigation from "./ListNavigation.astro";
+import SVGLogo from "./SVGLogo.vue";
 ---
 
-<a href="/" class="app-sidebar-content__site-link">Wishlist</a>
+<a href="/" class="home-link">
+  <SVGLogo />
+</a>
 <ListNavigation />
 
-<a href="/admin/index.html">Login</a>
+<a class="" href="/admin/index.html">Login</a>
 
 <style>
   a {
     text-decoration: none;
     display: block;
     color: inherit;
-    text-align: center;
-    padding: var(--s0);
+    padding: var(--s0) 0;
     width: 100%;
   }
 
-  .app-sidebar-content__site-link {
+  a svg {
+    --shadow-color: 0deg 0% 58%;
+    filter: drop-shadow(0.3px 0.5px 0.7px hsl(var(--shadow-color) / 0.34))
+      drop-shadow(0.4px 0.8px 1px hsl(var(--shadow-color) / 0.34))
+      drop-shadow(1px 2px 2.5px hsl(var(--shadow-color) / 0.34));
+  }
+
+  .home-link {
     font-size: var(--s6);
     font-family: var(--display);
     font-weight: 900;
