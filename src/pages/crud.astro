@@ -1,0 +1,16 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CrudAppPrototype from "../components/CrudAppPrototype.vue";
+---
+
+<Layout title="Wishlist">
+  <h1>Crud App Prototype</h1>
+
+  <CrudAppPrototype client:load />
+</Layout>
+
+<style>
+  .app > * {
+    gap: 0;
+  }
+</style>
