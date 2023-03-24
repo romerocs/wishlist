@@ -14,7 +14,7 @@ export default {
   methods: {
     async getLists() {
       const res = await fetch(
-        `${url}/.netlify/functions/get_lists`
+        `/.netlify/functions/get_lists`
       );
 
       const finalRes = await res.json();
@@ -22,7 +22,7 @@ export default {
       this.lists = [...finalRes];
     },
     async addList(event) {
-      const res = await fetch(`${url}/.netlify/functions/add_list`, {
+      const res = await fetch(`/.netlify/functions/add_list`, {
         method: 'POST',
         body: JSON.stringify({name: this.listName})
       });
