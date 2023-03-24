@@ -9,19 +9,15 @@ const supabase = createClient(DATABASE_URL, SUPABASE_SERVICE_API_KEY);
 
 // Our standard serverless handler function
 exports.handler = async (event) => {
+  const { name } = JSON.parse(event.body);
 
-  //INSERT DATA
-    // const { data, error_insert } = await supabase
-    //     .from('lists')
-    //     .insert([
-    //         { list_name: 'Chris Suprise & Delight (serverless function)' },
-    //     ]);
-
-  //READ DATA
-  let { data: lists, error_read } = await supabase.from("lists").select("list_name");
+  const { data, error } = await supabase
+    .from("lists")
+    .insert([{ list_name: name }])
+    .select();
 
   return {
-		statusCode: 200,
-		body: JSON.stringify(lists)
-  }
-}
+    statusCode: 200,
+    body: JSON.stringify(data),
+  };
+};
