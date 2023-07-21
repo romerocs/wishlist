@@ -1,11 +1,21 @@
 <script>
-import { mode, url } from '../utilities/vars';
+import { url } from "../utilities/vars";
+import supabase from "../utilities/supabase";
+import CrudAppFormAddListItem from "./CrudAppFormAddListItem.vue";
+import CrudAppListItems from "./CrudAppListItems.vue";
 
 export default {
+  components: {
+    CrudAppListItems,
+    CrudAppFormAddListItem,
+  },
+  props: {
+    url: String,
+  },
   data() {
     return {
       lists: [],
-      listName: ''
+      listName: "",
     };
   },
   async created() {
@@ -13,22 +23,22 @@ export default {
   },
   methods: {
     async getLists() {
-      const res = await fetch(
-        `/.netlify/functions/get_lists`
-      );
+      const { data: lists, error } = await supabase.from("lists").select("*");
 
-      const finalRes = await res.json();
+      const finalRes = lists;
 
       this.lists = [...finalRes];
     },
     async addList(event) {
-      const res = await fetch(`/.netlify/functions/add_list`, {
-        method: 'POST',
-        body: JSON.stringify({name: this.listName})
-      });
-      const finalRes = await res.json();
 
-      this.lists = [...this.lists, ...finalRes];
+      const { data, error } = await supabase
+        .from("lists")
+        .insert([{ list_name: this.listName }])
+        .select();
+
+      const finalRes = data;
+
+      this.lists = [...this.lists, ...data];
     },
   },
 };
@@ -36,26 +46,28 @@ export default {
 
 <template>
   <div>
-    <input type="text" v-model="listName"/>
+    <input type="text" v-model="listName" />
     <button @click="addList">Add List</button>
 
-    <table v-if="lists.length">
-      <tr>
-        <th>List Name</th>
-        <th>List ID</th>
-      </tr>
-      <tr v-for="(list, index) in lists" :key="index">
-        <td>
-          {{ list.list_name }}
-        </td>
-        <td>{{ list.id }}</td>
-      </tr>
-    </table>
+    <div v-if="lists.length">
+      <div v-for="(list, index) in lists" :key="index">
+        <h2>{{ list.list_name }}</h2>
+
+        <CrudAppFormAddListItem :list_id="list.id"></CrudAppFormAddListItem>
+        <CrudAppListItems :list_id="list.id"></CrudAppListItems>
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
-input[type="text"] {
+h2 {
+  margin-top: var(--s6);
+}
+
+input,
+select,
+textarea {
   border: 1px solid black;
 }
 
@@ -63,26 +75,5 @@ button {
   background: black;
   color: white;
   padding: 0.5rem 1rem;
-}
-
-table {
-  color: #333;
-  background: white;
-  border: 1px solid grey;
-  font-size: 12pt;
-  border-collapse: collapse;
-}
-table thead th,
-table tfoot th {
-  color: #777;
-  background: rgba(0,0,0,.1);
-}
-table caption {
-  padding:.5em;
-}
-table th,
-table td {
-  padding: .5em;
-  border: 1px solid lightgrey;
 }
 </style>

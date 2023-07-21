@@ -1,0 +1,11 @@
+---
+import supabase from "../../utilities/supabase";
+
+const body = await Astro.request.json();
+Astro.response.headers.set("Set-Cookie", `sbat=${body.access_token}; Path=/;`);
+
+const { data, error } = await supabase.auth.setSession({
+  access_token: body.access_token,
+  refresh_token: body.refresh_token
+});
+---

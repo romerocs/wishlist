@@ -1,21 +1,21 @@
 ---
+import { getUser } from '../../utilities/auth';
+import supabase from "../../utilities/supabase";
+
+const user = await getUser(Astro.request);
+const isLoggedIn = !(user == null);
+
 import Layout from "../../layouts/Layout.astro";
+
 import ListView from "../../components/ListView.vue";
 
-export async function getStaticPaths() {
-  const lists = await Astro.glob('../../data/list/*.md');
-
-  return lists.map(list => {
-    return {
-      params: { list: list.frontmatter.slug },
-      props: { title: list.frontmatter.title, listItems: list.frontmatter['list-item'] }
-    }
-  });
-}
-
-const { title, listItems } = Astro.props;
+const url = new URL(Astro.request.url);
+const { pathname } = url;
+const id = pathname.split("/").pop();
+const { data: list, error: error_list } = await supabase.from("lists").select().eq('id', id).limit(1).single();
+const { data: listItems, error: error_list_items } = await supabase.from("list_items").select("*").eq('list_id', id);
 ---
 
-<Layout title={title}>
-  <ListView data={listItems} title={title} client:load></ListView>
+<Layout title={"title"} user={user}>
+  <ListView data={listItems} title={list.list_name} client:load></ListView>
 </Layout>

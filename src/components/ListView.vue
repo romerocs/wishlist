@@ -73,13 +73,13 @@ export default {
       <div class="list-view__items">
           <ListViewItem
             v-for="item in items"
-            :key="item.index"
-            :title="item.title"
-            :notes="item.notes"
-            :priority="item.priority"
+            :key="item.id"
+            :title="item.list_item_name"
+            :notes="item.list_item_description"
+            :priority="item.list_item_priority"
             :needs="item.needs"
-            :url="item.url"
-            :price="item.price"
+            :url="item.list_item_url"
+            :price="item.list_item_price"
           />
       </div>
     </LayoutStack>

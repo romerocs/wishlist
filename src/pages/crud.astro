@@ -1,12 +1,18 @@
 ---
+import { url } from "../utilities/vars";
+import { getUser } from '../utilities/auth';
+
+const user = await getUser(Astro.request);
+const isLoggedIn = !(user == null);
+
 import Layout from "../layouts/Layout.astro";
 import CrudAppPrototype from "../components/CrudAppPrototype.vue";
 ---
 
-<Layout title="Wishlist">
+<Layout title="Wishlist" user={user}>
   <h1>Crud App Prototype</h1>
 
-  <CrudAppPrototype client:only="vue" />
+  <CrudAppPrototype client:only="vue" url={url} />
 </Layout>
 
 <style>

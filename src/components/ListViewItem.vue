@@ -28,17 +28,6 @@ export default {
     return {
       bgColor: bgColor,
     };
-  },
-  mounted() {
-    console.log(this.price);
-    // const loggedIn = !!window.netlifyIdentity.currentUser();
-
-    // if(loggedIn) {
-    //   console.log("logged in");
-    // }
-    // else {
-    //   console.log("logged out");
-    // }
   }
 };
 </script>
@@ -55,13 +44,7 @@ export default {
       <LayoutStack gap="var(--s5)">
 
         <h3>{{ title }}</h3>
-<!-- 
-  "link" types:
-    - button with price and arrow
-    - button with arrow
-    - non-button with price
 
- -->
         <a class="link" :style="{ marginTop: 'auto'}" :href="url" v-if="url">
           <span v-if="price">{{ price }}</span> <SVGArrowRight />
         </a>
