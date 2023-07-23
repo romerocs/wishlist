@@ -6,6 +6,7 @@ export interface Props {
 
 import "../styles/index.css";
 
+import TopBar from "../components/TopBar.astro";
 import LayoutCenter from "../components/LayoutCenter.vue";
 import AppSidebarContent from "../components/AppSidebarContent.astro";
 import LayoutSidebar from "../components/LayoutSidebar.vue";
@@ -27,8 +28,18 @@ const isLoggedIn = !(user == null);
     <title>{title}</title>
   </head>
   <body>
+    <TopBar />
     <main class="app u-width-100%">
-      <LayoutSidebar custom-class="app-sidebar">
+      <div class="u-margin-block-start-s12">
+        <LayoutCenter
+          max-width="var(--bp-48)"
+          padding="var(--global-padding)"
+        >
+          <slot />
+        </LayoutCenter>
+      </div>
+
+      <!-- <LayoutSidebar custom-class="app-sidebar">
         <LayoutSidebarIsSidebar>
           <AppSidebarContent />
         </LayoutSidebarIsSidebar>
@@ -43,7 +54,7 @@ const isLoggedIn = !(user == null);
             </LayoutCenter>
           </div>
         </LayoutSidebarNotSidebar>
-      </LayoutSidebar>
+      </LayoutSidebar> -->
     </main>
 
     <style>

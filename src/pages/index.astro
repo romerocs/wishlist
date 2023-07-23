@@ -7,13 +7,11 @@ const user = await getUser(Astro.request);
 const isLoggedIn = !(user == null);
 
 import Layout from "../layouts/Layout.astro";
-import AuthAppPrototype from "../components/AuthAppPrototype.vue";
+import AuthAppPrototype from "../components/AuthWidget.vue";
 ---
 
 <Layout title="Wishlist" user={user}>
   <h1>Homepage</h1>
-
-  <AuthAppPrototype client:only="vue" url={url} isLoggedIn={isLoggedIn} />
 </Layout>
 
 <style>

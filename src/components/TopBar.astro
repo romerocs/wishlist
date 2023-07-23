@@ -1,0 +1,30 @@
+---
+import { url } from "../utilities/vars";
+import LayoutCluster from "./LayoutCluster.vue";
+import AuthWidget from "./AuthWidget.vue";
+import SVGLogo from "./SVGLogo.vue";
+---
+
+<header>
+  <LayoutCluster justify="space-between">
+    <!-- IF LOGGED OUT, SHOW LOGIN BUTTON -->
+    <!-- IF LOGGED IN SHOW DROPDOWN WIDGET -->
+    <a href="/" class="home-link">
+      <SVGLogo width="250" />
+    </a>
+
+    <AuthWidget client:only="vue" url={url} />
+  </LayoutCluster>
+</header>
+
+<style>
+  a {
+    display: block;
+    line-height: 1;
+  }
+  header {
+    padding: var(--s1) var(--global-padding);
+  }
+</style>
+
+<!-- TODO: ADD DARK/LIGHT MODE BTN -->
