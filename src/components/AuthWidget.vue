@@ -7,10 +7,11 @@ export default {
   },
   async created() {
     const { data, error } = await supabase.auth.getSession();
+    const { session } = data;
+    
     this.isLoggedIn = Boolean(session);
 
     if (this.isLoggedIn) {
-      const { session } = data;
       const { user } = session;
       this.avatarImg = user.user_metadata.avatar_url;
     }
