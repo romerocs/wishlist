@@ -3,17 +3,15 @@ import supabase from "../utilities/supabase";
 
 export default {
   props: {
-    url: String
+    url: String,
   },
   async created() {
     const { data, error } = await supabase.auth.getSession();
-
-    const { session } = data;
-    const { user } = session;
-
     this.isLoggedIn = Boolean(session);
 
-    if(this.isLoggedIn) {
+    if (this.isLoggedIn) {
+      const { session } = data;
+      const { user } = session;
       this.avatarImg = user.user_metadata.avatar_url;
     }
   },
@@ -25,8 +23,8 @@ export default {
       isLoggedIn: false,
       btnDisabled: false,
       panelVisibility: "none",
-      avatarImg: ""
-    }
+      avatarImg: "",
+    };
   },
   methods: {
     async signInWithGoogle() {
@@ -41,20 +39,20 @@ export default {
       const { error } = await supabase.auth.signOut();
     },
     toggleVisibility() {
-      if(this.panelVisibility === "block") {
+      if (this.panelVisibility === "block") {
         this.panelVisibility = "none";
-      }
-      else {
+      } else {
         this.panelVisibility = "block";
       }
     },
     outsideClickHandler(e) {
-      const closePanel = !e.target.closest(".widget") && this.panelVisibility === "block";
+      const closePanel =
+        !e.target.closest(".widget") && this.panelVisibility === "block";
 
-      if(closePanel) {
+      if (closePanel) {
         this.panelVisibility = "none";
       }
-    }
+    },
   },
 };
 </script>
@@ -62,37 +60,35 @@ export default {
 <template>
   <div class="widget">
     <button class="btn-avatar" aria-label="Login" @click="toggleVisibility">
-      <img :src="avatarImg" alt="">
+      <img :src="avatarImg" alt="" />
     </button>
 
     <div class="popover" ref="popover">
-    
       <button @click="logOut" v-if="isLoggedIn">Sign Out</button>
-    <button @click="signInWithGoogle" v-else="isLoggedIn">Sign In</button>
+      <button @click="signInWithGoogle" v-else="isLoggedIn">Sign In</button>
     </div>
-
   </div>
 </template>
 
 <style>
-  .widget {
-    position: relative;
-  }
+.widget {
+  position: relative;
+}
 
-  .popover {
-    display: v-bind(panelVisibility);
-    position: absolute;
-  }
-  
-  .btn-avatar {
-    background-color: gray;
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-    overflow: hidden;
-  }
+.popover {
+  display: v-bind(panelVisibility);
+  position: absolute;
+}
 
-  .btn-avatar:disabled {
-    pointer-events: none;
-  }
+.btn-avatar {
+  background-color: gray;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.btn-avatar:disabled {
+  pointer-events: none;
+}
 </style>
