@@ -1,16 +1,9 @@
 ---
-import { url } from "../utilities/vars";
-import { getUser } from '../utilities/auth';
-
-const user = await getUser(Astro.request);
-
-const isLoggedIn = !(user == null);
-
 import Layout from "../layouts/Layout.astro";
 import AuthAppPrototype from "../components/AuthWidget.vue";
 ---
 
-<Layout title="Wishlist" user={user}>
+<Layout title="Wishlist">
   <h1>Homepage</h1>
 </Layout>
 

@@ -1,7 +1,6 @@
 ---
 export interface Props {
   title: string;
-  user: object;
 }
 
 import "../styles/index.css";
@@ -13,9 +12,7 @@ import LayoutSidebar from "../components/LayoutSidebar.vue";
 import LayoutSidebarIsSidebar from "../components/LayoutSidebarIsSidebar.vue";
 import LayoutSidebarNotSidebar from "../components/LayoutSidebarNotSidebar.vue";
 
-const { title, user } = Astro.props;
-
-const isLoggedIn = !(user == null);
+const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
