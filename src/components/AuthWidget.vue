@@ -18,25 +18,6 @@ export default {
 
       console.log(session);
     }
-
-    const vals = window.location.hash
-      .substring(1)
-      .split("&")
-      .map((kv) => kv.split("="));
-
-    const hashParameters = new Map(vals);
-
-    const access_token = hashParameters.get("access_token");
-    const refresh_token = hashParameters.get("refresh_token");
-
-    if (access_token && refresh_token) {
-      const { data: session, error } = await supabase.auth.setSession({
-        access_token: access_token,
-        refresh_token: refresh_token,
-      });
-
-      window.location.href = "/";
-    }
   },
   mounted() {
     document.addEventListener("click", this.outsideClickHandler.bind(this));
