@@ -3,7 +3,7 @@ export default {
   props: {
     justify: String,
     padding: String,
-    gap: String,
+    gap: String
   },
   data() {
     const styles = {};

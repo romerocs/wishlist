@@ -14,3 +14,7 @@ export default {
     <slot />
   </a>
 </template>
+
+<style lang="scss">
+@use "../styles/4-components/button";
+</style>

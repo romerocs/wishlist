@@ -1,5 +1,9 @@
 ---
-//import supabase from "../../utilities/supabase";
+import { getUser } from '../../utilities/auth';
+import supabase from "../../utilities/supabase";
+
+const user = await getUser(Astro.request);
+const isLoggedIn = !(user == null);
 
 import Layout from "../../layouts/Layout.astro";
 
@@ -7,11 +11,11 @@ import ListView from "../../components/ListView.vue";
 
 const url = new URL(Astro.request.url);
 const { pathname } = url;
-const id = pathname.split("/").pop();
+// const id = pathname.split("/").pop();
 // const { data: list, error: error_list } = await supabase.from("lists").select().eq('id', id).limit(1).single();
 // const { data: listItems, error: error_list_items } = await supabase.from("list_items").select("*").eq('list_id', id);
 ---
 
-<Layout title={"title"}>
+<Layout title={"title"} user={user}>
   <!-- <ListView data={listItems} title={list.list_name} client:load></ListView> -->
 </Layout>

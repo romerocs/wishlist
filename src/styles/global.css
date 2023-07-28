@@ -100,6 +100,10 @@ html {
   font-family: var(--body);
 }
 
+body {
+  color: var(--gray-1);
+}
+
 main {
   display: flex;
   min-height: 100vh;
