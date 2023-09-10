@@ -1,21 +1,10 @@
 ---
-export interface Props {
-  title: string;
-  user: object;
-}
 
 import "../styles/index.css";
 
 import TopBar from "../components/TopBar.astro";
-import LayoutCenter from "../components/LayoutCenter.vue";
-import AppSidebarContent from "../components/AppSidebarContent.astro";
-import LayoutSidebar from "../components/LayoutSidebar.vue";
-import LayoutSidebarIsSidebar from "../components/LayoutSidebarIsSidebar.vue";
-import LayoutSidebarNotSidebar from "../components/LayoutSidebarNotSidebar.vue";
 
-const { title, user } = Astro.props;
-
-const isLoggedIn = !(user == null);
+const { title } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -31,55 +20,8 @@ const isLoggedIn = !(user == null);
     <TopBar />
     <main class="app u-width-100%">
       <div class="u-margin-block-start-s12">
-        <LayoutCenter
-          max-width="var(--bp-48)"
-          padding="var(--global-padding)"
-        >
           <slot />
-        </LayoutCenter>
       </div>
-
-      <!-- <LayoutSidebar custom-class="app-sidebar">
-        <LayoutSidebarIsSidebar>
-          <AppSidebarContent />
-        </LayoutSidebarIsSidebar>
-
-        <LayoutSidebarNotSidebar>
-          <div class="u-margin-block-start-s12">
-            <LayoutCenter
-              max-width="var(--bp-48)"
-              padding="var(--global-padding)"
-            >
-              <slot />
-            </LayoutCenter>
-          </div>
-        </LayoutSidebarNotSidebar>
-      </LayoutSidebar> -->
     </main>
-
-    <style>
-      .app > * {
-        width: 100%;
-        gap: 0;
-      }
-
-      .app-sidebar {
-        min-height: 100vh;
-      }
-      .app-sidebar > *:first-child {
-        height: 100%;
-        color: var(--gray-1);
-        background-color: var(--gray-8);
-        padding-inline: var(--global-padding);
-        font-size: var(--s-1);
-      }
-
-      .app-sidebar__button {
-        font-size: var(--s6);
-        text-align: center;
-        padding: var(--s0);
-        width: 100%;
-      }
-    </style>
   </body>
 </html>

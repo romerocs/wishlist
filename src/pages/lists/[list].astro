@@ -1,21 +1,26 @@
 ---
-import { getUser } from '../../utilities/auth';
-import supabase from "../../utilities/supabase";
-
-const user = await getUser(Astro.request);
-const isLoggedIn = !(user == null);
-
 import Layout from "../../layouts/Layout.astro";
 
 import ListView from "../../components/ListView.vue";
+import supabase from "../../utilities/supabase";
 
-const url = new URL(Astro.request.url);
-const { pathname } = url;
-// const id = pathname.split("/").pop();
-// const { data: list, error: error_list } = await supabase.from("lists").select().eq('id', id).limit(1).single();
-// const { data: listItems, error: error_list_items } = await supabase.from("list_items").select("*").eq('list_id', id);
+const { list: id } = Astro.params;
+
+const { data: list, error } = await supabase
+  .from("lists")
+  .select(
+    `
+        *,
+        list_items ( * )
+        `
+  )
+  .limit(1)
+  .eq("id", id)
+  .single();
+
+const title = list.list_name;
 ---
 
-<Layout title={"title"} user={user}>
-  <!-- <ListView data={listItems} title={list.list_name} client:load></ListView> -->
+<Layout title={title}>
+  <ListView client:only="vue" id={Number(id)} list={list} />
 </Layout>

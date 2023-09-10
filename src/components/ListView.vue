@@ -5,13 +5,17 @@ import ListViewItem from "./ListViewItem.vue";
 
 export default {
   props: {
-    title: String,
-    data: Array,
+    id: Number,
+    list: Object
   },
   data() {
     return {
-      items: this.data,
+      name: ""
     };
+  },
+  created() {
+    console.log(this.list);
+    this.name = this.list.list_name;
   },
   components: {
     LayoutStack,
@@ -66,30 +70,11 @@ export default {
 <template>
   <div class="list-view">
     <LayoutStack gap="var(--s6)">
-      <h1>{{ title }}</h1>
-
-      <ListViewFilterSort v-bind:filter="filter" v-bind:sort="sort" />
-
-      <div class="list-view__items">
-          <ListViewItem
-            v-for="item in items"
-            :key="item.id"
-            :title="item.list_item_name"
-            :notes="item.list_item_description"
-            :priority="item.list_item_priority"
-            :needs="item.needs"
-            :url="item.list_item_url"
-            :price="item.list_item_price"
-          />
-      </div>
+      <h1>{{name}}</h1>
     </LayoutStack>
   </div>
 </template>
 
 <style>
-.list-view__items {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--s5);
-}
+
 </style>

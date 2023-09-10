@@ -59,5 +59,8 @@ $sizes: (
 
 $globals: (
   "vertical-rhythm": var(--s0),
-  "global-padding": var(--s6)
+  "global-padding": var(--s6),
+  gap-action-inputs-column: var(--s0),
+  padding-inline-app-item: var(--s8),
+  padding-input: var(--s-2)
 );

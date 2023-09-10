@@ -92,7 +92,7 @@ h3 {
   display: inline-flex;
   gap: var(--s-4);
   margin-left: auto;
-  background-color: var(--hotpink-1);
+  background-color: var(--hotpink-70);
 }
 
 .link:active {

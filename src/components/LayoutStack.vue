@@ -1,32 +1,24 @@
 <script>
 export default {
   props: {
-    gap: String
-  },
-  data() {
-    const styles = {};
-
-    if (this.gap) {
-      styles["--st-gap"] = this.gap;
-    }
-
-    return {
-      styleObject: styles,
-    };
-  },
+    gap: {
+      type: String,
+      default: "var(--vertical-rhythm)"
+    },
+  }
 };
 </script>
 <template>
-  <div class="l-stack" :style="styleObject">
+  <div class="l-stack">
     <slot />
   </div>
 </template>
 
 <style>
-  .l-stack {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: var(--st-gap, var(--s0));
-  }
+.l-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: v-bind(gap);
+}
 </style>

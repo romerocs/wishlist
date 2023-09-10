@@ -3,32 +3,76 @@
 <script>
 import supabase from "../utilities/supabase";
 
+import LayoutStack from "./LayoutStack.vue";
+import LayoutCluster from "./LayoutCluster.vue";
+import SVGPencil from "./SVGPencil.vue";
+import SVGTrash from "./SVGTrash.vue";
+import SVGArrowRight from "./SVGArrowRight.vue";
+import SVGPlus from "./SVGPlus.vue";
+import ButtonAction from "./ButtonAction.vue";
+import ListMenuItem from "./ListMenuItem.vue";
+import Modal from "./Modal.vue";
+
 export default {
+  components: {
+    ButtonAction,
+    LayoutCluster,
+    LayoutStack,
+    ListMenuItem,
+    Modal,
+    SVGArrowRight,
+    SVGPencil,
+    SVGPlus,
+    SVGTrash,
+  },
   props: {
     data: Array,
+    url: String,
   },
   data() {
     return {
       lists: [],
       listName: "",
+      editListIndex: 0,
     };
   },
   async created() {
-    this.lists = this.data;
-
-    // const { data: { user } } = await supabase.auth.getUser();
-    // console.log(user);
-    //this.getLists();
+    this.getLists();
   },
   methods: {
     async getLists() {
-      const { data: lists, error } = await supabase.from("lists").select("*");
+      const { data: lists, error } = await supabase.from("lists").select(`
+        *,
+        list_items ( * )
+        `);
 
       const finalRes = lists;
 
       this.lists = [...finalRes];
+
+      sessionStorage.setItem("lists", JSON.stringify(this.lists));
+    },
+    async editList() {
+      const list = this.lists[this.editListIndex];
+      const { id } = list;
+
+      const { data, error } = await supabase
+        .from("lists")
+        .update({ list_name: this.listName })
+        .eq("id", id);
+
+      if (!error) {
+        //loading animation here.
+        list.list_name = this.listName;
+        this.lists[this.editListIndex] = list;
+      } else {
+        //output message to alert bar maybe?
+        //or log it somehow
+        console.log(error);
+      }
     },
     async addList(event) {
+      //TODO: ENSURE LIST NAME IS NOT EMPTY!!
       const { data, error } = await supabase
         .from("lists")
         .insert([{ list_name: this.listName }])
@@ -38,107 +82,116 @@ export default {
 
       this.lists = [...this.lists, ...data];
     },
-    async deleteList(event) {
-      const { id } = event.target;
-
-      const { data: list_items, error: error_list_items } = await supabase
-        .from("list_items")
-        .delete()
-        .eq("list_id", id);
-
-      console.log(error_list_items);
-
+    async deleteList(id) {
+      //ask to confirm before deleting, using modal
       const { data, error } = await supabase
         .from("lists")
         .delete()
         .eq("id", id);
 
-      console.log(error);
-      // const finalRes = data;
+      if (!error) {
+        //loading animation here.
+        const index = this.lists.findIndex((list) => id === list.id);
+        this.lists.splice(index, 1);
+      } else {
+        //output message to alert bar maybe?
+        //or log it somehow
+        console.log(error);
+      }
+    },
+    openEditListModal(listIndex) {
+      this.editListIndex = listIndex;
+      this.listName = this.lists[listIndex].list_name;
+      this.$refs.editListModal.$el.showModal();
+    },
+    openAddListModal() {
+      this.$refs.addListModal.$el.showModal();
+    },
+    openDeleteListModal(listIndex) {
+      this.editListIndex = listIndex;
+      this.listName = this.lists[listIndex].list_name;
 
-      //this.lists = [...this.lists, ...data];
-      this.lists = [...this.lists];
-    },
-    openModal() {
-      this.$refs.modal.showModal();
-      this.$refs.listNameInput.focus();
-    },
-    closeModal() {
-      this.$refs.modal.close();
+      this.$refs.deleteListModal.$el.showModal();
     },
   },
 };
 </script>
 <template>
-  <dialog ref="modal">
-    <button @click="closeModal">Close</button>
-    <input type="text" v-model="listName" ref="listNameInput" />
-    <button @click="addList">Add List</button>
-  </dialog>
+  <Modal ref="addListModal">
+    <LayoutStack gap="var(--s4)">
+      <input v-model="listName" />
+      <button class="button" @click="addList">Add List</button>
+    </LayoutStack>
+  </Modal>
+  <Modal ref="editListModal">
+    <LayoutStack gap="var(--s4)">
+      <input v-model="listName" />
+      <button class="button" @click="editList">Save</button>
+    </LayoutStack>
+  </Modal>
+  <Modal ref="deleteListModal">
+    <LayoutStack gap="var(--s4)" style="text-align: center">
+      <p>
+        Delete <b>{{ listName }}</b
+        >?
+      </p>
+      <button class="button" @click="deleteList"><SVGTrash /></button>
+    </LayoutStack>
+  </Modal>
 
   <nav class="list-navigation" v-if="lists.length">
-    <ul role="list" v-for="(list, index) in lists" :key="index">
-      <li>
-        <a :href="'\/lists\/' + list.id">{{ list.list_name }}</a>
-        <button @click="deleteList" ref="deleteButton" v-bind:id="list.id">
-          Delete
-        </button>
-      </li>
-    </ul>
+    <LayoutStack gap="var(--s-2)">
+      <div v-for="(list, index) in lists" :key="index">
+        <ListMenuItem
+          @delete="openDeleteListModal"
+          @edit="openEditListModal"
+          :name="list.list_name"
+          :id="list.id"
+          :list-items="list.list_items"
+          :index="index"
+        />
+      </div>
+
+      <button class="btn-add-list" @click="openAddListModal">
+        <LayoutCluster justify="center">
+          <span>Add List</span>
+          <SVGPlus />
+        </LayoutCluster>
+      </button>
+    </LayoutStack>
   </nav>
-  <button @click="openModal">Add List</button>
 </template>
 
 <style>
-.list-navigation {
-  min-width: 15.625rem;
-}
-
-.list-navigation > *:before,
-.list-navigation > *:after {
-  content: "";
-  width: 100%;
-  height: 1px;
-  display: block;
-}
-
-.list-navigation > *:before {
-  transform: translateY(-2px);
-}
-
-.list-navigation > * {
-  margin: 0;
-  padding: 0;
-}
-
-.list-navigation a {
-  color: var(--gray-1);
+.btn-add-list {
+  color: var(--gray-50);
+  line-height: 1;
   font-weight: 700;
-  text-decoration: none;
-  display: block;
-  width: 100%;
-  padding: var(--s-3) var(--s10) var(--s-3) var(--s0);
-  background: linear-gradient(
-    90deg,
-    hsl(90deg 100% 44%) 0%,
-    hsl(88deg 100% 44%) 21%,
-    hsl(87deg 100% 44%) 30%,
-    hsl(86deg 100% 44%) 39%,
-    hsl(84deg 100% 44%) 46%,
-    hsl(83deg 100% 44%) 54%,
-    hsl(82deg 100% 44%) 61%,
-    hsl(80deg 100% 44%) 69%,
-    hsl(79deg 100% 44%) 79%,
-    hsl(78deg 100% 44%) 100%
-  );
-  border-radius: var(--border-radius-2x);
+  text-transform: uppercase;
+  font-size: var(--s-2);
+  padding: var(--padding-input);
+  border: 1px dashed var(--color-hollow-button-border);
+  border-radius: var(--border-radius-app-item);
+  box-shadow: var(--box-shadow-app-item) var(--color-app-item-shadow);
+  transition: all 200ms linear;
 }
 
-.list-navigation > * > *:not(:first-child):before {
-  content: "";
-  width: 100%;
-  height: 1px;
-  display: block;
-  transform: translateY(-2px);
+.btn-add-list:hover {
+  color: var(--gray-65);
+  box-shadow: var(--box-shadow-app-item) var(--gray-35);
+}
+
+.indicator {
+  margin-right: auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 22px;
+  background-color: var(--gray-15);
+  color: var(--gray-65);
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--s-2);
 }
 </style>

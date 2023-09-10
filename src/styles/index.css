@@ -6,28 +6,35 @@
 */
 /* prettier-ignore */
 :root {
-  --green-1: hsl(148, 100%, 15%);
-  --green-2: hsl(120, 100%, 20%);
-  --green-3: hsl(120, 100%, 22%);
-  --green-4: hsl(120, 100%, 25%);
-  --green-5: hsl(101, 100%, 35%);
-  --green-6: hsl(90, 100%, 44%);
-  --green-7: hsl(83, 88%, 52%);
-  --green-8: hsl(75, 100%, 60%);
-  --green-9: hsl(74, 71%, 92%);
-  --gray-1: hsl(210, 11%, 15%);
-  --gray-2: hsl(210, 10%, 23%);
-  --gray-3: hsl(210, 9%, 31%);
-  --gray-4: hsl(208, 7%, 46%);
-  --gray-5: hsl(210, 11%, 71%);
-  --gray-6: hsl(210, 14%, 83%);
-  --gray-7: hsl(210, 14%, 89%);
-  --gray-8: hsl(210, 16%, 93%);
-  --gray-9: hsl(210, 17%, 98%);
-  --hotpink-1: hsl(333, 93%, 70%);
-  --priority-high: hsl(90, 100%, 44%);
-  --priority-medium: hsl(90, 83%, 80%);
-  --priority-low: hsl(90, 70%, 95%);
+  --white: rgb(255, 255, 255);
+  --gray-h: 120;
+  --gray-s: 5%;
+  --gray-l: 15%;
+  --gray-85: hsl(var(--gray-h), var(--gray-s), var(--gray-l));
+  --gray-75: hsl(var(--gray-h), var(--gray-s), 25%);
+  --gray-65: hsl(var(--gray-h), var(--gray-s), 35%);
+  --gray-50: hsl(var(--gray-h), var(--gray-s), 50%);
+  --gray-35: hsl(var(--gray-h), var(--gray-s), 65%);
+  --gray-25: hsl(var(--gray-h), var(--gray-s), 75%);
+  --gray-15: hsl(var(--gray-h), var(--gray-s), 85%);
+  --gray-5: hsl(var(--gray-h), var(--gray-s), 95%);
+  --gray-3: hsl(var(--gray-h), var(--gray-s), 97%);
+  --lime-green: hsl(90, 100%, 40%);
+  --grass-green: hsl(101, 100%, 35%);
+  --hunter-green: hsl(120, 100%, 25%);
+  --hotpink-70: hsl(333, 93%, 70%);
+  --hotpink-80: hsl(333, 93%, 80%);
+  --hotpink-90: hsl(333, 93%, 90%);
+  --color-text: var(--gray-65);
+  --primary-color: var(--hotpink-70);
+  --secondary-color: var(--grass-green);
+  --color-filled-button-text: var(--gray-75);
+  --color-filled-button-background: var(--hotpink-70);
+  --color-hollow-button-text: var(--gray-65);
+  --color-app-item-border: var(--gray-25);
+  --color-hollow-button-border: var(--gray-15);
+  --color-app-item-background: var(--gray-3);
+  --color-app-item-shadow: var(--gray-25);
 }
 
 :root {
@@ -78,20 +85,18 @@
 :root {
   --vertical-rhythm: var(--s0);
   --global-padding: var(--s6);
+  --gap-action-inputs-column: var(--s0);
+  --padding-inline-app-item: var(--s8);
+  --padding-input: var(--s-2);
 }
 
 :root {
-  --border-radius-1x: 4px;
-  --border-radius-2x: 8px;
-  --border-radius-3x: 16px;
-  --border-radius-4x: 32px;
+  --border-radius-app-item: 16px;
+  --border-radius-button: 6px;
 }
 
 :root {
-  --shadow-color: 210deg 9% 31%;
-  --shadow-elevation-low: 0.3px 0.5px 0.7px hsl(var(--shadow-color)/0.34), 0.4px 0.8px 1px -1.2px hsl(var(--shadow-color)/0.34), 1px 2px 2.5px -2.5px hsl(var(--shadow-color)/0.34);
-  --shadow-elevation-medium: 0.3px 0.5px 0.7px hsl(var(--shadow-color)/0.36), 0.8px 1.6px 2px -0.8px hsl(var(--shadow-color)/0.36), 2.1px 4.1px 5.2px -1.7px hsl(var(--shadow-color)/0.36), 5px 10px 12.6px -2.5px hsl(var(--shadow-color)/0.36);
-  --shadow-elevation-high: 0.3px 0.5px 0.7px hsl(var(--shadow-color)/0.34), 1.5px 2.9px 3.7px -0.4px hsl(var(--shadow-color)/0.34), 2.7px 5.4px 6.8px -0.7px hsl(var(--shadow-color)/0.34), 4.5px 8.9px 11.2px -1.1px hsl(var(--shadow-color)/0.34), 7.1px 14.3px 18px -1.4px hsl(var(--shadow-color)/0.34), 11.2px 22.3px 28.1px -1.8px hsl(var(--shadow-color)/0.34), 17px 33.9px 42.7px -2.1px hsl(var(--shadow-color)/0.34), 25px 50px 62.9px -2.5px hsl(var(--shadow-color)/0.34);
+  --box-shadow-app-item: 0px 2px 3px 0px;
 }
 
 /* Box sizing rules */
@@ -201,7 +206,6 @@ body {
 }
 
 main {
-  display: flex;
   min-height: 100vh;
 }
 
@@ -209,6 +213,12 @@ button {
   color: inherit;
   text-align: inherit;
   display: block;
+  line-height: 1;
+}
+
+input {
+  border: 1px solid var(--color-app-item-border);
+  padding: var(--padding-input);
 }
 
 select {
