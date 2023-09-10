@@ -34,6 +34,7 @@ export default {
       lists: [],
       listName: "",
       editListIndex: 0,
+      deleteListIndex: 0,
     };
   },
   async created() {
@@ -82,17 +83,20 @@ export default {
 
       this.lists = [...this.lists, ...data];
     },
-    async deleteList(id) {
+    async deleteList() {
+      const list = this.lists[this.deleteListIndex];
+      const { id } = list;
+
       //ask to confirm before deleting, using modal
       const { data, error } = await supabase
         .from("lists")
         .delete()
         .eq("id", id);
+        
 
       if (!error) {
         //loading animation here.
-        const index = this.lists.findIndex((list) => id === list.id);
-        this.lists.splice(index, 1);
+        this.lists.splice(this.deleteListIndex, 1);
       } else {
         //output message to alert bar maybe?
         //or log it somehow
@@ -108,7 +112,7 @@ export default {
       this.$refs.addListModal.$el.showModal();
     },
     openDeleteListModal(listIndex) {
-      this.editListIndex = listIndex;
+      this.deleteListIndex = listIndex;
       this.listName = this.lists[listIndex].list_name;
 
       this.$refs.deleteListModal.$el.showModal();
