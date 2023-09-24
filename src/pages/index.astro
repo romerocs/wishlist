@@ -2,12 +2,17 @@
 import { url } from "../utilities/vars";
 import Layout from "../layouts/Layout.astro";
 import ListMenu from "../components/ListMenu.vue";
-
+import supabase from "../utilities/supabase";
 import LayoutCenter from "../components/LayoutCenter.vue";
+
+const { data: lists, error } = await supabase.from("lists").select(`
+        *,
+        list_items ( * )
+        `);
 ---
 
 <Layout title="Wishlist">
   <LayoutCenter maxWidth="var(--bp-40)">
-    <ListMenu client:only="vue" url={url} />
+    <ListMenu client:only="vue" url={url} lists_server_side={lists} />
   </LayoutCenter>
 </Layout>

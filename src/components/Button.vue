@@ -10,11 +10,11 @@ export default {
 };
 </script>
 <template>
-  <a class="button" v-bind:href="url">
+  <button class="button" v-bind:href="url">
     <slot />
-  </a>
+  </button>
 </template>
 
 <style lang="scss">
-@use "../styles/4-components/button";
+  @use "../styles/4-components/Button";
 </style>

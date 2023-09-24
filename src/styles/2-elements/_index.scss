@@ -15,11 +15,21 @@ button {
   text-align: inherit;
   display: block;
   line-height: 1;
+  cursor: pointer;
 }
 
-input {
-  border: 1px solid var(--color-app-item-border);
+input, textarea, [role='textbox'] {
+  border: 1px solid var(--gray-25);
   padding: var(--padding-input);
+  width: 100%;
+}
+
+::placeholder {
+  color: var(--gray-50);
+}
+
+textarea {
+  form-sizing: normal
 }
 
 select {

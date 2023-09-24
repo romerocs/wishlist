@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-
+import LayoutCenter from "../../components/LayoutCenter.vue";
 import ListView from "../../components/ListView.vue";
 import supabase from "../../utilities/supabase";
 
@@ -22,5 +22,9 @@ const title = list.list_name;
 ---
 
 <Layout title={title}>
-  <ListView client:only="vue" id={Number(id)} list={list} />
+  <main style="margin-bottom: var(--s12);">
+    <LayoutCenter maxWidth="var(--bp-40)">
+      <ListView client:only="vue" id={Number(id)} list={list} />
+    </LayoutCenter>
+  </main>
 </Layout>

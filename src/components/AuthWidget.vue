@@ -124,8 +124,7 @@ export default {
   </div>
 </template>
 
-<style lang="scss">
-@use "../styles/4-components/button";
+<style>
 
 .widget {
   position: relative;

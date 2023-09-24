@@ -1,4 +1,6 @@
 $border-radius: (
-  app-item: 16px,
-  button: 6px,
+  "1x" : 4px,
+  "2x" : 8px,
+  "3x" : 16px,
+  "button": var(--border-radius-2x)
 );

@@ -1,103 +1,133 @@
 <script>
-import LayoutCluster from "./LayoutCluster.vue";
+import supabase from "../utilities/supabase";
 import LayoutStack from "./LayoutStack.vue";
-import ButtonLink from "./ButtonLink.vue";
+import LayoutCluster from "./LayoutCluster.vue";
+import AppItem from "./AppItem.vue";
+import ButtonDelete from "./ButtonDelete.vue";
+import ButtonEdit from "./ButtonEdit.vue";
 import SVGArrowRight from "./SVGArrowRight.vue";
-import SVGInfo from "./SVGInfo.vue";
 
 export default {
   props: {
-    title: String,
-    notes: String,
-    priority: String,
-    needs: Number,
-    url: String,
-    price: String,
-  },
-  components: {
-    ButtonLink,
-    SVGArrowRight,
-    SVGInfo,
-    LayoutCluster,
-    LayoutStack,
-    LayoutStack
+    item: Object,
+    index: Number,
   },
   data() {
-    const bgColor = `var(--priority-${this.priority.toLowerCase()})`;
+    const priority_label = this.item.list_item_is_priority
+      ? "You really want this"
+      : "You kinda want this";
 
     return {
-      bgColor: bgColor,
+      id: this.item.id,
+      name: this.item.list_item_name,
+      description: this.item.list_item_description,
+      url: this.item.list_item_url,
+      is_priority: this.item.list_item_is_priority,
+      priority_label: priority_label,
+      price: this.item.list_item_price,
     };
-  }
+  },
+  components: {
+    LayoutStack,
+    LayoutCluster,
+    AppItem,
+    ButtonDelete,
+    ButtonEdit,
+    SVGArrowRight,
+  },
+  methods: {
+    async togglePriority() {
+      const { data, error } = await supabase
+        .from("list_items")
+        .update({ list_item_is_priority: !this.is_priority })
+        .eq("id", this.id);
+
+      if (!error) {
+        //loading animation here.
+        this.is_priority = !this.is_priority;
+      } else {
+        //output message to alert bar maybe?
+        //or log it somehow
+        console.log(error);
+      }
+    },
+  },
 };
 </script>
 
 <template>
-  <div class="list-item">
-    <LayoutStack>
-      <LayoutCluster justify="space-between">
-        <div class="priority">{{ priority }}</div>
-        
-        <div class="info"><SVGInfo /></div>
+  <AppItem class="list-item">
+    <header>
+      <LayoutCluster>
+        <button
+          @click="togglePriority"
+          class="priority-toggle"
+          role="switch"
+          :aria-checked="is_priority"
+          type="button"
+          :aria-label="priority_label"
+        ></button>
+
+        <ButtonEdit @click="$emit('edit', index)" />
+        <ButtonDelete @click="$emit('delete', index)" />
       </LayoutCluster>
+    </header>
+    <div class="body">
+      <LayoutStack>
+        <h2>{{ name }}</h2>
+        <p v-if="description">
+          {{ description }}
+        </p>
 
-      <LayoutStack gap="var(--s5)">
-
-        <h3>{{ title }}</h3>
-
-        <a class="link" :style="{ marginTop: 'auto'}" :href="url" v-if="url">
-          <span v-if="price">{{ price }}</span> <SVGArrowRight />
+        <a
+          v-if="url"
+          :href="url"
+          class="button price-button"
+          style="margin-right: auto"
+        >
+          <span v-if="price">${{ price }}</span>
+          <SVGArrowRight style="translate: 0 2px" />
         </a>
-        <div v-else-if="price">
-          {{ price }}
-        </div>
       </LayoutStack>
-    </LayoutStack>
-  </div>
+    </div>
+  </AppItem>
 </template>
 
-<style scoped>
-.list-item {
-  border: 1px solid var(--gray);
-  padding: var(--s0);
-  border-radius: var(--border-radius-2x);
-  background-color: v-bind(bgColor);
-  padding: var(--s8);
-  aspect-ratio: 1 / 1;
-}
-
-.list-item :deep(.l-stack) {
-  height: 100%;
-}
-
-h3 {
-  font-size: var(--s8);
-  line-height: 1.07;
-}
-
-.priority {
-  text-transform: uppercase;
+<style>
+.list-item header {
   line-height: 1;
-  letter-spacing: 1.1px;
-  font-size: var(--s-1);
+  padding: var(--s1) var(--app-item-inline-padding);
+  border-bottom: 1px solid var(--app-item-border-color);
 }
 
-.link {
-  border: 3px solid var(--gray-1);
-  text-decoration: none;
-  border-bottom-width: 6px;
-  padding: 8px 20px;
-  border-radius: 30px;
-  font-weight: 700;
-  display: inline-flex;
-  gap: var(--s-4);
-  margin-left: auto;
+.list-item .body {
+  padding: var(--s6) var(--app-item-inline-padding);
+}
+
+.price-button {
+  display: flex;
+  align-items: baseline;
+  line-height: 1;
+  gap: 10px;
+}
+
+.priority-toggle {
+  width: 22px;
+  aspect-ratio: 1 / 1;
+  border: 2px solid var(--white);
+  border-radius: 22px;
+  outline: 2px solid var(--gray-15);
+  background-color: var(--gray-15);
+  transition: all 100ms linear;
+}
+
+.priority-toggle[aria-checked="true"] {
+  outline: 2px solid var(--gray-35);
   background-color: var(--hotpink-70);
+  background: radial-gradient(
+    circle,
+    rgba(250, 107, 171, 1) 60%,
+    rgba(123, 4, 58, 1) 100%
+  );
 }
-
-.link:active {
-  color: inherit;
-  border-bottom-width: 3px;
-}
-
 </style>

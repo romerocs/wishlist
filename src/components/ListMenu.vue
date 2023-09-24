@@ -3,19 +3,18 @@
 <script>
 import supabase from "../utilities/supabase";
 
+import Button from "./Button.vue";
 import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
 import SVGPencil from "./SVGPencil.vue";
 import SVGTrash from "./SVGTrash.vue";
 import SVGArrowRight from "./SVGArrowRight.vue";
 import SVGPlus from "./SVGPlus.vue";
-import ButtonAction from "./ButtonAction.vue";
 import ListMenuItem from "./ListMenuItem.vue";
 import Modal from "./Modal.vue";
 
 export default {
   components: {
-    ButtonAction,
     LayoutCluster,
     LayoutStack,
     ListMenuItem,
@@ -24,35 +23,21 @@ export default {
     SVGPencil,
     SVGPlus,
     SVGTrash,
+    Button
   },
   props: {
-    data: Array,
+    lists_server_side: Array,
     url: String,
   },
   data() {
     return {
-      lists: [],
+      lists: this.lists_server_side,
       listName: "",
       editListIndex: 0,
       deleteListIndex: 0,
     };
   },
-  async created() {
-    this.getLists();
-  },
   methods: {
-    async getLists() {
-      const { data: lists, error } = await supabase.from("lists").select(`
-        *,
-        list_items ( * )
-        `);
-
-      const finalRes = lists;
-
-      this.lists = [...finalRes];
-
-      sessionStorage.setItem("lists", JSON.stringify(this.lists));
-    },
     async editList() {
       const list = this.lists[this.editListIndex];
       const { id } = list;
@@ -109,6 +94,7 @@ export default {
       this.$refs.editListModal.$el.showModal();
     },
     openAddListModal() {
+      this.listName = "";
       this.$refs.addListModal.$el.showModal();
     },
     openDeleteListModal(listIndex) {
@@ -143,8 +129,15 @@ export default {
     </LayoutStack>
   </Modal>
 
+  
   <nav class="list-navigation" v-if="lists.length">
     <LayoutStack gap="var(--s-2)">
+            <Button @click="openAddListModal" style="margin-left: auto;">
+        <LayoutCluster justify="center">
+          <span>Add List</span>
+          <SVGPlus />
+        </LayoutCluster>
+      </Button>
       <div v-for="(list, index) in lists" :key="index">
         <ListMenuItem
           @delete="openDeleteListModal"
@@ -156,12 +149,6 @@ export default {
         />
       </div>
 
-      <button class="btn-add-list" @click="openAddListModal">
-        <LayoutCluster justify="center">
-          <span>Add List</span>
-          <SVGPlus />
-        </LayoutCluster>
-      </button>
     </LayoutStack>
   </nav>
 </template>
@@ -175,7 +162,7 @@ export default {
   font-size: var(--s-2);
   padding: var(--padding-input);
   border: 1px dashed var(--color-hollow-button-border);
-  border-radius: var(--border-radius-app-item);
+  border-radius: var(--border-radius-2x);
   box-shadow: var(--box-shadow-app-item) var(--color-app-item-shadow);
   transition: all 200ms linear;
 }

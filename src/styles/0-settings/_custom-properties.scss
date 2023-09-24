@@ -1,3 +1,4 @@
+@use "./backgrounds" as *;
 @use "./breakpoints" as *;
 @use "./border-radius" as *;
 @use "./colors" as *;
@@ -8,6 +9,12 @@
 :root {
   @each $color, $hex in $colors {
     --#{$color}: #{$hex};
+  }
+}
+
+:root {
+  @each $name, $value in $backgrounds {
+    --#{$name}: #{$value};
   }
 }
 
@@ -43,6 +50,6 @@
 
 :root {
   @each $name, $value in $shadows {
-    --#{$name}: #{$value};
+    --box-shadow-#{$name}: #{$value};
   }
 }

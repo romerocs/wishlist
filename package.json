@@ -3,26 +3,19 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "sass:dev": "./node_modules/.bin/sass ./src/styles/index.scss ./src/styles/index.css --watch",
-    "sass:prod": "./node_modules/.bin/sass ./src/styles/index.scss ./src/styles/index.css",
-    "sass:global:dev": "./node_modules/.bin/sass ./src/styles/global.scss ./src/styles/global.css --watch",
-    "sass:global:prod": "./node_modules/.bin/sass ./src/styles/global.scss ./src/styles/global.css",
     "dev": "astro dev",
-    "start": "npm run sass:dev & npm run sass:global:dev & astro dev",
-    "build": "npm run sass:prod && npm run sass:global:prod && astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "markdown": "node ./tasks/add-image-to-markdown.js"
+    "start": "astro dev",
+    "build": "astro build"
   },
   "devDependencies": {
-    "@astrojs/netlify": "^2.5.0",
-    "astro": "^2.8.3",
+    "@astrojs/netlify": "^3.0.1",
+    "astro": "^3.0.0",
     "gray-matter": "^4.0.3",
     "netlify-cli": "^15.8.1",
     "sass": "^1.63.6"
   },
   "dependencies": {
-    "@astrojs/vue": "^2.2.1",
+    "@astrojs/vue": "^3.0.0",
     "@supabase/supabase-js": "^2.29.0",
     "@vueuse/core": "^10.2.1",
     "cookie": "^0.5.0",
