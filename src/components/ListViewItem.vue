@@ -10,7 +10,13 @@ import SVGArrowRight from "./SVGArrowRight.vue";
 export default {
   props: {
     item: Object,
+    id: Number,
     index: Number,
+    name: String,
+    description: String,
+    url: String,
+    is_priority: Boolean,
+    price: Number,
   },
   data() {
     const priority_label = this.item.list_item_is_priority
@@ -18,13 +24,8 @@ export default {
       : "You kinda want this";
 
     return {
-      id: this.item.id,
-      name: this.item.list_item_name,
-      description: this.item.list_item_description,
-      url: this.item.list_item_url,
-      is_priority: this.item.list_item_is_priority,
-      priority_label: priority_label,
-      price: this.item.list_item_price,
+      isPriority: this.is_priority,
+      priority_label: priority_label
     };
   },
   components: {
@@ -39,12 +40,13 @@ export default {
     async togglePriority() {
       const { data, error } = await supabase
         .from("list_items")
-        .update({ list_item_is_priority: !this.is_priority })
+        .update({ list_item_is_priority: !this.isPriority })
         .eq("id", this.id);
+
 
       if (!error) {
         //loading animation here.
-        this.is_priority = !this.is_priority;
+        this.isPriority = !this.isPriority;
       } else {
         //output message to alert bar maybe?
         //or log it somehow
@@ -63,7 +65,7 @@ export default {
           @click="togglePriority"
           class="priority-toggle"
           role="switch"
-          :aria-checked="is_priority"
+          :aria-checked="isPriority"
           type="button"
           :aria-label="priority_label"
         ></button>

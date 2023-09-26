@@ -16,7 +16,7 @@ export default {
 <template>
   <ActionItem>
     <a :href="url">
-      <SVGArrowRight width="10" />
+      <SVGArrowRight :width="10" />
     </a>
   </ActionItem>
 </template>

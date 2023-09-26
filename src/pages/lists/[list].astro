@@ -24,7 +24,7 @@ const title = list.list_name;
 <Layout title={title}>
   <main style="margin-bottom: var(--s12);">
     <LayoutCenter maxWidth="var(--bp-40)">
-      <ListView client:only="vue" id={Number(id)} list={list} />
+      <ListView client:only="vue" id={Number(id)} list={list} list_items={list.list_items} />
     </LayoutCenter>
   </main>
 </Layout>

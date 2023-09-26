@@ -23,7 +23,7 @@ export default {
     SVGPencil,
     SVGPlus,
     SVGTrash,
-    Button
+    Button,
   },
   props: {
     lists_server_side: Array,
@@ -51,6 +51,7 @@ export default {
         //loading animation here.
         list.list_name = this.listName;
         this.lists[this.editListIndex] = list;
+        this.$refs.editListModal.$el.close();
       } else {
         //output message to alert bar maybe?
         //or log it somehow
@@ -67,6 +68,7 @@ export default {
       const finalRes = data;
 
       this.lists = [...this.lists, ...data];
+      this.$refs.addListModal.$el.close();
     },
     async deleteList() {
       const list = this.lists[this.deleteListIndex];
@@ -77,11 +79,11 @@ export default {
         .from("lists")
         .delete()
         .eq("id", id);
-        
 
       if (!error) {
         //loading animation here.
         this.lists.splice(this.deleteListIndex, 1);
+        this.$refs.deleteListModal.$el.close();
       } else {
         //output message to alert bar maybe?
         //or log it somehow
@@ -129,10 +131,9 @@ export default {
     </LayoutStack>
   </Modal>
 
-  
   <nav class="list-navigation" v-if="lists.length">
     <LayoutStack gap="var(--s-2)">
-            <Button @click="openAddListModal" style="margin-left: auto;">
+      <Button @click="openAddListModal" style="margin-left: auto">
         <LayoutCluster justify="center">
           <span>Add List</span>
           <SVGPlus />
@@ -148,7 +149,6 @@ export default {
           :index="index"
         />
       </div>
-
     </LayoutStack>
   </nav>
 </template>
