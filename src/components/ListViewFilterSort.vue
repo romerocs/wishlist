@@ -47,7 +47,6 @@ export default {
 <style lang="scss">
 .select {
   position: relative;
-  --select-arrow: url("/images/chevron.svg");
   display: grid;
   grid-template-areas: "select";
   align-items: center;
