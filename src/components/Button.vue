@@ -16,5 +16,5 @@ export default {
 </template>
 
 <style lang="scss">
-  @import "../styles/4-components/_Button.scss";
+  @use "../styles/4-components/button";
 </style>
