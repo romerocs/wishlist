@@ -241,7 +241,9 @@ export default {
   </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
+@use "../styles/4-components/button";
+
 .price {
   position: relative;
 }
