@@ -19,13 +19,14 @@ export default {
     ActionItem,
     ButtonDelete,
     ButtonEdit,
-    ButtonLinkList
+    ButtonLinkList,
   },
   props: {
     name: String,
     id: Number,
     listItems: Object,
     index: Number,
+    logged_in: Boolean
   },
   data() {
     return {
@@ -49,8 +50,8 @@ export default {
       <div class="indicator">{{ itemCount }}</div>
 
       <LayoutCluster>
-        <ButtonEdit @click="$emit('edit', index)" />
-        <ButtonDelete @click="$emit('delete', index)" />
+        <ButtonEdit v-if="logged_in" @click="$emit('edit', index)" />
+        <ButtonDelete v-if="logged_in" @click="$emit('delete', index)" />
         <ButtonLinkList :url="url" />
       </LayoutCluster>
     </LayoutCluster>

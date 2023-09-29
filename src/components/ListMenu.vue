@@ -2,7 +2,7 @@
 <!-- TODO: CHECK IF LIST NAME ALREADY EXISTS BEFORE ADDING -->
 <script>
 import supabase from "../utilities/supabase";
-
+import { store } from "./_store";
 import Button from "./Button.vue";
 import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
@@ -29,12 +29,21 @@ export default {
     lists_server_side: Array,
     url: String,
   },
+  async created() {
+    const { data, error } = await supabase.auth.getSession();
+    const { session } = data;
+
+    this.logged_in = Boolean(session);
+
+    store.logged_in = this.logged_in;
+  },
   data() {
     return {
       lists: this.lists_server_side,
       listName: "",
       editListIndex: 0,
       deleteListIndex: 0,
+      logged_in: false
     };
   },
   methods: {
@@ -111,13 +120,13 @@ export default {
 <template>
   <Modal ref="addListModal">
     <LayoutStack gap="var(--s4)">
-      <input v-model="listName" />
+      <input v-model="listName" placeholder="Bright copper kettle" />
       <button class="button" @click="addList">Add List</button>
     </LayoutStack>
   </Modal>
   <Modal ref="editListModal">
     <LayoutStack gap="var(--s4)">
-      <input v-model="listName" />
+      <input v-model="listName" placeholder="Raindrops on roses" />
       <button class="button" @click="editList">Save</button>
     </LayoutStack>
   </Modal>
@@ -133,7 +142,7 @@ export default {
 
   <nav class="list-navigation" v-if="lists.length">
     <LayoutStack gap="var(--s-2)">
-      <Button @click="openAddListModal" style="margin-left: auto">
+      <Button v-if="logged_in" @click="openAddListModal" style="margin-left: auto">
         <LayoutCluster justify="center">
           <span>Add List</span>
           <SVGPlus />
@@ -147,6 +156,7 @@ export default {
           :id="list.id"
           :list-items="list.list_items"
           :index="index"
+          :logged_in="logged_in"
         />
       </div>
     </LayoutStack>

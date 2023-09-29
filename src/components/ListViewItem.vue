@@ -1,13 +1,14 @@
 <script>
-import supabase from "../utilities/supabase";
 import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
 import AppItem from "./AppItem.vue";
 import ButtonDelete from "./ButtonDelete.vue";
 import ButtonEdit from "./ButtonEdit.vue";
 import SVGArrowRight from "./SVGArrowRight.vue";
+import PriorityToggle from "./PriorityToggle.vue";
 
 export default {
+  emits: ['edit', 'delete', 'priority'],
   props: {
     item: Object,
     id: Number,
@@ -17,58 +18,30 @@ export default {
     url: String,
     is_priority: Boolean,
     price: Number,
+    logged_in: Boolean
   },
   data() {
-    const priority_label = this.item.list_item_is_priority
-      ? "You really want this"
-      : "You kinda want this";
-
     return {
-      isPriority: this.is_priority,
-      priority_label: priority_label
+      isPriority: this.is_priority
     };
   },
   components: {
-    LayoutStack,
-    LayoutCluster,
     AppItem,
     ButtonDelete,
     ButtonEdit,
+    LayoutCluster,
+    LayoutStack,
+    PriorityToggle,
     SVGArrowRight,
-  },
-  methods: {
-    async togglePriority() {
-      const { data, error } = await supabase
-        .from("list_items")
-        .update({ list_item_is_priority: !this.isPriority })
-        .eq("id", this.id);
-
-
-      if (!error) {
-        //loading animation here.
-        this.isPriority = !this.isPriority;
-      } else {
-        //output message to alert bar maybe?
-        //or log it somehow
-        console.log(error);
-      }
-    },
-  },
+  }
 };
 </script>
 
 <template>
   <AppItem class="list-item">
-    <header>
+    <header v-if="logged_in">
       <LayoutCluster>
-        <button
-          @click="togglePriority"
-          class="priority-toggle"
-          role="switch"
-          :aria-checked="isPriority"
-          type="button"
-          :aria-label="priority_label"
-        ></button>
+        <PriorityToggle @click="$emit('priority', index)" :is_priority="is_priority" />
 
         <ButtonEdit @click="$emit('edit', index)" />
         <ButtonDelete @click="$emit('delete', index)" />

@@ -35,5 +35,6 @@ CRUD TODOS:
 - ~~remove netlify function~~
 - ~~add image field~~
 
+Future idea: (maybe just codepen?) : have new item input name placeholder pull from Favorite Things lyrics
 
 

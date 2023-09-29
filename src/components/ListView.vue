@@ -1,5 +1,6 @@
 <script>
 import supabase from "../utilities/supabase";
+import { store } from "./_store";
 import Button from "./Button.vue";
 import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
@@ -9,12 +10,20 @@ import Modal from "./Modal.vue";
 import SVGPlus from "./SVGPlus.vue";
 import SVGTrash from "./SVGTrash.vue";
 import SidePane from "./SidePane.vue";
+import PriorityToggle from "./PriorityToggle.vue";
 
 export default {
   props: {
     id: Number,
     list: Object,
     list_items: Array,
+  },
+  async created() {
+    const { data, error } = await supabase.auth.getSession();
+    const { session } = data;
+
+    store.logged_in = Boolean(session);
+    this.logged_in = Boolean(session);
   },
   data() {
     return {
@@ -25,19 +34,21 @@ export default {
       sidePaneMode: {
         edit: false,
         add: false
-      }
+      },
+      logged_in: false
     };
   },
   components: {
     Button,
-    LayoutStack,
     LayoutCluster,
-    ListViewItem,
+    LayoutStack,
     ListViewFilterSort,
+    ListViewItem,
     Modal,
-    SVGTrash,
-    SVGPlus,
+    PriorityToggle,
     SidePane,
+    SVGPlus,
+    SVGTrash,
   },
   methods: {
     async deleteListItem() {
@@ -96,6 +107,25 @@ export default {
         console.log(error);
       }
     },
+    async togglePriority(index) {
+      this.currentItem = this.listItems[index];
+      const { id, list_item_is_priority } = this.currentItem;
+
+      const { data, error } = await supabase
+        .from("list_items")
+        .update({ list_item_is_priority: !list_item_is_priority })
+        .eq("id", id);
+
+
+      if (!error) {
+        //loading animation here.
+        this.currentItem.list_item_is_priority = !this.currentItem.list_item_is_priority;
+      } else {
+        //output message to alert bar maybe?
+        //or log it somehow
+        console.log(error);
+      }
+    },
     openDeleteListItemModal(itemIndex) {
       this.currentItem = this.listItems[itemIndex];
       this.currentItemIndex = itemIndex;
@@ -103,16 +133,18 @@ export default {
     },
     openAddListPane() {
       this.sidePaneMode.add = true;
+      this.sidePaneMode.edit = false;
       this.$refs.sidePane.$el.showModal();
     },
     openEditListPane(itemIndex) {
       this.sidePaneMode.edit = true;
+      this.sidePaneMode.add = false;
       this.currentItem = this.listItems[itemIndex];
       this.currentItemIndex = itemIndex;
 
       this.$refs.sidePane.$el.showModal();
     },
-  },
+  }
 };
 </script>
 
@@ -164,7 +196,11 @@ export default {
           ></textarea>
         </div>
 
-        <div>[toggle priority heres]</div>
+        <LayoutCluster style="margin-block: var(--vertical-rhythm)">
+          <PriorityToggle @click="() => currentItem.list_item_is_priority = !currentItem.list_item_is_priority" :is_priority="currentItem.list_item_is_priority" />
+
+          <div><b>I really want this!</b></div>
+        </LayoutCluster>
 
         <div>
           <button class="button" v-if="sidePaneMode.edit" @click="editListItemSubmit">Save</button>
@@ -178,9 +214,9 @@ export default {
       <h1>{{ name }}</h1>
 
       <LayoutStack>
-        <Button @click="openAddListPane" style="margin-left: auto">
+        <Button v-if="logged_in" @click="openAddListPane" style="margin-left: auto">
           <LayoutCluster justify="center">
-            <span>Add List</span>
+            <span>Add Item</span>
             <SVGPlus />
           </LayoutCluster>
         </Button>
@@ -194,6 +230,8 @@ export default {
             :url="item.list_item_url"
             :price=Number(item.list_item_price)
             :is_priority="item.list_item_is_priority"
+            :logged_in="logged_in"
+            @priority="togglePriority"
             @delete="openDeleteListItemModal"
             @edit="openEditListPane"
           />
