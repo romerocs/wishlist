@@ -15,6 +15,6 @@ export default {
   </a>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
   @use "../styles/4-components/button";
 </style>
