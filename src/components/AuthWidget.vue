@@ -4,6 +4,7 @@ import { store } from "./_store";
 import LayoutCluster from "./LayoutCluster.vue";
 import ButtonLink from "./ButtonLink.vue";
 import SVGChevron from "./SVGChevron.vue";
+import AppItem from "./AppItem.vue";
 
 export default {
   props: {
@@ -13,6 +14,7 @@ export default {
     ButtonLink,
     LayoutCluster,
     SVGChevron,
+    AppItem,
   },
   async created() {
     const { data, error } = await supabase.auth.getSession();
@@ -60,10 +62,7 @@ export default {
     },
     toggleVisibility() {
       if (this.panelState === this.panelVisible) {
-
-        const keyframes = [
-          { opacity: 0 }
-        ];
+        const keyframes = [{ opacity: 0 }];
 
         const options = { duration: 50, easing: "linear" };
 
@@ -73,10 +72,7 @@ export default {
       } else {
         this.panelState = this.panelVisible;
 
-        const keyframes = [
-          { opacity: 0 }, 
-          { opacity: 1 }
-        ];
+        const keyframes = [{ opacity: 0 }, { opacity: 1 }];
 
         const options = { duration: 100, fill: "forwards", easing: "linear" };
 
@@ -112,9 +108,13 @@ export default {
       </button>
 
       <div class="popover" ref="popover">
-        <LayoutCluster justify="center" :style="{ height: '100%'}">
-          <button class="button" style="--btn-width: 100%" @click="logOut">Sign Out</button>
-        </LayoutCluster>
+        <AppItem class="popover-pane">
+        <LayoutCluster justify="center" :style="{ height: '100%' }">
+            <button class="button" style="--btn-width: 100%" @click="logOut">
+              Sign Out
+            </button>
+          </LayoutCluster>
+        </AppItem>
       </div>
     </div>
 
@@ -124,8 +124,8 @@ export default {
   </div>
 </template>
 
-<style>
-
+<style lang="scss" scoped>
+@use "../styles/4-components/button";
 .widget {
   position: relative;
 }
@@ -133,13 +133,14 @@ export default {
 .popover {
   aspect-ratio: 2 / 1;
   display: v-bind(panelState);
+  translate: 0 var(--s-1);
   opacity: 0;
   position: absolute;
   width: 100%;
+}
+
+.popover-pane {
   padding: var(--s3);
-  border: 1px solid var(--gray-6);
-  border-radius: var(--border-radius-2x);
-  box-shadow: var(--shadow-elevation-low);
 }
 
 .btn-profile {

@@ -163,7 +163,9 @@ export default {
   </nav>
 </template>
 
-<style>
+<style lang="scss" scoped>
+@use "../styles/4-components/button";
+
 .btn-add-list {
   color: var(--gray-50);
   line-height: 1;

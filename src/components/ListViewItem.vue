@@ -68,7 +68,9 @@ export default {
   </AppItem>
 </template>
 
-<style>
+<style lang="scss" scoped>
+@use "../styles/4-components/button";
+
 .list-item header {
   line-height: 1;
   padding: var(--s1) var(--app-item-inline-padding);
