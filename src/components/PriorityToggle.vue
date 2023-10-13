@@ -1,6 +1,7 @@
 <script>
 export default {
   props: {
+    logged_in: Boolean,
     is_priority: Boolean,
   },
   data() {
@@ -17,16 +18,20 @@ export default {
 
 <template>
   <button
-    class="priority-toggle"
+    v-if="logged_in"
+    class="priority-indicator"
+    :class="{ '-is-priority' : is_priority }"
     role="switch"
     :aria-checked="is_priority"
     type="button"
     :aria-label="priority_label"
   ></button>
+
+  <div class="priority-indicator" :class="{ '-is-priority' : is_priority }" :aria-label="priority_label" v-else></div>
 </template>
 
 <style>
-.priority-toggle {
+.priority-indicator {
   width: 22px;
   aspect-ratio: 1 / 1;
   border: 2px solid var(--white);
@@ -36,7 +41,7 @@ export default {
   transition: all 100ms linear;
 }
 
-.priority-toggle[aria-checked="true"] {
+.priority-indicator.-is-priority {
   outline: 2px solid var(--gray-35);
   background-color: var(--hotpink-70);
   background: radial-gradient(

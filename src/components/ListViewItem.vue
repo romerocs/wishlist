@@ -39,12 +39,12 @@ export default {
 
 <template>
   <AppItem class="list-item">
-    <header v-if="logged_in">
+    <header>
       <LayoutCluster>
-        <PriorityToggle @click="$emit('priority', index)" :is_priority="is_priority" />
+        <PriorityToggle @click="logged_in && $emit('priority', index)" :logged_in="logged_in" :is_priority="is_priority" />
 
-        <ButtonEdit @click="$emit('edit', index)" />
-        <ButtonDelete @click="$emit('delete', index)" />
+        <ButtonEdit v-if="logged_in" @click="$emit('edit', index)" />
+        <ButtonDelete v-if="logged_in" @click="$emit('delete', index)" />
       </LayoutCluster>
     </header>
     <div class="body">
@@ -57,6 +57,7 @@ export default {
         <a
           v-if="url"
           :href="url"
+          target="_blank"
           class="button price-button"
           style="margin-right: auto"
         >
