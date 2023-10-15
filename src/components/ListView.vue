@@ -91,14 +91,16 @@ export default {
     async addListItemSubmit() {
       this.currentItem.list_id = this.id;
 
-      const { data, error } = await supabase
+      const { data: [added_item], error } = await supabase
         .from("list_items")
         .insert(this.currentItem)
         .select();
 
       if (!error) {
         //loading animation here.
-        this.listItems.push(this.currentItem);
+        this.listItems.push(added_item);
+
+        console.log(this.listItems);
         this.$refs.sidePane.$el.close();
         this.sidePaneMode.add = false;
       } else {
@@ -134,6 +136,8 @@ export default {
     openAddListPane() {
       this.sidePaneMode.add = true;
       this.sidePaneMode.edit = false;
+      this.currentItem = {};
+
       this.$refs.sidePane.$el.showModal();
     },
     openEditListPane(itemIndex) {
