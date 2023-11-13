@@ -11,7 +11,7 @@ export default {
 };
 </script>
 <template>
-  <ActionItem>
+  <ActionItem class="edit">
     <button aria-label="Edit">
       <SVGPencil />
     </button>

@@ -11,7 +11,7 @@ export default {
 };
 </script>
 <template>
-  <ActionItem>
+  <ActionItem class="delete">
     <button aria-label="Delete">
       <SVGTrash />
     </button>

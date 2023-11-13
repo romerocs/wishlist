@@ -1,5 +1,6 @@
 <script>
 import supabase from "../utilities/supabase";
+import { priorityMap, priorityMapToText } from "../utilities/vars";
 import { store } from "./_store";
 import Button from "./Button.vue";
 import LayoutStack from "./LayoutStack.vue";
@@ -11,6 +12,7 @@ import SVGPlus from "./SVGPlus.vue";
 import SVGTrash from "./SVGTrash.vue";
 import SidePane from "./SidePane.vue";
 import PriorityToggle from "./PriorityToggle.vue";
+import PriorityDropdown from "./PriorityDropdown.vue";
 
 export default {
   props: {
@@ -29,13 +31,15 @@ export default {
     return {
       name: this.list.list_name,
       listItems: this.list_items,
+      priorityMapToText: priorityMapToText,
       currentItem: {},
       currentItemIndex: 0,
       sidePaneMode: {
         edit: false,
-        add: false
+        add: false,
       },
-      logged_in: false
+      logged_in: false,
+      store,
     };
   },
   components: {
@@ -49,6 +53,16 @@ export default {
     SidePane,
     SVGPlus,
     SVGTrash,
+    PriorityDropdown,
+  },
+  watch: {
+    "store.priority_change": {
+      handler({ index, value }) {
+        store.priority_change.value = value;
+        this.togglePriority(index, value);
+      },
+      deep: true,
+    },
   },
   methods: {
     async deleteListItem() {
@@ -91,10 +105,10 @@ export default {
     async addListItemSubmit() {
       this.currentItem.list_id = this.id;
 
-      const { data: [added_item], error } = await supabase
-        .from("list_items")
-        .insert(this.currentItem)
-        .select();
+      const {
+        data: [added_item],
+        error,
+      } = await supabase.from("list_items").insert(this.currentItem).select();
 
       if (!error) {
         //loading animation here.
@@ -109,8 +123,10 @@ export default {
         console.log(error);
       }
     },
-    async togglePriority(index) {
+    async togglePriority(index, value) {
+
       this.currentItem = this.listItems[index];
+
       const { id, list_item_is_priority } = this.currentItem;
 
       const { data, error } = await supabase
@@ -118,10 +134,10 @@ export default {
         .update({ list_item_is_priority: !list_item_is_priority })
         .eq("id", id);
 
-
       if (!error) {
         //loading animation here.
-        this.currentItem.list_item_is_priority = !this.currentItem.list_item_is_priority;
+        this.currentItem.list_item_is_priority =
+          !this.currentItem.list_item_is_priority;
       } else {
         //output message to alert bar maybe?
         //or log it somehow
@@ -148,7 +164,7 @@ export default {
 
       this.$refs.sidePane.$el.showModal();
     },
-  }
+  },
 };
 </script>
 
@@ -200,15 +216,27 @@ export default {
           ></textarea>
         </div>
 
-        <LayoutCluster style="margin-block: var(--vertical-rhythm)">
-          <PriorityToggle @click="() => currentItem.list_item_is_priority = !currentItem.list_item_is_priority" :is_priority="currentItem.list_item_is_priority" />
-
-          <div><b>I really want this!</b></div>
-        </LayoutCluster>
+        <PriorityDropdown
+          :priority="priorityMapToText(currentItem.list_item_is_priority)"
+          :index="currentItemIndex"
+          type="form"
+        />
 
         <div>
-          <button class="button" v-if="sidePaneMode.edit" @click="editListItemSubmit">Save</button>
-          <button class="button" v-if="sidePaneMode.add" @click="addListItemSubmit">Save</button>
+          <button
+            class="button"
+            v-if="sidePaneMode.edit"
+            @click="editListItemSubmit"
+          >
+            Save
+          </button>
+          <button
+            class="button"
+            v-if="sidePaneMode.add"
+            @click="addListItemSubmit"
+          >
+            Save
+          </button>
         </div>
       </LayoutStack>
     </div>
@@ -218,7 +246,11 @@ export default {
       <h1>{{ name }}</h1>
 
       <LayoutStack>
-        <Button v-if="logged_in" @click="openAddListPane" style="margin-left: auto">
+        <Button
+          v-if="logged_in"
+          @click="openAddListPane"
+          style="margin-left: auto"
+        >
           <LayoutCluster justify="center">
             <span>Add Item</span>
             <SVGPlus />
@@ -232,10 +264,9 @@ export default {
             :name="item.list_item_name"
             :description="item.list_item_description"
             :url="item.list_item_url"
-            :price=Number(item.list_item_price)
-            :is_priority="item.list_item_is_priority"
+            :price="Number(item.list_item_price)"
+            :priority="item.list_item_is_priority"
             :logged_in="logged_in"
-            @priority="togglePriority"
             @delete="openDeleteListItemModal"
             @edit="openEditListPane"
           />

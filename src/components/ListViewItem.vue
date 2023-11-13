@@ -1,14 +1,18 @@
 <script>
+import { store } from "./_store";
+import { priorityMap, priorityMapToText } from "../utilities/vars";
 import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
 import AppItem from "./AppItem.vue";
+import ActionItem from "./ActionItem.vue";
 import ButtonDelete from "./ButtonDelete.vue";
 import ButtonEdit from "./ButtonEdit.vue";
 import SVGArrowRight from "./SVGArrowRight.vue";
-import PriorityToggle from "./PriorityToggle.vue";
+import SVGChevron from "./SVGChevron.vue";
+import PriorityDropdown from "./PriorityDropdown.vue";
 
 export default {
-  emits: ['edit', 'delete', 'priority'],
+  emits: ["edit", "delete", "priority"],
   props: {
     item: Object,
     id: Number,
@@ -16,24 +20,28 @@ export default {
     name: String,
     description: String,
     url: String,
-    is_priority: Boolean,
+    priority: Boolean,
     price: Number,
-    logged_in: Boolean
+    logged_in: Boolean,
   },
   data() {
     return {
-      isPriority: this.is_priority
+      store,
+      priorityPaneIsVisible: false,
+      _priority: priorityMapToText(this.priority),
     };
   },
   components: {
     AppItem,
+    ActionItem,
     ButtonDelete,
     ButtonEdit,
+    SVGChevron,
     LayoutCluster,
     LayoutStack,
-    PriorityToggle,
+    PriorityDropdown,
     SVGArrowRight,
-  }
+  },
 };
 </script>
 
@@ -41,14 +49,18 @@ export default {
   <AppItem class="list-item">
     <header>
       <LayoutCluster>
-        <PriorityToggle @click="logged_in && $emit('priority', index)" :logged_in="logged_in" :is_priority="is_priority" />
-
+        <PriorityDropdown
+          v-if="logged_in"
+          :priority="_priority"
+          :index="index"
+          type="item"
+        />
         <ButtonEdit v-if="logged_in" @click="$emit('edit', index)" />
         <ButtonDelete v-if="logged_in" @click="$emit('delete', index)" />
       </LayoutCluster>
     </header>
     <div class="body">
-      <LayoutStack>
+      <LayoutStack gap="var(--s6)">
         <h2>{{ name }}</h2>
         <p v-if="description">
           {{ description }}
@@ -87,25 +99,5 @@ export default {
   align-items: baseline;
   line-height: 1;
   gap: 10px;
-}
-
-.priority-toggle {
-  width: 22px;
-  aspect-ratio: 1 / 1;
-  border: 2px solid var(--white);
-  border-radius: 22px;
-  outline: 2px solid var(--gray-15);
-  background-color: var(--gray-15);
-  transition: all 100ms linear;
-}
-
-.priority-toggle[aria-checked="true"] {
-  outline: 2px solid var(--gray-35);
-  background-color: var(--hotpink-70);
-  background: radial-gradient(
-    circle,
-    rgba(250, 107, 171, 1) 60%,
-    rgba(123, 4, 58, 1) 100%
-  );
 }
 </style>

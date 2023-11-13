@@ -6,25 +6,22 @@
 
 <style>
 .action-item {
+  --action-item-inline-padding: var(--s-3);
+  background-color: var(--white);
   border: 1px solid var(--color-hollow-button-border);
   border-radius: var(--border-radius-button);
-  width: 22px;
-  aspect-ratio: 1 / 1;
   scale: 1;
   transition: all 200ms ease-in-out;
-}
-
-.action-item:hover {
-  scale: 1.1;
-}
-
-.action-item > * {
+  height: 32px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.action-item > * {
+  padding-inline: var(--action-item-inline-padding);
   line-height: 1;
   width: 100%;
-  height: 100%;
   color: inherit;
 }
 </style>

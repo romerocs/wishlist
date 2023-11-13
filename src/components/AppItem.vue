@@ -19,8 +19,4 @@
   box-shadow: var(--app-item-box-shadow) transparent;
   transition: all 200ms linear;
 }
-
-.app-item:hover {
-  box-shadow: var(--app-item-box-shadow) var(--app-item-shadow-color);
-}
 </style>
