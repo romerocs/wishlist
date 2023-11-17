@@ -56,8 +56,12 @@ export default {
     setPriority(priority) {
       this._priority = priority;
       this.priorityPaneIsVisible = false;
-      store.priority_change.index = this.index;
-      store.priority_change.value = priority;
+
+      store.priority_change = {
+        "index" : this.index,
+        "value" : priority,
+        "type"  : this.type
+      }
     },
   },
 };

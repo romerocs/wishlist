@@ -1,6 +1,6 @@
 <script>
 import { store } from "./_store";
-import { priorityMap, priorityMapToText } from "../utilities/vars";
+import { priorityMapToText } from "../utilities/vars";
 import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
 import AppItem from "./AppItem.vue";
@@ -10,6 +10,7 @@ import ButtonEdit from "./ButtonEdit.vue";
 import SVGArrowRight from "./SVGArrowRight.vue";
 import SVGChevron from "./SVGChevron.vue";
 import PriorityDropdown from "./PriorityDropdown.vue";
+import PriorityLabel from "./PriorityLabel.vue";
 
 export default {
   emits: ["edit", "delete", "priority"],
@@ -40,6 +41,7 @@ export default {
     LayoutCluster,
     LayoutStack,
     PriorityDropdown,
+    PriorityLabel,
     SVGArrowRight,
   },
 };
@@ -55,6 +57,7 @@ export default {
           :index="index"
           type="item"
         />
+        <PriorityLabel v-else :priority="_priority" />
         <ButtonEdit v-if="logged_in" @click="$emit('edit', index)" />
         <ButtonDelete v-if="logged_in" @click="$emit('delete', index)" />
       </LayoutCluster>

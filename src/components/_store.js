@@ -9,6 +9,7 @@ export const store = reactive({
   priority_change_value: undefined,
   priority_change: {
     'index' : undefined,
-    'value' : undefined
+    'value' : undefined,
+    'type'  : undefined
   }
 })

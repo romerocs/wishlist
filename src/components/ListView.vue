@@ -57,9 +57,10 @@ export default {
   },
   watch: {
     "store.priority_change": {
-      handler({ index, value }) {
+      handler({ index, value, type }) {
         store.priority_change.value = value;
-        this.togglePriority(index, value);
+
+        this.togglePriority(index, value, type);
       },
       deep: true,
     },
@@ -114,7 +115,6 @@ export default {
         //loading animation here.
         this.listItems.push(added_item);
 
-        console.log(this.listItems);
         this.$refs.sidePane.$el.close();
         this.sidePaneMode.add = false;
       } else {
@@ -123,25 +123,22 @@ export default {
         console.log(error);
       }
     },
-    async togglePriority(index, value) {
+    async togglePriority(index, value, type) {
 
+      const updatedPriority = priorityMap[value];
       this.currentItem = this.listItems[index];
+      this.currentItem.list_item_is_priority = updatedPriority;
+      const { id } = this.currentItem;
 
-      const { id, list_item_is_priority } = this.currentItem;
+      if (type === "item") {
+        const { data, error } = await supabase
+          .from("list_items")
+          .update({ list_item_is_priority: updatedPriority })
+          .eq("id", id);
 
-      const { data, error } = await supabase
-        .from("list_items")
-        .update({ list_item_is_priority: !list_item_is_priority })
-        .eq("id", id);
-
-      if (!error) {
-        //loading animation here.
-        this.currentItem.list_item_is_priority =
-          !this.currentItem.list_item_is_priority;
-      } else {
-        //output message to alert bar maybe?
-        //or log it somehow
-        console.log(error);
+        if (error) {
+            console.log(error);
+        }
       }
     },
     openDeleteListItemModal(itemIndex) {
