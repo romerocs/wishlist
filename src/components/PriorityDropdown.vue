@@ -2,7 +2,6 @@
 import { store } from "./_store";
 import { priorityMapToText } from "../utilities/vars";
 import SVGPriorityArrow from "./SVGPriorityArrow.vue";
-import PriorityToggle from "./PriorityToggle.vue";
 import PriorityLabel from "./PriorityLabel.vue";
 import AppItem from "./AppItem.vue";
 import ActionItem from "./ActionItem.vue";
@@ -45,7 +44,6 @@ export default {
     AppItem,
     ActionItem,
     SVGChevron,
-    PriorityToggle,
     PriorityLabel,
     SVGPriorityArrow,
   },

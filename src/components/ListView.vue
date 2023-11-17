@@ -1,6 +1,6 @@
 <script>
 import supabase from "../utilities/supabase";
-import { priorityMap, priorityMapToText } from "../utilities/vars";
+import { priorityMap, priorityMapToText, sortOptions } from "../utilities/vars";
 import { store } from "./_store";
 import Button from "./Button.vue";
 import LayoutStack from "./LayoutStack.vue";
@@ -11,7 +11,6 @@ import Modal from "./Modal.vue";
 import SVGPlus from "./SVGPlus.vue";
 import SVGTrash from "./SVGTrash.vue";
 import SidePane from "./SidePane.vue";
-import PriorityToggle from "./PriorityToggle.vue";
 import PriorityDropdown from "./PriorityDropdown.vue";
 
 export default {
@@ -40,6 +39,7 @@ export default {
       },
       logged_in: false,
       store,
+      sortOptions,
     };
   },
   components: {
@@ -49,7 +49,6 @@ export default {
     ListViewFilterSort,
     ListViewItem,
     Modal,
-    PriorityToggle,
     SidePane,
     SVGPlus,
     SVGTrash,
@@ -124,7 +123,6 @@ export default {
       }
     },
     async togglePriority(index, value, type) {
-
       const updatedPriority = priorityMap[value];
       this.currentItem = this.listItems[index];
       this.currentItem.list_item_is_priority = updatedPriority;
@@ -137,7 +135,7 @@ export default {
           .eq("id", id);
 
         if (error) {
-            console.log(error);
+          console.log(error);
         }
       }
     },
@@ -160,6 +158,34 @@ export default {
       this.currentItemIndex = itemIndex;
 
       this.$refs.sidePane.$el.showModal();
+    },
+    sort(event) {
+      const sortType = event.target.value;
+
+      switch (sortType) {
+        case sortOptions.priority_low_high.value:
+          this.listItems = this.listItems.sort((a, b) => {
+            return a.list_item_is_priority - b.list_item_is_priority;
+          });
+          break;
+        case sortOptions.priority_high_low.value:
+          this.listItems = this.listItems.sort((a, b) => {
+            return a.list_item_is_priority < b.list_item_is_priority ? 1 : -1;
+          });
+          break;
+        case sortOptions.price_high_low.value:
+          this.listItems = this.listItems.sort((a, b) => {
+            return Number(a.list_item_price) < Number(b.list_item_price)
+              ? 1
+              : -1;
+          });
+          break;
+        case sortOptions.price_low_high.value:
+          this.listItems = this.listItems.sort((a, b) => {
+            return Number(a.list_item_price) - Number(b.list_item_price);
+          });
+          break;
+      }
     },
   },
 };
@@ -243,16 +269,19 @@ export default {
       <h1>{{ name }}</h1>
 
       <LayoutStack>
-        <Button
-          v-if="logged_in"
-          @click="openAddListPane"
-          style="margin-left: auto"
-        >
-          <LayoutCluster justify="center">
-            <span>Add Item</span>
-            <SVGPlus />
-          </LayoutCluster>
-        </Button>
+        <LayoutCluster>
+          <ListViewFilterSort :sort="sort" />
+          <Button
+            v-if="logged_in"
+            @click="openAddListPane"
+            style="margin-left: auto"
+          >
+            <LayoutCluster justify="center">
+              <span>Add Item</span>
+              <SVGPlus />
+            </LayoutCluster>
+          </Button>
+        </LayoutCluster>
         <div v-for="(item, index) in listItems" :key="item.id">
           <ListViewItem
             :id="item.id"
@@ -298,6 +327,12 @@ export default {
 </style>
 
 <!-- 
+    Priority - High to Low
+    Priority - Low to High
+    Price - High to Low
+    Price - Low to High
+    Created - Newest First
+    Created - Oldest First
 
       filter(event) {
       const filterType = event.target.value;
@@ -318,25 +353,5 @@ export default {
           break;
       }
     },
-    sort(event) {
-      const sortType = event.target.value;
 
-      switch (sortType) {
-        case "low":
-          this.items = Array.from(this.data).sort((a, b) => {
-            return a.priority - b.priority;
-          });
-          break;
-        case "high":
-          this.items = Array.from(this.data).sort((a, b) => {
-            return a.priority < b.priority ? 1 : -1;
-          });
-          break;
-        case "default":
-          this.items = Array.from(this.data).sort((a, b) => {
-            return a.index - b.index;
-          });
-          break;
-      }
-    },
  -->
