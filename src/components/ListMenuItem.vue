@@ -4,7 +4,6 @@ import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
 import SVGPlus from "./SVGPlus.vue";
 import AppItem from "./AppItem.vue";
-import ActionItem from "./ActionItem.vue";
 import ButtonDelete from "./ButtonDelete.vue";
 import ButtonEdit from "./ButtonEdit.vue";
 import ButtonLinkList from "./ButtonLinkList.vue";
@@ -16,7 +15,6 @@ export default {
     LayoutStack,
     SVGPlus,
     AppItem,
-    ActionItem,
     ButtonDelete,
     ButtonEdit,
     ButtonLinkList,
@@ -36,7 +34,9 @@ export default {
     };
   },
   async created() {
-    this.itemCount = this.listItems ? this.listItems.length : 0;
+    const list_items_unpurchased = this.listItems.filter(item => item.list_item_is_purchased !== true);
+    
+    this.itemCount = list_items_unpurchased ? list_items_unpurchased.length : 0;
 
     this.url = `${listPath}${this.id}`;
   },

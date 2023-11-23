@@ -2,6 +2,7 @@
 import supabase from "../utilities/supabase";
 import { priorityMap, priorityMapToText, sortOptions } from "../utilities/vars";
 import { store } from "./_store";
+import ActionItem from "./ActionItem.vue";
 import Button from "./Button.vue";
 import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
@@ -27,9 +28,11 @@ export default {
     this.logged_in = Boolean(session);
   },
   data() {
+    const list_items_unpurchased = this.list_items.filter(item => item.list_item_is_purchased !== true);
+
     return {
       name: this.list.list_name,
-      listItems: this.list_items,
+      listItems: list_items_unpurchased,
       priorityMapToText: priorityMapToText,
       currentItem: {},
       currentItemIndex: 0,
@@ -43,6 +46,7 @@ export default {
     };
   },
   components: {
+    ActionItem,
     Button,
     LayoutCluster,
     LayoutStack,
@@ -139,6 +143,22 @@ export default {
         }
       }
     },
+    async togglePurchased() {
+      this.currentItem.list_item_is_purchased =
+        !this.currentItem.list_item_is_purchased;
+      const { id } = this.currentItem;
+
+      const { data, error } = await supabase
+        .from("list_items")
+        .update({
+          list_item_is_purchased: this.currentItem.list_item_is_purchased,
+        })
+        .eq("id", id);
+
+      if (error) {
+        console.log(error);
+      }
+    },
     openDeleteListItemModal(itemIndex) {
       this.currentItem = this.listItems[itemIndex];
       this.currentItemIndex = itemIndex;
@@ -204,13 +224,22 @@ export default {
   <SidePane ref="sidePane">
     <div>
       <LayoutStack>
-        <h2 v-if="sidePaneMode.edit">Edit</h2>
-        <h2 v-if="sidePaneMode.add">Add Item</h2>
+        <LayoutCluster justify="space-between">
+          <h2 v-if="sidePaneMode.edit">Edit</h2>
+          <h2 v-if="sidePaneMode.add">Add Item</h2>
+
+          <ActionItem class="purchased-checkbox">
+            <input type="checkbox" :checked="currentItem.list_item_is_purchased" @click="togglePurchased" />
+
+            Mark as purchased
+          </ActionItem>
+        </LayoutCluster>
 
         <div>
           <input
             type="text"
             placeholder="Name"
+            :disabled="currentItem.list_item_is_purchased"
             v-model="currentItem.list_item_name"
           />
         </div>
@@ -219,6 +248,7 @@ export default {
           <input
             type="url"
             placeholder="https://www.amazon.com"
+            :disabled="currentItem.list_item_is_purchased"
             v-model="currentItem.list_item_url"
           />
         </div>
@@ -228,6 +258,7 @@ export default {
             type="number"
             step="0.01"
             placeholder="20.99"
+            :disabled="currentItem.list_item_is_purchased"
             v-model.number="currentItem.list_item_price"
           />
         </div>
@@ -235,11 +266,13 @@ export default {
         <div>
           <textarea
             rows="10"
+            :disabled="currentItem.list_item_is_purchased"
             v-model="currentItem.list_item_description"
           ></textarea>
         </div>
 
         <PriorityDropdown
+          :disabled="currentItem.list_item_is_purchased"
           :priority="priorityMapToText(currentItem.list_item_is_priority)"
           :index="currentItemIndex"
           type="form"
@@ -249,6 +282,7 @@ export default {
           <button
             class="button"
             v-if="sidePaneMode.edit"
+            :disabled="currentItem.list_item_is_purchased"
             @click="editListItemSubmit"
           >
             Save
@@ -324,15 +358,64 @@ export default {
 .price input {
   padding-left: 30px;
 }
+
+.purchased-checkbox {
+  --purchased-checkbox-color: var(--grass-green);
+  --color-hollow-button-border: var(--purchased-checkbox-color);
+  position: relative;
+  color: var(--hunter-green);
+  padding: var(--action-item-inline-padding);
+  gap: 8px;
+
+  input {
+    overflow: hidden;
+    -webkit-appearance: none;
+    appearance: none;
+    padding: 0;
+    margin: 0;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    border: 1px solid var(--purchased-checkbox-color);
+  }
+
+  input::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-image: var(--icon-checkmark);
+    background-size: 90%;
+    background-position: center;
+    background-color: var(--purchased-checkbox-color);
+  }
+
+  input:checked::before {
+    opacity: 1;
+  }
+
+  input:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+}
 </style>
 
 <!-- 
-    Priority - High to Low
-    Priority - Low to High
-    Price - High to Low
-    Price - Low to High
-    Created - Newest First
-    Created - Oldest First
+
+  Mark as purchased
+
+  Filter
+
+  View All
+  Purchased
+  
 
       filter(event) {
       const filterType = event.target.value;

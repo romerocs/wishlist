@@ -4,7 +4,6 @@ import { priorityMapToText } from "../utilities/vars";
 import LayoutStack from "./LayoutStack.vue";
 import LayoutCluster from "./LayoutCluster.vue";
 import AppItem from "./AppItem.vue";
-import ActionItem from "./ActionItem.vue";
 import ButtonDelete from "./ButtonDelete.vue";
 import ButtonEdit from "./ButtonEdit.vue";
 import SVGArrowRight from "./SVGArrowRight.vue";
@@ -34,7 +33,6 @@ export default {
   },
   components: {
     AppItem,
-    ActionItem,
     ButtonDelete,
     ButtonEdit,
     SVGChevron,

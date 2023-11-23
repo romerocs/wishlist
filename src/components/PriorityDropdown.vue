@@ -11,6 +11,7 @@ export default {
   props: {
     type: String,
     index: Number,
+    disabled: Boolean,
     priority: {
       validator(value) {
         return ["high", "low"].includes(value);
@@ -66,11 +67,11 @@ export default {
 </script>
 <template>
   <div class="priority-dropdown-wrapper">
-    <ActionItem class="priority-dropdown" ref="priorityButton">
-      <button @click="togglePriorityPane">
+    <ActionItem class="priority-dropdown" :class="{ '-disabled' : disabled }" ref="priorityButton">
+      <button @click="togglePriorityPane" :disabled="disabled">
         <PriorityLabel v-if="_priority" :priority="_priority" />
         <span v-else>Set Priority</span>
-        <SVGChevron width="12px" />
+        <SVGChevron width="12px" v-if="!disabled" />
       </button>
     </ActionItem>
 
@@ -98,11 +99,16 @@ export default {
   font-size: var(--s-1);
 }
 
+.priority-dropdown.-disabled {
+  background-color: var(--color-disabled-background);
+}
+
 .priority-dropdown {
   position: relative;
   padding-inline: 0;
   background-color: var(--white);
 }
+
 .priority-dropdown button {
   display: flex;
   justify-content: space-between;
