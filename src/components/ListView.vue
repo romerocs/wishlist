@@ -1,6 +1,6 @@
 <script>
 import supabase from "../utilities/supabase";
-import { priorityMap, priorityMapToText, sortOptions } from "../utilities/vars";
+import { priorityMap, priorityMapToText, sortOptions, filterOptions } from "../utilities/vars";
 import { store } from "./_store";
 import ActionItem from "./ActionItem.vue";
 import Button from "./Button.vue";
@@ -13,6 +13,7 @@ import SVGPlus from "./SVGPlus.vue";
 import SVGTrash from "./SVGTrash.vue";
 import SidePane from "./SidePane.vue";
 import PriorityDropdown from "./PriorityDropdown.vue";
+import AppItem from "./AppItem.vue";
 
 export default {
   props: {
@@ -28,14 +29,25 @@ export default {
     this.logged_in = Boolean(session);
   },
   data() {
-    const list_items_unpurchased = this.list_items.filter(item => item.list_item_is_purchased !== true);
+    const list_items_unpurchased = this.list_items.filter(
+      (item) => item.list_item_is_purchased !== true
+    );
+
+    const list_items_sorted_by_priority = list_items_unpurchased.sort(
+      (a, b) => {
+        return a.list_item_is_priority < b.list_item_is_priority ? 1 : -1;
+      }
+    );
 
     return {
       name: this.list.list_name,
-      listItems: list_items_unpurchased,
+      list_items_unfiltered: this.list_items,
+      listItems: list_items_sorted_by_priority,
       priorityMapToText: priorityMapToText,
       currentItem: {},
       currentItemIndex: 0,
+      filterState: filterOptions.notpurchased.value,
+      sortState: sortOptions.priority_high_low.value,
       sidePaneMode: {
         edit: false,
         add: false,
@@ -57,7 +69,8 @@ export default {
     SVGPlus,
     SVGTrash,
     PriorityDropdown,
-  },
+    AppItem
+},
   watch: {
     "store.priority_change": {
       handler({ index, value, type }) {
@@ -100,6 +113,11 @@ export default {
         //loading animation here.
         this.$refs.sidePane.$el.close();
         this.sidePaneMode.edit = false;
+
+        console.log(this.filterState);
+
+        this.filter(this.filterState);
+        this.sort(this.sortState);
       } else {
         //output message to alert bar maybe?
         //or log it somehowd
@@ -143,22 +161,6 @@ export default {
         }
       }
     },
-    async togglePurchased() {
-      this.currentItem.list_item_is_purchased =
-        !this.currentItem.list_item_is_purchased;
-      const { id } = this.currentItem;
-
-      const { data, error } = await supabase
-        .from("list_items")
-        .update({
-          list_item_is_purchased: this.currentItem.list_item_is_purchased,
-        })
-        .eq("id", id);
-
-      if (error) {
-        console.log(error);
-      }
-    },
     openDeleteListItemModal(itemIndex) {
       this.currentItem = this.listItems[itemIndex];
       this.currentItemIndex = itemIndex;
@@ -179,8 +181,8 @@ export default {
 
       this.$refs.sidePane.$el.showModal();
     },
-    sort(event) {
-      const sortType = event.target.value;
+    sort(sortType) {
+      this.sortState = sortType;
 
       switch (sortType) {
         case sortOptions.priority_low_high.value:
@@ -207,6 +209,34 @@ export default {
           break;
       }
     },
+    filter(filterType) {
+      this.filterState = filterType;
+
+      switch (filterType) {
+        case "purchased":
+          this.listItems = this.list_items_unfiltered.filter(
+            (item) => item.list_item_is_purchased
+          );
+          break;
+        case "notpurchased":
+          this.listItems = this.list_items_unfiltered.filter(
+            (item) => !item.list_item_is_purchased
+          );
+          break;
+        case "link":
+          this.listItems = this.list_items_unfiltered.filter(
+            (item) => item.list_item_url
+          );
+          break;
+        case "nolink":
+          this.listItems = this.list_items_unfiltered.filter(
+            (item) => !item.list_item_url
+          );
+          break;
+      };
+
+      this.sort(this.sortState);
+    },
   },
 };
 </script>
@@ -224,16 +254,15 @@ export default {
   <SidePane ref="sidePane">
     <div>
       <LayoutStack>
-        <LayoutCluster justify="space-between">
-          <h2 v-if="sidePaneMode.edit">Edit</h2>
-          <h2 v-if="sidePaneMode.add">Add Item</h2>
+        <h2 v-if="sidePaneMode.edit">Edit</h2>
+        <h2 v-if="sidePaneMode.add">Add Item</h2>
 
-          <ActionItem class="purchased-checkbox">
-            <input type="checkbox" :checked="currentItem.list_item_is_purchased" @click="togglePurchased" />
-
-            Mark as purchased
-          </ActionItem>
-        </LayoutCluster>
+        <PriorityDropdown
+          :disabled="currentItem.list_item_is_purchased"
+          :priority="priorityMapToText(currentItem.list_item_is_priority)"
+          :index="currentItemIndex"
+          type="form"
+        />
 
         <div>
           <input
@@ -271,40 +300,39 @@ export default {
           ></textarea>
         </div>
 
-        <PriorityDropdown
-          :disabled="currentItem.list_item_is_purchased"
-          :priority="priorityMapToText(currentItem.list_item_is_priority)"
-          :index="currentItemIndex"
-          type="form"
-        />
+        <ActionItem class="purchased-checkbox" v-if="sidePaneMode.edit">
+          <input
+            type="checkbox"
+            v-model="currentItem.list_item_is_purchased"
+            :checked="currentItem.list_item_is_purchased"
+          />
 
-        <div>
-          <button
-            class="button"
-            v-if="sidePaneMode.edit"
-            :disabled="currentItem.list_item_is_purchased"
-            @click="editListItemSubmit"
-          >
-            Save
-          </button>
-          <button
-            class="button"
-            v-if="sidePaneMode.add"
-            @click="addListItemSubmit"
-          >
-            Save
-          </button>
-        </div>
+          Mark as purchased
+        </ActionItem>
+        <button
+          class="button button-save"
+          v-if="sidePaneMode.edit"
+          @click="editListItemSubmit"
+        >
+          Save
+        </button>
+        <button
+          class="button button-save"
+          v-if="sidePaneMode.add"
+          @click="addListItemSubmit"
+        >
+          Save
+        </button>
       </LayoutStack>
     </div>
   </SidePane>
   <div class="list-view">
-    <LayoutStack gap="var(--s6)">
+    <LayoutStack gap="var(--s8)">
       <h1>{{ name }}</h1>
 
       <LayoutStack>
-        <LayoutCluster>
-          <ListViewFilterSort :sort="sort" />
+        <LayoutCluster align="flex-end">
+          <ListViewFilterSort :sort="sort" :filter="filter" />
           <Button
             v-if="logged_in"
             @click="openAddListPane"
@@ -316,21 +344,30 @@ export default {
             </LayoutCluster>
           </Button>
         </LayoutCluster>
-        <div v-for="(item, index) in listItems" :key="item.id">
-          <ListViewItem
-            :id="item.id"
-            :index="index"
-            :item="item"
-            :name="item.list_item_name"
-            :description="item.list_item_description"
-            :url="item.list_item_url"
-            :price="Number(item.list_item_price)"
-            :priority="item.list_item_is_priority"
-            :logged_in="logged_in"
-            @delete="openDeleteListItemModal"
-            @edit="openEditListPane"
-          />
-        </div>
+
+        <ListViewItem
+          v-for="(item, index) in listItems"
+          :key="item.id"
+          v-if="listItems.length"
+          :id="item.id"
+          :index="index"
+          :item="item"
+          :name="item.list_item_name"
+          :description="item.list_item_description"
+          :url="item.list_item_url"
+          :price="Number(item.list_item_price)"
+          :priority="item.list_item_is_priority"
+          :logged_in="logged_in"
+          @delete="openDeleteListItemModal"
+          @edit="openEditListPane"
+        />
+
+        <AppItem class="empty-state" v-else>
+          <LayoutStack>
+            <div class="emoji">😢</div>
+            <div>No Results</div>
+          </LayoutStack>
+        </AppItem>
       </LayoutStack>
     </LayoutStack>
   </div>
@@ -364,7 +401,7 @@ export default {
   --color-hollow-button-border: var(--purchased-checkbox-color);
   position: relative;
   color: var(--hunter-green);
-  padding: var(--action-item-inline-padding);
+  padding: var(--s1) var(--action-item-inline-padding);
   gap: 8px;
 
   input {
@@ -405,36 +442,20 @@ export default {
     cursor: pointer;
   }
 }
+
+.button-save {
+  flex-basis: 100%;
+}
+.empty-state {
+  display: grid;
+  place-content: center;
+  font-size: var(--s4);
+  aspect-ratio: 2 / 1;
+  text-align: center;
+}
+
+.empty-state .emoji {
+  font-size: var(--s9);
+  line-height: 1;
+}
 </style>
-
-<!-- 
-
-  Mark as purchased
-
-  Filter
-
-  View All
-  Purchased
-  
-
-      filter(event) {
-      const filterType = event.target.value;
-
-      switch (filterType) {
-        case "purchased":
-          this.items = this.data.filter((item) => {
-            return item.has >= item.needs;
-          });
-          break;
-        case "link":
-          this.items = this.data.filter((item) => {
-            return item.hasOwnProperty("url");
-          });
-          break;
-        case "all":
-          this.items = this.data;
-          break;
-      }
-    },
-
- -->

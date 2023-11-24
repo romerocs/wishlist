@@ -10,19 +10,36 @@ export const priorityMap = {
 export const sortOptions = {
   "priority_high_low" : {
     "value" : "priority_high_low",
-    "label" : "Priority: High to Low"
+    "label" : "Priority: High to Low",
+    "selected" : true
   },
   "priority_low_high" : {
     "value" : "priority_low_high",
-    "label" : "Priority: Low to High"
+    "label" : "Priority: Low to High",
+    "selected" : false
   },
   "price_high_low" : {
     "value" : "price_high_low",
-    "label" : "Price: High to Low"
+    "label" : "Price: High to Low",
+    "selected" : false
   },
   "price_low_high" : {
     "value" : "price_low_high",
-    "label" : "Price: Low to High"
+    "label" : "Price: Low to High",
+    "selected" : false
+  }
+}
+
+export const filterOptions = {
+  "notpurchased" : {
+    "value" : "notpurchased",
+    "label" : "Not Purchased Yet",
+    "selected" : true
+  },
+  "purchased" : {
+    "value" : "purchased",
+    "label" : "Purchased",
+    "selected" : false
   }
 }
 

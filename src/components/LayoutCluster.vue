@@ -2,32 +2,24 @@
 export default {
   props: {
     justify: String,
+    align: String,
     padding: String,
     gap: String
   },
   data() {
-    const styles = {};
-
-    if (this.justify) {
-      styles["--cl-justify"] = this.justify;
-    }
-
-    if (this.padding) {
-      styles["--cl-padding"] = this.padding;
-    }
-
-    if (this.gap) {
-      styles["--cl-gap"] = this.gap;
-    }
-
     return {
-      styleObject: styles,
+      _align: this.align ? this.align : 'center',
+      _justify: this.justify ? this.justify : 'flex-start',
+      _gap: this.gap ? this.gap : 'var(--s0)',
+      _padding: this.justify ? this.justify : 'flex-start',
     };
+
+
   },
 };
 </script>
 <template>
-  <div class="l-cluster" :style="styleObject">
+  <div class="l-cluster">
     <slot />
   </div>
 </template>
@@ -36,8 +28,8 @@ export default {
   .l-cluster {
     display: flex;
     flex-wrap: wrap;
-    justify-content: var(--cl-justify, flex-start);
-    align-items: var(--cl-align, center);
-    gap: var(--cl-gap, var(--s0));
+    justify-content: v-bind(_justify);
+    align-items: v-bind(_align);
+    gap: v-bind(_gap);
   }
 </style>

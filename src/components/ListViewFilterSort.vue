@@ -1,6 +1,7 @@
 <script>
-import { sortOptions } from "../utilities/vars";
+import { sortOptions, filterOptions } from "../utilities/vars";
 import LayoutCluster from "./LayoutCluster.vue";
+import LayoutStack from "./LayoutStack.vue";
 import SVGChevron from "./SVGChevron.vue";
 
 export default {
@@ -11,48 +12,78 @@ export default {
   data() {
     return {
       _sortOptions: sortOptions,
+      _filterOptions: filterOptions,
     };
   },
   components: {
     LayoutCluster,
+    LayoutStack,
     SVGChevron,
   },
 };
 </script>
 
 <template>
-  <LayoutCluster>
-    <div class="list-view__filter">
+  <LayoutCluster class="list-view-filter-sort">
+    <LayoutStack class="list-view__filter" gap="4px">
+      <label for="list-sort">Sort</label>
       <div class="select">
-        <select name="list-filter" id="list-filter" @change="sort">
-          <option>Sort by</option>
-          <option v-for="(key, index) in Object.keys(_sortOptions)" :key="index" :value="key">{{ _sortOptions[key].label }}</option>
+        <select
+          name="list-sort"
+          id="list-sort"
+          @change="(event) => sort(event.target.value)"
+        >
+          <option
+            v-for="(key, index) in Object.keys(_sortOptions)"
+            :key="index"
+            :value="key"
+          >
+            {{ _sortOptions[key].label }}
+          </option>
         </select>
       </div>
-    </div>
+    </LayoutStack>
 
-    <!-- <div class="list-view__sort">
+    <LayoutStack class="list-view__sort" gap="4px">
+      <label for="list-sort">Filter</label>
       <div class="select">
-        <select name="list-filter" id="list-sort" @change="sort">
-          <option value="default">Default</option>
-          <option value="high">Priority: High to Low</option>
-          <option value="low">Priority: Low to High</option>
+        <select
+          name="list-filter"
+          id="list-filter"
+          @change="(event) => filter(event.target.value)"
+        >
+          <option
+            v-for="(key, index) in Object.keys(_filterOptions)"
+            :selected="_filterOptions[key].selected"
+            :key="index"
+            :value="key"
+          >
+            {{ _filterOptions[key].label }}
+          </option>
         </select>
-        <SVGChevron width="12px" />
       </div>
-    </div> -->
+    </LayoutStack>
   </LayoutCluster>
 </template>
 
 <style lang="scss">
-.select {
+.list-view-filter-sort {
   --padding-block: 6px;
   --padding-inline: 16px;
+}
 
+.select {
   position: relative;
   border: 1px solid var(--color-hollow-button-border);
   border-radius: var(--border-radius-button);
   cursor: pointer;
+}
+
+.list-view-filter-sort label {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: var(--s-3);
+  padding-left: 8px;
 }
 
 .select select {
