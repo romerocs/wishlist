@@ -1,6 +1,11 @@
 <script>
 import supabase from "../utilities/supabase";
-import { priorityMap, priorityMapToText, sortOptions, filterOptions } from "../utilities/vars";
+import {
+  priorityMap,
+  priorityMapToText,
+  sortOptions,
+  filterOptions,
+} from "../utilities/vars";
 import { store } from "./_store";
 import ActionItem from "./ActionItem.vue";
 import Button from "./Button.vue";
@@ -69,14 +74,14 @@ export default {
     SVGPlus,
     SVGTrash,
     PriorityDropdown,
-    AppItem
-},
+    AppItem,
+  },
   watch: {
     "store.priority_change": {
       handler({ index, value, type }) {
         store.priority_change.value = value;
 
-        this.togglePriority(index, value, type);
+        if (type === "item") this.togglePriority(index, value, type);
       },
       deep: true,
     },
@@ -150,15 +155,13 @@ export default {
       this.currentItem.list_item_is_priority = updatedPriority;
       const { id } = this.currentItem;
 
-      if (type === "item") {
-        const { data, error } = await supabase
-          .from("list_items")
-          .update({ list_item_is_priority: updatedPriority })
-          .eq("id", id);
+      const { data, error } = await supabase
+        .from("list_items")
+        .update({ list_item_is_priority: updatedPriority })
+        .eq("id", id);
 
-        if (error) {
-          console.log(error);
-        }
+      if (error) {
+        console.log(error);
       }
     },
     openDeleteListItemModal(itemIndex) {
@@ -233,7 +236,7 @@ export default {
             (item) => !item.list_item_url
           );
           break;
-      };
+      }
 
       this.sort(this.sortState);
     },
