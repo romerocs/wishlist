@@ -34,6 +34,7 @@ export default {
     },
     "store.priority_change": {
       handler({index, value}) {
+        
         if (this.index === index) {
           this._priority = value;
         }
@@ -70,6 +71,7 @@ export default {
     <ActionItem class="priority-dropdown" :class="{ '-disabled' : disabled }" ref="priorityButton">
       <button @click="togglePriorityPane" :disabled="disabled">
         <PriorityLabel v-if="_priority" :priority="_priority" />
+        
         <span v-else>Set Priority</span>
         <SVGChevron width="12px" v-if="!disabled" />
       </button>
