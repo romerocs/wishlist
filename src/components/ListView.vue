@@ -51,12 +51,9 @@ export default {
       priorityMapToText: priorityMapToText,
       currentItem: {},
       currentItemIndex: 0,
+      itemToAdd: {},
       filterState: filterOptions.notpurchased.value,
       sortState: sortOptions.priority_high_low.value,
-      sidePaneMode: {
-        edit: false,
-        add: false,
-      },
       logged_in: false,
       store,
       sortOptions,
@@ -79,9 +76,16 @@ export default {
   watch: {
     "store.priority_change": {
       handler({ index, value, type }) {
-        store.priority_change.value = value;
-
-        if (type === "item") this.togglePriority(index, value, type);
+        
+        if (type === "item") {
+          store.priority_change.value = value;
+          this.togglePriority(index, value, type);
+        }
+        
+        if (type === "form") {
+          this.currentItem.list_item_is_priority = priorityMap[value];
+          this.itemToAdd.list_item_is_priority = priorityMap[value];
+        };
       },
       deep: true,
     },
@@ -116,10 +120,7 @@ export default {
 
       if (!error) {
         //loading animation here.
-        this.$refs.sidePane.$el.close();
-        this.sidePaneMode.edit = false;
-
-        console.log(this.filterState);
+        this.$refs.sidePaneEdit.$el.close();
 
         this.filter(this.filterState);
         this.sort(this.sortState);
@@ -130,27 +131,30 @@ export default {
       }
     },
     async addListItemSubmit() {
-      this.currentItem.list_id = this.id;
+      this.itemToAdd.list_id = this.id;
+
 
       const {
         data: [added_item],
         error,
-      } = await supabase.from("list_items").insert(this.currentItem).select();
+      } = await supabase.from("list_items").insert(this.itemToAdd).select();
 
       if (!error) {
         //loading animation here.
+
         this.listItems.push(added_item);
 
-        this.$refs.sidePane.$el.close();
-        this.sidePaneMode.add = false;
+        this.$refs.sidePaneAdd.$el.close();
       } else {
         //output message to alert bar maybe?
-        //or log it somehowd
+        //or log it somehow
         console.log(error);
       }
     },
+    
     async togglePriority(index, value, type) {
       const updatedPriority = priorityMap[value];
+
       this.currentItem = this.listItems[index];
       this.currentItem.list_item_is_priority = updatedPriority;
       const { id } = this.currentItem;
@@ -170,19 +174,15 @@ export default {
       this.$refs.deleteListItemModal.$el.showModal();
     },
     openAddListPane() {
-      this.sidePaneMode.add = true;
-      this.sidePaneMode.edit = false;
-      this.currentItem = {};
+      this.itemToAdd = {};
 
-      this.$refs.sidePane.$el.showModal();
+      this.$refs.sidePaneAdd.$el.showModal();
     },
     openEditListPane(itemIndex) {
-      this.sidePaneMode.edit = true;
-      this.sidePaneMode.add = false;
       this.currentItem = this.listItems[itemIndex];
       this.currentItemIndex = itemIndex;
 
-      this.$refs.sidePane.$el.showModal();
+      this.$refs.sidePaneEdit.$el.showModal();
     },
     sort(sortType) {
       this.sortState = sortType;
@@ -254,11 +254,10 @@ export default {
       <button class="button" @click="deleteListItem"><SVGTrash /></button>
     </LayoutStack>
   </Modal>
-  <SidePane ref="sidePane">
+  <SidePane ref="sidePaneEdit">
     <div>
       <LayoutStack>
-        <h2 v-if="sidePaneMode.edit">Edit</h2>
-        <h2 v-if="sidePaneMode.add">Add Item</h2>
+        <h2>Edit</h2>
 
         <PriorityDropdown
           :disabled="currentItem.list_item_is_purchased"
@@ -303,7 +302,7 @@ export default {
           ></textarea>
         </div>
 
-        <ActionItem class="purchased-checkbox" v-if="sidePaneMode.edit">
+        <ActionItem class="purchased-checkbox">
           <input
             type="checkbox"
             v-model="currentItem.list_item_is_purchased"
@@ -314,14 +313,63 @@ export default {
         </ActionItem>
         <button
           class="button button-save"
-          v-if="sidePaneMode.edit"
           @click="editListItemSubmit"
         >
           Save
         </button>
+      </LayoutStack>
+    </div>
+  </SidePane>
+  <SidePane ref="sidePaneAdd">
+    <div>
+      <LayoutStack>
+        <h2>Add Item</h2>
+
+        <PriorityDropdown
+          :disabled="itemToAdd.list_item_is_purchased"
+          :priority="priorityMapToText(false)"
+          :index="0"
+          type="form"
+        />
+
+        <div>
+          <input
+            type="text"
+            placeholder="Name"
+            :disabled="itemToAdd.list_item_is_purchased"
+            v-model="itemToAdd.list_item_name"
+          />
+        </div>
+
+        <div>
+          <input
+            type="url"
+            placeholder="https://www.amazon.com"
+            :disabled="itemToAdd.list_item_is_purchased"
+            v-model="itemToAdd.list_item_url"
+          />
+        </div>
+
+        <div class="price">
+          <input
+            type="number"
+            step="0.01"
+            placeholder="20.99"
+            :disabled="itemToAdd.list_item_is_purchased"
+            v-model.number="itemToAdd.list_item_price"
+          />
+        </div>
+
+        <div>
+          <textarea
+            rows="10"
+            :disabled="itemToAdd.list_item_is_purchased"
+            v-model="itemToAdd.list_item_description"
+          ></textarea>
+        </div>
+
         <button
           class="button button-save"
-          v-if="sidePaneMode.add"
           @click="addListItemSubmit"
         >
           Save
