@@ -32,10 +32,10 @@ body:has(.pane[open]) {
 }
 
 dialog {
+  display: block;
   position: fixed;
   width: 100%;
   z-index: 99999999;
-  //transition: transform var(--oc-transition-duration, 200ms) ease-out;
   background-color: var(--white);
   top: 0;
   left: auto;
@@ -45,15 +45,32 @@ dialog {
   overflow-y: scroll;
   max-width: 23.4375rem;
   transform: translateX(100%);
+  transition: transform 470ms cubic-bezier(0.16, 0.57, 0.34, 1.00);
 }
 
 dialog[open] {
   transform: translateX(0);
+
 }
 
 dialog::backdrop {
-  background: rgb(0 0 0 / 0.5);
+  background: rgb(0 0 0);
   backdrop-filter: blur(4px);
+  animation: fadeIn 470ms linear forwards;
 }
 
+.close {
+  color: var(--hotpink-70);
+  line-height: 0;
+  margin-left: auto;
+}
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0.5;
+    }
+  }
 </style>

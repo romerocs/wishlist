@@ -2,10 +2,6 @@ html {
   font-family: var(--body);
 }
 
-body {
-  color: var(--gray-1);
-}
-
 main {
   min-height: 100vh;
 }
@@ -18,9 +14,12 @@ button {
   cursor: pointer;
 }
 
-input, textarea, [role='textbox'] {
+input,
+textarea,
+[role='textbox'] {
   border: 1px solid var(--gray-25);
   padding: var(--padding-input);
+  border-radius: var(--border-radius-1x);
   width: 100%;
 
   &:disabled {

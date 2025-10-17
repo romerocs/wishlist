@@ -8,7 +8,7 @@
 .app-item {
   --app-item-shadow-color: var(--gray-25);
   --app-item-border-color : var(--gray-25);
-  --app-item-border-radius: 16px;
+  --app-item-border-radius: 8px;
   --app-item-box-shadow: var(--box-shadow-medium);
   --app-item-inline-padding: var(--s8);
 

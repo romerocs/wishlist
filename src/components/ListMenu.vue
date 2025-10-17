@@ -118,19 +118,19 @@ export default {
 };
 </script>
 <template>
-  <Modal ref="addListModal">
+  <Modal ref="addListModal" type="modal">
     <LayoutStack gap="var(--s4)">
-      <input v-model="listName" placeholder="Bright copper kettle" />
+      <input v-model="listName" placeholder="List name" />
       <button class="button" @click="addList">Add List</button>
     </LayoutStack>
   </Modal>
-  <Modal ref="editListModal">
+  <Modal ref="editListModal" type="modal">
     <LayoutStack gap="var(--s4)">
       <input v-model="listName" placeholder="Raindrops on roses" />
       <button class="button" @click="editList">Save</button>
     </LayoutStack>
   </Modal>
-  <Modal ref="deleteListModal">
+  <Modal ref="deleteListModal" type="modal">
     <LayoutStack gap="var(--s4)" style="text-align: center">
       <p>
         Delete <b>{{ listName }}</b
